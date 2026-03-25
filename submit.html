@@ -3,14 +3,130 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EarthSama — Submit Project in Philippines*</title>
-  <meta name="description" content="Submit your carbon financing and project request for qualification under OMTSE workflows.">
-  <meta http-equiv="refresh" content="0; url=./index.html">
-  <script>
-    window.location.replace("./index.html");
-  </script>
+  <title>Earth Sama — Submission Received</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300;1,6..72,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared.css">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .confirm-page {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+      padding-top: 5rem;
+    }
+    .confirm-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-md);
+      padding: 2.5rem 2rem;
+      width: 100%;
+      max-width: 440px;
+      text-align: center;
+    }
+    .confirm-icon {
+      width: 56px; height: 56px;
+      background: var(--success-bg);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+    }
+    .confirm-card h2 {
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: 1.4rem;
+      margin: 0 0 0.5rem;
+    }
+    .confirm-card p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin: 0 0 1.25rem;
+    }
+    .tracking-display {
+      background: var(--surface);
+      border: 1px dashed var(--border);
+      border-radius: var(--radius-sm);
+      padding: 1rem;
+      margin-bottom: 1.25rem;
+    }
+    .tracking-display .label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+      margin-bottom: 0.25rem;
+    }
+    .tracking-display .code {
+      font-size: 1.3rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      color: var(--primary);
+    }
+    .confirm-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .confirm-actions .btn { width: 100%; }
+    .btn-ghost {
+      background: transparent;
+      color: var(--primary);
+      border: 1px solid var(--border);
+      padding: 0.6rem 1rem;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
+    }
+    .btn-ghost:hover { border-color: var(--primary); }
+  </style>
 </head>
 <body>
-  <p>Redirecting to submission landing page... <a href="./index.html">Continue</a></p>
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <img src="logo-icon.png" alt="Earth Sama" width="32" height="32">
+        <span>Earth Sama</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="confirm-page">
+    <div class="confirm-card">
+      <div class="confirm-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#8B6914" stroke-width="2">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      </div>
+      <h2>Submission Received</h2>
+      <p>Your land has been submitted for review. Save your tracking code to check your status anytime.</p>
+      <div class="tracking-display">
+        <div class="label">Your Tracking Code</div>
+        <div class="code" id="confirm-code">—</div>
+      </div>
+      <div class="confirm-actions">
+        <a href="#" class="btn btn-primary" id="status-link">Check Submission Status</a>
+        <a href="index.html" class="btn-ghost">Submit Another Parcel</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2026 Earth Sama. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get('code') || '—';
+    const email = params.get('email') || '';
+    document.getElementById('confirm-code').textContent = code;
+    document.getElementById('status-link').href = 'status.html?code=' + encodeURIComponent(code) + '&email=' + encodeURIComponent(email);
+  </script>
 </body>
 </html>

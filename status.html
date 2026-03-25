@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Earth Sama — Submission Status</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300;1,6..72,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared.css">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .status-page {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+      padding-top: 5rem;
+    }
+
+    .status-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-md);
+      padding: 2.5rem 2rem;
+      width: 100%;
+      max-width: 440px;
+      text-align: center;
+    }
+
+    .status-card img { margin-bottom: 1rem; }
+
+    .status-card h2 {
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: 1.4rem;
+      margin: 0 0 0.25rem;
+    }
+
+    .status-card > p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin: 0 0 1.5rem;
+    }
+
+    .status-card input {
+      width: 100%;
+      padding: 0.7rem 0.85rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      background: var(--surface);
+      color: var(--text);
+      outline: none;
+      box-sizing: border-box;
+      margin-bottom: 0.5rem;
+    }
+
+    .status-card input:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px rgba(139,105,20,0.12);
+    }
+
+    .status-card .btn { width: 100%; margin-top: 0.25rem; }
+
+    .status-error {
+      font-size: 0.8rem;
+      color: var(--error);
+      min-height: 1.2rem;
+      margin-top: 0.15rem;
+    }
+
+    /* Result view */
+    .result { display: none; }
+    .result.visible { display: block; }
+
+    .result-header {
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .tracking-code {
+      display: inline-block;
+      font-size: 1rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      background: var(--success-bg);
+      color: var(--primary);
+      padding: 0.35rem 0.85rem;
+      border-radius: var(--radius-sm);
+      margin-top: 0.5rem;
+    }
+
+    /* Status timeline */
+    .timeline {
+      text-align: left;
+      margin: 1.5rem 0;
+    }
+
+    .timeline-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      position: relative;
+      padding-bottom: 1.25rem;
+    }
+
+    .timeline-step:last-child { padding-bottom: 0; }
+
+    .timeline-step::before {
+      content: '';
+      position: absolute;
+      left: 11px;
+      top: 24px;
+      bottom: 0;
+      width: 2px;
+      background: var(--border);
+    }
+
+    .timeline-step:last-child::before { display: none; }
+
+    .timeline-dot {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
+    }
+
+    .timeline-dot.done {
+      background: var(--primary);
+    }
+
+    .timeline-dot.active {
+      background: var(--primary);
+      box-shadow: 0 0 0 4px rgba(139,105,20,0.2);
+    }
+
+    .timeline-dot.pending {
+      background: var(--surface);
+      border: 2px solid var(--border);
+    }
+
+    .timeline-dot svg { width: 12px; height: 12px; }
+
+    .timeline-info h4 {
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin: 0;
+      color: var(--text);
+    }
+
+    .timeline-info p {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin: 0.1rem 0 0;
+    }
+
+    .timeline-step.is-pending .timeline-info h4 {
+      color: var(--text-muted);
+    }
+
+    /* Actions */
+    .result-footer {
+      text-align: center;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .result-footer p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin: 0 0 0.75rem;
+    }
+
+    .result-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--primary);
+      border: 1px solid var(--border);
+      padding: 0.55rem 1rem;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
+    }
+
+    .btn-secondary:hover { border-color: var(--primary); }
+
+    @media (max-width: 480px) {
+      .status-card { padding: 1.5rem 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <img src="logo-icon.png" alt="Earth Sama" width="32" height="32">
+        <span>Earth Sama</span>
+      </div>
+      <div class="header-links">
+        <a href="index.html" class="header-link">Submit Land</a>
+        <a href="live.html" class="header-link">Live Map</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="status-page">
+    <!-- Lookup Form -->
+    <div class="status-card" id="lookup-view">
+      <img src="logo-icon.png" alt="Earth Sama" width="48" height="48">
+      <h2>Track Your Submission</h2>
+      <p>Enter your tracking code and email to check your status.</p>
+      <form onsubmit="return handleLookup(event)">
+        <input type="text" id="lookup-code" placeholder="Tracking code (e.g. A1B2C3D4)" autocomplete="off" required>
+        <input type="email" id="lookup-email" placeholder="Email used when submitting" autocomplete="email" required>
+        <div class="status-error" id="lookup-error"></div>
+        <button type="submit" class="btn btn-primary" id="lookup-btn">Check Status</button>
+      </form>
+    </div>
+
+    <!-- Status Result -->
+    <div class="status-card result" id="result-view">
+      <div class="result-header">
+        <img src="logo-icon.png" alt="Earth Sama" width="48" height="48">
+        <h2>Submission Status</h2>
+        <div class="tracking-code" id="r-tracking"></div>
+      </div>
+
+      <div class="timeline" id="timeline"></div>
+
+      <div class="result-footer">
+        <p>You'll receive updates as your submission progresses. Check back anytime.</p>
+        <div class="result-actions">
+          <a href="#" class="btn btn-primary" id="edit-link" style="display:none">Edit Your Submission</a>
+          <button class="btn-secondary" onclick="showLookup()">Look Up Another</button>
+          <a href="index.html" class="btn-secondary">Submit Another Parcel</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2026 Earth Sama. All rights reserved.</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+  const SUPABASE_URL = 'https://poirrcnsplasdcnlnuvc.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBvaXJyY25zcGxhc2RjbmxudXZjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ0MjIxNzQsImV4cCI6MjA4OTk5ODE3NH0.xmkjrAbMZE3gxvCVMX6Ad0eYDpZoxmUGSA5bZ0oeu4M';
+  const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  const STEPS = [
+    { key: 'submitted', label: 'Submitted', desc: 'Your land submission has been received.' },
+    { key: 'in_review', label: 'In Review', desc: 'Our team is reviewing your submission.' },
+    { key: 'in_discussion', label: 'In Discussion', desc: 'We may reach out for additional details.' },
+    { key: 'needs_docs', label: 'Needs Documents', desc: 'Additional documents are needed. Check your email.' },
+    { key: 'approved', label: 'Approved', desc: 'Your land has been approved for the project case.' }
+  ];
+
+  // Auto-fill from URL params (redirect from form)
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('code') && params.get('email')) {
+    document.getElementById('lookup-code').value = params.get('code');
+    document.getElementById('lookup-email').value = params.get('email');
+    handleLookup();
+  }
+
+  function showLookup() {
+    document.getElementById('lookup-view').style.display = '';
+    document.getElementById('result-view').classList.remove('visible');
+    document.getElementById('lookup-code').value = '';
+    document.getElementById('lookup-email').value = '';
+    document.getElementById('lookup-error').textContent = '';
+  }
+
+  async function handleLookup(e) {
+    if (e) e.preventDefault();
+    const code = document.getElementById('lookup-code').value.trim().toUpperCase();
+    const email = document.getElementById('lookup-email').value.trim().toLowerCase();
+    const errEl = document.getElementById('lookup-error');
+    const btn = document.getElementById('lookup-btn');
+
+    if (!code || !email) { errEl.textContent = 'Please fill in both fields.'; return false; }
+
+    btn.textContent = 'Checking...';
+    btn.disabled = true;
+    errEl.textContent = '';
+
+    const { data, error } = await sb.rpc('lookup_submission', {
+      p_tracking_code: code,
+      p_email: email
+    });
+
+    btn.textContent = 'Check Status';
+    btn.disabled = false;
+
+    if (error || !data || data.length === 0) {
+      errEl.textContent = 'No submission found. Check your tracking code and email.';
+      return false;
+    }
+
+    showResult(data[0]);
+    return false;
+  }
+
+  function showResult(s) {
+    document.getElementById('lookup-view').style.display = 'none';
+    document.getElementById('result-view').classList.add('visible');
+
+    document.getElementById('r-tracking').textContent = s.tracking_code;
+
+    // Build timeline
+    const currentIdx = STEPS.findIndex(st => st.key === s.status);
+    const timeline = document.getElementById('timeline');
+    timeline.innerHTML = '';
+
+    STEPS.forEach((step, i) => {
+      const isDone = i < currentIdx;
+      const isActive = i === currentIdx;
+      const isPending = i > currentIdx;
+
+      const el = document.createElement('div');
+      el.className = 'timeline-step' + (isPending ? ' is-pending' : '');
+
+      const dotClass = isDone ? 'done' : isActive ? 'active' : 'pending';
+      const checkSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>';
+      const dotContent = isDone ? checkSvg : isActive ? '<svg viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="4"/></svg>' : '';
+
+      let dateText = '';
+      if (isActive && s.updated_at) {
+        dateText = ' — ' + new Date(s.updated_at).toLocaleDateString('en-PH', { month: 'short', day: 'numeric', year: 'numeric' });
+      } else if (isDone && i === 0 && s.submitted_at) {
+        dateText = ' — ' + new Date(s.submitted_at).toLocaleDateString('en-PH', { month: 'short', day: 'numeric', year: 'numeric' });
+      }
+
+      el.innerHTML = `
+        <div class="timeline-dot ${dotClass}">${dotContent}</div>
+        <div class="timeline-info">
+          <h4>${step.label}${dateText}</h4>
+          <p>${isActive || isDone ? step.desc : ''}</p>
+        </div>
+      `;
+      timeline.appendChild(el);
+    });
+
+    // Show edit link if status allows editing (submitted or needs_docs)
+    const editLink = document.getElementById('edit-link');
+    if (s.status === 'submitted' || s.status === 'needs_docs') {
+      editLink.style.display = '';
+      editLink.href = 'index.html?edit=' + encodeURIComponent(s.tracking_code) + '&email=' + encodeURIComponent(document.getElementById('lookup-email').value);
+    } else {
+      editLink.style.display = 'none';
+    }
+  }
+  </script>
+</body>
+</html>

@@ -68,6 +68,31 @@ body {
   background: var(--success-bg);
 }
 
+/* ---- Status Banner ---- */
+.status-banner {
+  position: fixed;
+  top: 52px;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  background: var(--success-bg);
+  border-bottom: 1px solid var(--border);
+  padding: 0.4rem 1rem;
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+.status-banner a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+.status-banner a:hover { text-decoration: underline; }
+
 /* ---- Progress ---- */
 .tf-progress {
   position: fixed;
@@ -89,7 +114,7 @@ body {
 .tf-main {
   flex: 1;
   position: relative;
-  margin-top: 52px; /* header height */
+  margin-top: 80px; /* header + status banner */
 }
 
 /* ---- Slides ---- */

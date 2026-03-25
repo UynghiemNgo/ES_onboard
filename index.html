@@ -18,8 +18,9 @@
         <span>Earth Sama</span>
       </div>
       <div class="header-links">
+        <a href="status.html" class="header-link">Track Submission</a>
         <a href="live.html" class="header-link">Live Map</a>
-        <a href="dashboard.html" class="header-link">Dashboard</a>
+        <a href="dashboard.html" class="header-link">Admin</a>
       </div>
     </div>
   </header>
@@ -27,6 +28,12 @@
   <!-- Progress bar -->
   <div class="tf-progress">
     <div class="tf-progress-fill" id="tf-progress"></div>
+  </div>
+
+  <!-- Status banner -->
+  <div class="status-banner">
+    <span>Already submitted?</span>
+    <a href="status.html">Check your submission status &rarr;</a>
   </div>
 
   <main class="tf-main" id="tf-main">
@@ -616,6 +623,7 @@
   </div>
 
   <script src="error-logger.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://unpkg.com/jszip@3.10.1/dist/jszip.min.js"></script>
   <script src="ph-geo.js"></script>

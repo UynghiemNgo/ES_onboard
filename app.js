@@ -973,65 +973,58 @@ function populateReview() {
 
 function esc(str) { const d = document.createElement('div'); d.textContent = str; return d.innerHTML; }
 
+// ======== Supabase Client ========
+
+const SUPABASE_URL = 'https://poirrcnsplasdcnlnuvc.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBvaXJyY25zcGxhc2RjbmxudXZjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ0MjIxNzQsImV4cCI6MjA4OTk5ODE3NH0.xmkjrAbMZE3gxvCVMX6Ad0eYDpZoxmUGSA5bZ0oeu4M';
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
 // ======== Submit ========
 
-function submitForm() {
+async function submitForm() {
   generateKML();
 
-  const docsMeta = uploadedDocuments.map(d => ({ name: d.name, size: d.size, type: d.type }));
+  const email = val('owner-email');
+  const acreageVal = parseFloat(val('acreage'));
 
-  const encumbranceCard = document.querySelector('#encumbrance-cards .tf-card.selected');
-  const hasEncumbrances = encumbranceCard ? encumbranceCard.dataset.val === 'yes' : false;
-
-  const submission = {
-    id: 'ES-' + Date.now().toString(36).toUpperCase(),
-    created_at: new Date().toISOString(),
-    status: 'submitted',
-    owner: {
-      name: val('owner-name'), email: val('owner-email'), phone: val('owner-phone'),
-      region: val('owner-region'), region_code: val('owner-region-code'),
-      province: val('owner-province'), province_code: val('owner-province-code'),
-      municipality: val('owner-municipality'), municipality_code: val('owner-municipality-code'),
-      barangay: val('owner-barangay'),
-      entity_type: val('entity-type')
-    },
-    land: {
-      acreage: parseFloat(val('acreage')),
-      land_type: val('land-type'),
-      current_use: val('current-use'),
-      years_owned: parseInt(val('years-owned')),
-      has_encumbrances: hasEncumbrances,
-      encumbrance_detail: val('encumbrance-detail')
-    },
-    location: {
-      address: selectedLocation.address,
-      lat: selectedLocation.lat,
-      lng: selectedLocation.lng,
-      polygon: selectedLocation.polygon,
-      area_acres: selectedLocation.areaAcres
-    },
-    documents: docsMeta,
-    kml: kmlString
+  const row = {
+    full_name: val('owner-name'),
+    email: email,
+    phone: val('owner-phone'),
+    land_type: val('land-type'),
+    acreage: isNaN(acreageVal) ? null : acreageVal,
+    current_use: val('current-use'),
+    region: val('owner-region'),
+    province: val('owner-province'),
+    municipality: val('owner-municipality'),
+    barangay: val('owner-barangay'),
+    lat: selectedLocation.lat,
+    lng: selectedLocation.lng,
+    polygon: selectedLocation.polygon && selectedLocation.polygon.length > 0
+      ? selectedLocation.polygon : null,
+    entity_type: val('entity-type')
   };
 
-  try {
-    const subs = JSON.parse(localStorage.getItem('earthsama_submissions') || '[]');
-    subs.push(submission);
-    localStorage.setItem('earthsama_submissions', JSON.stringify(subs));
-  } catch (e) {
-    console.error('Storage error:', e);
-    alert('Warning: Could not save to local storage.');
-    console.log('Submission data:', JSON.stringify(submission));
+  // Show submitting state
+  const submitBtn = document.querySelector('#q-review .tf-ok');
+  if (submitBtn) { submitBtn.textContent = 'Submitting...'; submitBtn.disabled = true; }
+
+  const { data, error } = await sb
+    .from('submissions')
+    .insert([row])
+    .select('tracking_code')
+    .single();
+
+  if (error) {
+    console.error('Supabase insert error:', error);
+    alert('Submission failed: ' + (error.message || 'Unknown error. Please try again.'));
+    if (submitBtn) { submitBtn.textContent = 'Submit'; submitBtn.disabled = false; }
+    return;
   }
 
-  document.getElementById('confirm-ref-id').textContent = submission.id;
-  if (kmlString) document.getElementById('confirm-kml-btn').style.display = 'inline-flex';
-
-  // Show confirmation
-  document.querySelectorAll('.tf-slide').forEach(s => s.classList.remove('active', 'tf-out-up', 'tf-out-down'));
-  document.getElementById('q-confirm').classList.add('active');
-  document.getElementById('tf-progress').style.width = '100%';
-  document.getElementById('tf-bottombar').style.display = 'none';
+  // Redirect to confirmation page with tracking code
+  const trackingCode = data.tracking_code;
+  window.location.href = 'submit.html?code=' + encodeURIComponent(trackingCode) + '&email=' + encodeURIComponent(email);
 }
 
 // ======== Map Tutorial ========
