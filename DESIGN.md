@@ -129,13 +129,13 @@ Confirmation
 
 ## Token Architecture
 
-All design tokens live in `shared.css` and are imported by every page:
-- `styles.css` — `@import url('shared.css')`
-- `dashboard.css` — `@import url('shared.css')`
-- `live.css` — `@import url('shared.css')`
+All design tokens live in `shared.css` and are loaded via `<link>` tag in every HTML page:
+- `index.html` — `<link rel="stylesheet" href="shared.css">`
+- `dashboard.html` — `<link rel="stylesheet" href="shared.css">`
+- `live.html` — `<link rel="stylesheet" href="shared.css">`
 - `earthsama.com/index.html` — `<link rel="stylesheet" href="../shared.css">`
 
-Portal HTML files also add `<link rel="stylesheet" href="shared.css">` before other CSS.
+The `<link>` tag is placed before page-specific CSS to ensure correct cascade order. CSS custom properties defined in `shared.css` are available to all subsequent stylesheets on the page.
 
 ### Landing Page Convention
 Landing page styles use `.landing-` prefix to avoid specificity conflicts with portal CSS.

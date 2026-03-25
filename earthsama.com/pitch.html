@@ -1,0 +1,1620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Earth Sama — Pitch Deck</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300;1,6..72,400&family=Jost:wght@300;400;500&display=swap">
+<style>
+
+/* ============================================================
+   THEME — CSS CUSTOM PROPERTIES
+   Change :root to retheme the entire deck
+   ============================================================ */
+/* Light mode (default) — pearl / marble white */
+:root {
+  --bg:           #f4f2ee;
+  --bg-alt:       #edeae4;
+  --bg-panel:     #f9f7f4;
+  --text:         #1e1c18;
+  --text-sec:     rgba(50,45,35,0.74);
+  --text-muted:   rgba(50,45,35,0.48);
+  --accent:       #8B6914;
+  --accent-dim:   rgba(139,105,20,0.28);
+  --accent-glow:  rgba(180,140,40,0.12);
+  --accent-green: #4a6741;
+  --sep:          rgba(120,110,90,0.18);
+  --font-display: 'Newsreader', serif;
+  --font-body:    'Jost', sans-serif;
+  --ease:         cubic-bezier(0.16,1,0.3,1);
+  --card-bg:      rgba(139,105,20,0.05);
+  --card-bg-hover:rgba(139,105,20,0.09);
+  --overlay-bg:   rgba(244,242,238,0.8);
+  --bar-bg:       rgba(244,242,238,0.75);
+  --gate-bg:      rgba(244,242,238,0.95);
+}
+
+/* Dark mode */
+html.dark {
+  --bg:           #0c0f09;
+  --bg-alt:       #0a0d07;
+  --bg-panel:     #0e1209;
+  --text:         #d8e2ca;
+  --text-sec:     rgba(200,220,180,0.72);
+  --text-muted:   rgba(200,220,180,0.48);
+  --accent:       #c9a96e;
+  --accent-dim:   rgba(201,169,110,0.35);
+  --accent-glow:  rgba(201,169,110,0.14);
+  --accent-green: #6b9a5a;
+  --sep:          rgba(160,140,100,0.22);
+  --card-bg:      rgba(160,140,100,0.06);
+  --card-bg-hover:rgba(160,140,100,0.1);
+  --overlay-bg:   rgba(0,0,0,0.65);
+  --bar-bg:       rgba(12,15,9,0.6);
+  --gate-bg:      rgba(12,15,9,0.93);
+}
+
+/* Default (light) ambient background — soft pearl warmth */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 900px 600px at 30% 70%, rgba(210,185,130,0.12), transparent),
+    radial-gradient(ellipse 700px 500px at 70% 40%, rgba(180,160,110,0.1), transparent),
+    radial-gradient(ellipse 500px 700px at 10% 20%, rgba(200,180,130,0.08), transparent),
+    radial-gradient(ellipse 600px 400px at 90% 80%, rgba(190,170,120,0.09), transparent);
+  opacity: 0.6;
+  transition: opacity 0.6s ease;
+}
+html.dark body::after { opacity: 0; }
+
+/* ============================================================
+   VIEWPORT BASE — mandatory, ensures slides fit 100vh
+   ============================================================ */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html, body { height:100%; overflow-x:hidden; }
+html {
+  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
+  transition: background 0.6s ease;
+  background: var(--bg);
+}
+
+/* ============================================================
+   AMBIENT BACKGROUNDS — fireflies (dark) / warm haze (light)
+   ============================================================ */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.35;
+  transition: opacity 0.6s ease;
+}
+/* Default (light) — no particle overlay, clean pearl */
+html:not(.dark) body::before {
+  opacity: 0;
+}
+/* Dark mode — firefly field */
+html.dark body::before {
+  background:
+    radial-gradient(1.5px 1.5px at 8% 12%, rgba(201,169,110,0.7), transparent),
+    radial-gradient(1px 1px at 22% 38%, rgba(160,200,120,0.5), transparent),
+    radial-gradient(2px 2px at 38% 6%, rgba(201,169,110,0.8), transparent),
+    radial-gradient(1px 1px at 52% 55%, rgba(160,200,120,0.4), transparent),
+    radial-gradient(1.5px 1.5px at 68% 20%, rgba(201,169,110,0.6), transparent),
+    radial-gradient(1px 1px at 82% 68%, rgba(160,200,120,0.7), transparent),
+    radial-gradient(1px 1px at 12% 75%, rgba(201,169,110,0.5), transparent),
+    radial-gradient(1px 1px at 90% 10%, rgba(160,200,120,0.4), transparent),
+    radial-gradient(1px 1px at 45% 90%, rgba(201,169,110,0.5), transparent),
+    radial-gradient(1.5px 1.5px at 3% 48%, rgba(160,200,120,0.6), transparent),
+    radial-gradient(1px 1px at 75% 45%, rgba(201,169,110,0.3), transparent),
+    radial-gradient(1px 1px at 30% 65%, rgba(160,200,120,0.5), transparent),
+    radial-gradient(1px 1px at 60% 78%, rgba(201,169,110,0.4), transparent),
+    radial-gradient(1.5px 1.5px at 18% 94%, rgba(160,200,120,0.6), transparent),
+    radial-gradient(1px 1px at 85% 88%, rgba(201,169,110,0.5), transparent),
+    radial-gradient(ellipse 800px 600px at 20% 30%, rgba(60,90,40,0.08), transparent),
+    radial-gradient(ellipse 600px 800px at 80% 70%, rgba(100,80,40,0.06), transparent);
+  opacity: 0.35;
+}
+
+/* Theme toggle button */
+.theme-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 200;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid var(--sep);
+  background: var(--bar-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  color: var(--accent);
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+}
+.theme-toggle:hover { transform: scale(1.1); border-color: var(--accent-dim); }
+.theme-toggle .icon-sun,
+.theme-toggle .icon-moon { transition: opacity 0.3s, transform 0.3s; position: absolute; }
+.theme-toggle .icon-sun { opacity: 0; transform: rotate(90deg); }
+.theme-toggle .icon-moon { opacity: 1; transform: rotate(0deg); }
+html.dark .theme-toggle .icon-sun { opacity: 1; transform: rotate(0deg); }
+html.dark .theme-toggle .icon-moon { opacity: 0; transform: rotate(-90deg); }
+
+/* Smooth color transitions on all themed elements */
+.slide, .cover-left, .cover-right, .nav-dots, .progress-bar,
+.problem-card, .pipeline-step, .stat-card, .ink-card,
+.bio-card, .headshot, .impact-card, .contact-btn {
+  transition: background 0.5s ease, color 0.5s ease, border-color 0.5s ease;
+}
+
+/* ============================================================
+   SLIDE BASE
+   ============================================================ */
+.slide {
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background: var(--bg);
+}
+.slide--alt { background: var(--bg-alt); }
+
+:root {
+  --title-size:  clamp(1.5rem,  5vw,   4rem);
+  --h2-size:     clamp(1.25rem, 3.5vw, 2.5rem);
+  --h3-size:     clamp(1rem,    2.5vw, 1.75rem);
+  --body-size:   clamp(0.75rem, 1.5vw, 1.125rem);
+  --small-size:  clamp(0.62rem, 1vw,   0.82rem);
+  --caption-size:clamp(0.55rem, 0.85vw, 0.72rem);
+  --slide-pad:   clamp(1.5rem,  5vw,   4.5rem);
+  --gap:         clamp(0.5rem,  2vw,   2rem);
+  --gap-sm:      clamp(0.3rem,  1vw,   1rem);
+}
+
+@media (max-height:700px) {
+  :root {
+    --slide-pad: clamp(1rem, 3vw, 2.5rem);
+    --h2-size:   clamp(1rem, 3vw, 1.8rem);
+    --gap:       clamp(0.4rem, 1.5vw, 1.2rem);
+  }
+}
+@media (max-height:600px) {
+  :root {
+    --slide-pad:  clamp(0.5rem, 2.5vw, 1.5rem);
+    --body-size:  clamp(0.65rem, 1.2vw, 0.9rem);
+    --h2-size:    clamp(0.9rem, 2.5vw, 1.5rem);
+  }
+  .nav-dots { display: none; }
+}
+@media (max-height:500px) {
+  :root {
+    --slide-pad: clamp(0.4rem, 2vw, 1rem);
+    --title-size: clamp(1rem, 3.5vw, 1.5rem);
+    --h2-size: clamp(0.9rem, 2.5vw, 1.25rem);
+    --body-size: clamp(0.65rem, 1vw, 0.85rem);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
+  html { scroll-behavior: auto; }
+}
+
+/* Accessibility — focus indicators */
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+img { max-width: 100%; max-height: min(50vh, 400px); object-fit: contain; }
+
+/* ============================================================
+   GLOBAL ELEMENTS
+   ============================================================ */
+.progress-bar {
+  position: fixed;
+  top: 0; left: 0;
+  height: 2px;
+  width: 0%;
+  background: var(--accent);
+  z-index: 100;
+  transition: width 0.4s var(--ease);
+  opacity: 0.7;
+}
+
+.nav-dots {
+  position: fixed;
+  right: clamp(14px, 2.5vw, 28px);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.nav-dot {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+  position: relative;
+}
+.nav-dot::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--sep);
+  transition: all 0.3s ease;
+}
+.nav-dot.active::after {
+  background: var(--accent);
+  transform: translate(-50%,-50%) scale(1.5);
+}
+
+/* Slide meta — number + label */
+.slide-meta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: var(--slide-pad) var(--slide-pad) 0;
+  flex-shrink: 0;
+}
+.slide-num {
+  font-family: var(--font-body);
+  font-size: var(--small-size);
+  color: var(--accent-dim);
+  font-weight: 400;
+  letter-spacing: 0.12em;
+}
+.slide-label {
+  font-family: var(--font-body);
+  font-size: var(--small-size);
+  color: var(--text-muted);
+  font-weight: 300;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.slide-meta-rule {
+  flex: 1;
+  height: 1px;
+  background: var(--sep);
+  max-width: 40px;
+}
+
+/* ============================================================
+   SLIDE INNER — shared content layout
+   ============================================================ */
+.slide-inner {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: clamp(0.8rem,2vh,1.8rem) var(--slide-pad) var(--slide-pad);
+  gap: var(--gap);
+}
+
+.slide h2 {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-size: var(--h2-size);
+  font-weight: 300;
+  color: var(--text);
+  line-height: 1.15;
+  letter-spacing: 0.01em;
+}
+.slide h2 em {
+  font-style: italic;
+  color: var(--accent);
+  font-weight: 300;
+}
+.slide h3 {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-size: var(--h3-size);
+  font-weight: 300;
+  color: var(--text);
+  line-height: 1.2;
+}
+.slide p, .slide li {
+  font-family: var(--font-body);
+  font-size: var(--body-size);
+  color: var(--text-sec);
+  font-weight: 300;
+  line-height: 1.65;
+}
+
+/* Accent intro line */
+.slide-intro {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-size: clamp(0.9rem,1.6vw,1.25rem);
+  color: var(--text-sec);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.5;
+  max-width: 640px;
+}
+
+/* Bullet list */
+.bullet-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-sm);
+}
+.bullet-list li {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+.bullet-list li::before {
+  content: '';
+  flex-shrink: 0;
+  width: 5px; height: 5px;
+  background: var(--accent);
+  border-radius: 50%;
+  opacity: 0.65;
+  margin-top: 0.1em;
+}
+
+/* Closing bar / accent quote */
+.accent-bar {
+  border-left: 2px solid var(--accent-dim);
+  padding-left: clamp(12px,1.5vw,20px);
+  margin-top: auto;
+}
+.accent-bar p {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-size: clamp(0.8rem,1.3vw,1.05rem);
+  font-style: italic;
+  color: var(--text-sec);
+  line-height: 1.5;
+}
+
+/* ============================================================
+   REVEAL ANIMATIONS
+   ============================================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+}
+.slide.visible .reveal { opacity:1; transform:translateY(0); }
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+}
+.slide.visible .reveal-left { opacity:1; transform:translateX(0); }
+.d1 { transition-delay: 0.08s; }
+.d2 { transition-delay: 0.18s; }
+.d3 { transition-delay: 0.28s; }
+.d4 { transition-delay: 0.38s; }
+.d5 { transition-delay: 0.48s; }
+.d6 { transition-delay: 0.58s; }
+.d7 { transition-delay: 0.68s; }
+.d8 { transition-delay: 0.78s; }
+
+/* ============================================================
+   SLIDE 1 — COVER — split panel with growth motif
+   ============================================================ */
+.slide-cover {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.cover-left {
+  position: relative;
+  z-index: 2;
+  padding: var(--slide-pad);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(0.9rem, 2.2vh, 1.8rem);
+  background: var(--bg);
+}
+.cover-left::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 0; bottom: 0; width: 1px;
+  background: linear-gradient(180deg, transparent 0%, var(--accent-dim) 25%, var(--accent-dim) 75%, transparent 100%);
+}
+.cover-right {
+  position: relative;
+  background: var(--bg-alt);
+  overflow: hidden;
+}
+.cover-right::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, var(--bg-alt) 0%, rgba(139,105,20,0.06) 50%, var(--bg-alt) 100%);
+  z-index: 1;
+}
+
+/* Cover photo — faded behind right panel */
+.cover-photo {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0.18;
+  filter: grayscale(30%) brightness(0.9);
+  z-index: 0;
+  max-height: none;
+}
+html.dark .cover-photo { opacity: 0.12; filter: grayscale(30%) brightness(0.5); }
+
+.cover-top-meta {
+  display: flex; align-items: center; gap: 10px;
+  position: absolute;
+  top: var(--slide-pad);
+  left: var(--slide-pad);
+}
+.cover-dot {
+  width: 4px; height: 4px;
+  background: var(--accent); border-radius: 50%; opacity: 0.7;
+}
+.cover-meta-text {
+  font-family: var(--font-body);
+  font-size: var(--small-size);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 300;
+}
+.cover-heading {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: min(95%, 680px);
+  margin-top: clamp(1.1rem, 2.2vh, 2.2rem);
+}
+.cover-h1-a {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-size: clamp(2.6rem,5.8vw,5.4rem);
+  font-weight: 300;
+  color: var(--text);
+  line-height: 1.0;
+  letter-spacing: 0.01em;
+}
+.cover-h1-b {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-size: clamp(2rem,4.4vw,4rem);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--accent);
+  line-height: 1.08;
+  letter-spacing: 0;
+  margin-top: clamp(0.1rem, 0.45vh, 0.35rem);
+}
+.cover-logo {
+  height: clamp(100px, 22vh, 200px);
+  width: auto;
+  object-fit: contain;
+  display: block;
+  margin-bottom: clamp(0.6rem,1.2vh,1rem);
+  margin-left: calc(-1 * clamp(8px, 1.5vw, 20px));
+  filter: drop-shadow(0 4px 24px rgba(139,105,20,0.08));
+}
+html.dark .cover-logo {
+  filter: drop-shadow(0 4px 24px rgba(201,169,110,0.12));
+}
+.cover-divider {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: clamp(0.8rem,1.8vh,1.5rem);
+}
+.cover-divider-line { width:28px; height:1px; background: var(--accent-dim); }
+.cover-divider-text {
+  font-family: var(--font-body);
+  font-size: var(--small-size);
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--accent-dim); font-weight: 400;
+}
+.cover-subtitle {
+  font-family: var(--font-body);
+  font-size: clamp(0.75rem,1.2vw,1rem);
+  color: var(--text-sec);
+  font-weight: 300;
+  line-height: 1.65;
+  max-width: 360px;
+}
+.cover-domain {
+  font-family: var(--font-body);
+  font-size: var(--small-size);
+  color: var(--text-muted);
+  letter-spacing: 0.14em; text-transform: uppercase; font-weight: 300;
+  margin-top: clamp(0.3rem, 1.4vh, 0.8rem);
+}
+.cover-h1-c {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem,2.8vw,2.4rem);
+  font-weight: 300;
+  color: var(--text-sec);
+  line-height: 1.1;
+  margin-top: clamp(0.2rem,0.5vh,0.4rem);
+}
+
+/* ============================================================
+   CARDS & COMPONENTS
+   ============================================================ */
+/* Glass cards */
+.glass-card {
+  background: var(--card-bg);
+  border: 1px solid var(--sep);
+  border-radius: 4px;
+  padding: clamp(0.8rem,2vw,1.4rem);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: border-color 0.3s ease;
+}
+.glass-card:hover { border-color: var(--accent-dim); }
+.glass-card-label {
+  font-family: var(--font-body);
+  font-size: var(--small-size);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 500;
+  opacity: 0.8;
+}
+.glass-card-text {
+  font-family: var(--font-body);
+  font-size: clamp(0.72rem,1.2vw,0.95rem);
+  color: var(--text-sec);
+  font-weight: 300;
+  line-height: 1.5;
+}
+
+/* Stat cards */
+.stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gap); }
+.stat-card {
+  border-top: 1px solid var(--sep);
+  padding-top: clamp(0.6rem,1.5vh,1rem);
+}
+.stat-number {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-size: clamp(1.8rem, 4vw, 3.2rem);
+  font-weight: 300;
+  color: var(--accent);
+  line-height: 1;
+}
+.stat-label {
+  font-family: var(--font-body);
+  font-size: var(--caption-size);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: clamp(0.15rem, 0.4vw, 0.3rem);
+  font-weight: 300;
+}
+
+/* Impact card */
+.impact-card {
+  border-left: 2px solid var(--accent-dim);
+  padding-left: clamp(12px,1.5vw,20px);
+}
+.impact-card p {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-size: clamp(0.8rem,1.3vw,1.05rem);
+  font-style: italic;
+  color: var(--text-sec);
+  line-height: 1.5;
+}
+.impact-card strong { color: var(--accent); font-weight: 400; }
+
+/* Bio card */
+.bio-card {
+  display: flex; gap: clamp(0.8rem, 2vw, 1.5rem); align-items: flex-start;
+}
+.bio-card img {
+  width: clamp(56px, 8vw, 88px); height: clamp(56px, 8vw, 88px);
+  border-radius: 50%; object-fit: cover; flex-shrink: 0;
+  border: 1px solid var(--sep);
+  filter: grayscale(10%);
+}
+.bio-card--founder img {
+  object-position: center 42%;
+  transform: translateY(4px);
+}
+.bio-card h3 { margin-bottom: clamp(0.05rem, 0.15vw, 0.1rem); }
+.bio-card .role {
+  font-family: var(--font-body);
+  font-size: var(--caption-size);
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: clamp(0.2rem, 0.5vw, 0.4rem);
+  font-weight: 500;
+}
+.bio-card p { font-size: var(--small-size); line-height: 1.55; }
+
+/* Headshot grid */
+.headshot-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(clamp(60px, 10vw, 100px), 1fr));
+  gap: clamp(0.5rem, 1.2vw, 1rem);
+  max-width: min(90vw, 700px);
+}
+.headshot { text-align: center; }
+.headshot img {
+  width: clamp(48px, 8vw, 80px); height: clamp(48px, 8vw, 80px);
+  border-radius: 50%; object-fit: cover;
+  filter: grayscale(100%);
+  border: 1px solid var(--sep);
+}
+.headshot p {
+  font-size: var(--caption-size);
+  margin-top: clamp(0.15rem, 0.3vw, 0.25rem);
+  color: var(--text-muted);
+  line-height: 1.2;
+}
+.headshot .name {
+  font-weight: 500;
+  color: var(--text-sec);
+}
+
+/* Card icon */
+.card-icon {
+  width: clamp(28px, 3vw, 38px);
+  height: clamp(28px, 3vw, 38px);
+  background: var(--card-bg);
+  border: 1px solid var(--sep);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(0.72rem, 1.2vw, 0.95rem);
+  color: var(--accent);
+  flex-shrink: 0;
+  margin-bottom: 4px;
+}
+
+/* Two-column layout */
+.two-col {
+  display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); align-items: start;
+}
+.three-col {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap); align-items: start;
+}
+@media (max-width: 700px) {
+  .two-col, .three-col { grid-template-columns: 1fr; }
+  .slide-cover { grid-template-columns: 1fr !important; }
+  .cover-right { display: none; }
+  .cover-top-meta { position: static; }
+  .cover-left { justify-content: flex-start; }
+  .cover-heading { margin-top: 0; }
+  .stat-row { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ============================================================
+   PHOTO SPLIT LAYOUT
+   ============================================================ */
+.slide-split {
+  display: grid !important;
+  grid-template-columns: 3fr 2fr;
+  flex-direction: unset;
+}
+.split-content {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+.split-content::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 0; bottom: 0; width: 1px;
+  background: linear-gradient(180deg, transparent 0%, var(--accent-dim) 25%, var(--accent-dim) 75%, transparent 100%);
+}
+.split-photo {
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-alt);
+  flex-shrink: 0;
+}
+.split-photo img {
+  width: 100%; height: 100%;
+  object-fit: cover; opacity: 0.5;
+  filter: grayscale(15%) brightness(0.65);
+  max-height: none;
+}
+.split-photo::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, var(--bg) 0%, transparent 35%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ============================================================
+   HORIZONTAL TIMELINE
+   ============================================================ */
+.timeline {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0;
+  width: 100%; max-width: min(94vw, 860px);
+  position: relative;
+  padding: clamp(0.3rem, 1vh, 0.8rem) 0;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  top: clamp(16px, 2.2vw, 22px);
+  left: calc(100% / 14);
+  right: calc(100% / 14);
+  height: 1px;
+  background: repeating-linear-gradient(to right, var(--accent) 0, var(--accent) 5px, transparent 5px, transparent 10px);
+  z-index: 1;
+}
+.tl-node {
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center;
+  position: relative;
+  padding: 0 clamp(2px, 0.3vw, 6px);
+}
+.tl-dot {
+  width: clamp(30px, 4.2vw, 44px); height: clamp(30px, 4.2vw, 44px);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  position: relative; z-index: 2;
+  border: 1px solid var(--sep);
+  background: var(--card-bg);
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+.tl-node:hover .tl-dot { transform: scale(1.15); border-color: var(--accent-dim); }
+.tl-dot svg { width: clamp(13px, 1.8vw, 19px); height: clamp(13px, 1.8vw, 19px); }
+.tl-dot--accent { background: var(--accent) !important; border-color: var(--accent) !important; }
+.tl-dot--accent svg { stroke: var(--bg) !important; }
+.tl-num {
+  font-family: var(--font-body); font-size: clamp(0.5rem, 0.75vw, 0.65rem);
+  font-weight: 500; color: var(--accent); letter-spacing: 0.08em;
+  margin-top: clamp(3px, 0.4vh, 6px);
+}
+.tl-label {
+  font-size: clamp(0.5rem, 0.8vw, 0.7rem); font-weight: 500;
+  color: var(--text); line-height: 1.2;
+  margin-top: clamp(1px, 0.2vh, 3px);
+  font-family: var(--font-body);
+}
+.tl-sub {
+  font-size: clamp(0.42rem, 0.6vw, 0.55rem);
+  color: var(--text-muted); line-height: 1.2;
+  margin-top: 1px;
+  font-family: var(--font-body);
+  font-weight: 300;
+}
+@media (max-width: 700px) {
+  .timeline {
+    grid-template-columns: repeat(4, 1fr);
+    row-gap: clamp(0.6rem, 2vh, 1rem);
+  }
+  .timeline::before { display: none; }
+  .tl-node:nth-child(5) { grid-column: 1; }
+  .tl-node:nth-child(6) { grid-column: 2; }
+  .tl-node:nth-child(7) { grid-column: 3; }
+}
+
+/* Demo frame */
+.demo-frame-wrap {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  margin: clamp(0.4rem, 0.8vh, 0.8rem) var(--slide-pad) clamp(0.4rem, 0.8vh, 0.8rem);
+  border-radius: 12px;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.45), 0 1px 4px rgba(0,0,0,0.3);
+}
+.demo-frame-wrap iframe {
+  width: 100%; height: 100%; border: none; border-radius: 12px; display: block;
+}
+.demo-header {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.75rem, 2vw, 2rem);
+  padding: clamp(0.6rem, 1.2vh, 1rem) var(--slide-pad);
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--sep);
+}
+.demo-heading {
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 1.6vw, 1.4rem);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--text);
+  flex: 1;
+}
+.demo-fullscreen-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-body);
+  font-size: clamp(0.62rem, 0.9vw, 0.78rem);
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-decoration: none;
+  border: 1px solid var(--accent-dim);
+  padding: 6px 14px;
+  border-radius: 4px;
+  transition: background 0.25s, border-color 0.25s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.demo-fullscreen-btn:hover {
+  background: var(--card-bg-hover);
+  border-color: var(--accent);
+}
+
+/* Field photos */
+.field-row {
+  display: flex; justify-content: center;
+  gap: clamp(0.5rem, 1.5vw, 1.5rem);
+  align-items: center; flex-wrap: wrap;
+}
+.field-row img {
+  max-height: min(38vh, 280px); width: auto;
+  border-radius: clamp(4px, 0.8vw, 8px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+  border: 1px solid var(--sep);
+}
+.field-label {
+  text-align: center;
+  margin-top: clamp(0.3rem, 0.6vw, 0.5rem);
+  font-family: var(--font-body);
+  font-size: var(--caption-size);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 300;
+}
+
+/* Full-bleed photo */
+.photo-bg {
+  position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  object-fit: cover; width: 100%; height: 100%; opacity: 0.5;
+  max-height: none;
+}
+.photo-overlay {
+  position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(180deg, rgba(12,15,9,0.3) 0%, rgba(12,15,9,0.85) 100%);
+}
+/* Default (light) photo overlay uses pearl tones */
+html:not(.dark) .photo-overlay {
+  background: linear-gradient(180deg, rgba(244,242,238,0.3) 0%, rgba(244,242,238,0.88) 100%);
+}
+
+/* Flow items */
+.flow-row {
+  display: flex; flex-direction: column;
+  gap: clamp(0.4rem, 1vh, 0.7rem);
+}
+.flow-item {
+  display: flex; align-items: baseline;
+  gap: clamp(0.5rem, 1vw, 0.8rem);
+  padding-bottom: clamp(0.3rem, 0.7vh, 0.5rem);
+  border-bottom: 1px solid var(--sep);
+}
+.flow-item:last-child { border-bottom: none; }
+.flow-label {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: var(--h3-size);
+  color: var(--accent);
+  min-width: clamp(40px, 6vw, 60px);
+  flex-shrink: 0;
+}
+.flow-desc {
+  font-family: var(--font-body);
+  font-size: var(--small-size);
+  color: var(--text-sec);
+  font-weight: 300;
+}
+.flow-desc strong {
+  color: var(--text);
+  font-weight: 400;
+}
+
+/* Contact button */
+.contact-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: clamp(10px,1.5vh,15px) clamp(20px,2.5vw,30px);
+  background: transparent;
+  border: 1px solid var(--accent-dim);
+  color: var(--accent);
+  font-family: var(--font-body);
+  font-size: clamp(0.72rem,1.1vw,0.9rem);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  border-radius: 3px;
+  transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+.contact-btn:hover {
+  background: var(--card-bg-hover);
+  border-color: var(--accent);
+  color: var(--text);
+}
+
+/* Inline editing */
+.edit-hotzone { position: fixed; top: 0; left: 0; width: 80px; height: 80px; z-index: 10000; cursor: pointer; }
+.edit-toggle {
+  position: fixed; top: clamp(0.5rem, 1.5vw, 1rem); left: clamp(0.5rem, 1.5vw, 1rem);
+  background: var(--bar-bg); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--sep); border-radius: 4px;
+  padding: clamp(0.3rem, 0.7vw, 0.5rem) clamp(0.5rem, 1vw, 0.8rem);
+  font-family: var(--font-body); font-size: var(--caption-size);
+  cursor: pointer; opacity: 0; pointer-events: none;
+  transition: opacity 0.3s ease; z-index: 10001; color: var(--text);
+}
+.edit-toggle.show, .edit-toggle.active { opacity: 1; pointer-events: auto; }
+.edit-toggle.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+[contenteditable="true"] { outline: 1px dashed var(--accent); outline-offset: 4px; cursor: text; }
+.edit-bar {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: var(--text); color: var(--bg);
+  padding: clamp(0.4rem, 1vw, 0.6rem) var(--slide-pad);
+  font-family: var(--font-body); font-size: var(--caption-size);
+  display: none; justify-content: space-between; align-items: center; z-index: 10002;
+}
+.edit-bar.show { display: flex; }
+.edit-bar button {
+  background: var(--accent); color: var(--bg); border: none;
+  padding: clamp(0.2rem, 0.5vw, 0.35rem) clamp(0.6rem, 1vw, 0.8rem);
+  border-radius: 2px; font-family: var(--font-body);
+  font-size: var(--caption-size); cursor: pointer;
+}
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+<nav class="nav-dots" id="navDots" aria-label="Slide navigation"></nav>
+
+<!-- Theme toggle -->
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark mode">
+  <span class="icon-sun">☀</span>
+  <span class="icon-moon">☾</span>
+</button>
+
+<!-- Edit controls -->
+<div class="edit-hotzone" id="editHotzone"></div>
+<button class="edit-toggle" id="editToggle" title="Edit mode (E)">Edit</button>
+<div class="edit-bar" id="editBar">
+  <span>Editing — click any text. <strong>Ctrl+S</strong> to save.</span>
+  <button onclick="editor.exportFile()">Export HTML</button>
+</div>
+
+
+<!-- ============================================================
+     SLIDE 1 — COVER
+     ============================================================ -->
+<section class="slide slide-cover" data-slide="0">
+  <div class="cover-left">
+    <div class="cover-top-meta reveal d1">
+      <span class="cover-dot"></span>
+      <span class="cover-meta-text">earthsama.com</span>
+    </div>
+    <div class="cover-heading">
+      <img src="pitch-assets/logo-icon.png" alt="Earth Sama" class="cover-logo reveal d2">
+      <div class="cover-divider reveal d3">
+        <span class="cover-divider-line"></span>
+        <span class="cover-divider-text">Upstream Digital Endpoint for Value Chains</span>
+      </div>
+      <p class="cover-h1-a reveal d4">Building Digital Capacity</p>
+      <p class="cover-h1-b reveal d5">&amp; Vertical Access for the Next Billion Users</p>
+      <p class="cover-h1-c reveal d6">Across agricarbon, food security, and rural value chains.</p>
+    </div>
+    <span class="cover-domain reveal d7">Agricarbon · Food Security · Vertical Integration</span>
+  </div>
+  <div class="cover-right">
+    <img src="pitch-assets/moment.jpg" alt="Philippine agriculture" class="cover-photo">
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SLIDE 2 — THE PROBLEM
+     ============================================================ -->
+<section class="slide slide--alt" data-slide="1">
+  <div class="slide-meta">
+    <span class="slide-num">02</span>
+    <span class="slide-meta-rule"></span>
+    <span class="slide-label">The Problem</span>
+  </div>
+  <div class="slide-inner">
+    <h2 class="reveal d1">The financial workflow for farmers <em>is broken.</em></h2>
+    <div class="three-col reveal d2" style="flex: 1; max-height: min(55vh, 480px);">
+      <div class="glass-card">
+        <div class="card-icon">🪪</div>
+        <div class="glass-card-label">Identity</div>
+        <h3 style="font-size: clamp(0.9rem,1.6vw,1.2rem);">No Secure Digital ID</h3>
+        <p class="glass-card-text">Paper-based production and sales records leave farmers invisible to financial systems.</p>
+      </div>
+      <div class="glass-card">
+        <div class="card-icon">📊</div>
+        <div class="glass-card-label">History</div>
+        <h3 style="font-size: clamp(0.9rem,1.6vw,1.2rem);">No Verifiable Records</h3>
+        <p class="glass-card-text">Financial institutions cannot assess risk without structured, verifiable data.</p>
+      </div>
+      <div class="glass-card">
+        <div class="card-icon">🏦</div>
+        <div class="glass-card-label">Access</div>
+        <h3 style="font-size: clamp(0.9rem,1.6vw,1.2rem);">Considered Unbankable</h3>
+        <p class="glass-card-text">No financing to grow their business. Rural economies stay undercapitalized.</p>
+      </div>
+    </div>
+    <div class="impact-card reveal d3">
+      <p>Without structured records, farmers cannot access credit, insurance, supply contracts, or <em>climate markets</em>.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SLIDE 3 — THE OPPORTUNITY
+     ============================================================ -->
+<section class="slide" data-slide="2">
+  <div class="slide-meta">
+    <span class="slide-num">03</span>
+    <span class="slide-meta-rule"></span>
+    <span class="slide-label">The Opportunity</span>
+  </div>
+  <div class="slide-inner">
+    <h2 class="reveal d1">Agriculture is the largest <em>unstructured economy.</em></h2>
+    <div class="stat-row reveal d2">
+      <div class="stat-card"><div class="stat-number">$3.6T</div><div class="stat-label">Global agricultural output</div></div>
+      <div class="stat-card"><div class="stat-number">500M</div><div class="stat-label">Smallholder farmers impacted</div></div>
+      <div class="stat-card"><div class="stat-number">70%</div><div class="stat-label">Financially excluded</div></div>
+      <div class="stat-card"><div class="stat-number">$250B</div><div class="stat-label">Annual credit demand gap</div></div>
+    </div>
+    <div class="impact-card reveal d3" style="margin-top: auto;">
+      <p>If agricultural activity can be structured into <em>trusted data</em>, capital can flow into rural economies.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SLIDE 4 — WHY US / TEAM
+     ============================================================ -->
+<section class="slide slide--alt" data-slide="3">
+  <div class="slide-meta">
+    <span class="slide-num">04</span>
+    <span class="slide-meta-rule"></span>
+    <span class="slide-label">Why Us</span>
+  </div>
+  <div class="slide-inner">
+    <h2 class="reveal d1">A team with <em>real-world</em> modernization experience.</h2>
+    <div class="bio-card bio-card--founder reveal d2" style="margin-bottom: var(--gap);">
+      <img src="pitch-assets/uynghiem.jpg" alt="Uynghiem Ngo">
+      <div>
+        <h3>Uynghiem Ngo</h3>
+        <p class="role">Founder — Integrator</p>
+        <p>10+ years digital transformation across global enterprises. Led Go-to-Market at 3motionAI (acquired by VelocityEHS). Deployed Microsoft Digital Distribution to 1,900+ institutions. Raised $700K+ for community initiatives in Haiti and DR.</p>
+      </div>
+    </div>
+    <div class="bio-card reveal d3">
+      <img src="pitch-assets/demeter.jpg" alt="Demeter Russafov">
+      <div>
+        <h3>Demeter Russafov</h3>
+        <p class="role">Field User Advisor</p>
+        <p>Long-time development leader in Haiti. Managed $26M+ into community-led programs. Organized 5,000 women into Self-Help Groups generating $485K in savings. 2.9M trees planted, 82% reduction in infant malnutrition.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SLIDE 5 — IN THE FIELD
+     ============================================================ -->
+<section class="slide" data-slide="4">
+  <div class="slide-meta">
+    <span class="slide-num">05</span>
+    <span class="slide-meta-rule"></span>
+    <span class="slide-label">In the Field</span>
+  </div>
+  <div class="slide-inner" style="align-items: center; justify-content: center;">
+    <div class="field-row reveal d1">
+      <div>
+        <img src="pitch-assets/field-id.jpg" alt="Farmer using digital ID on phone">
+        <p class="field-label">Digital ID Creation</p>
+      </div>
+      <div>
+        <img src="pitch-assets/field-voice.jpg" alt="Voice-guided AI on phone">
+        <p class="field-label">Voice AI Guidance</p>
+      </div>
+    </div>
+    <div class="impact-card reveal d2" style="max-width: min(85vw, 500px); text-align: center;">
+      <p style="border: none; padding: 0;">Real farmers, real phones, real field conditions. <em>Earth Sama works where it matters most.</em></p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SLIDE 6 — THE APP — LIVE DEMO
+     ============================================================ -->
+<section class="slide slide--alt slide-demo" data-slide="5" style="display: flex; flex-direction: column;">
+  <div class="demo-header">
+    <span class="slide-num">06</span>
+    <span class="slide-meta-rule" style="max-width: 20px;"></span>
+    <span class="demo-heading">Interactive Demo — Swipe the full farmer journey</span>
+    <a href="demo.html" target="_blank" class="demo-fullscreen-btn">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      Fullscreen
+    </a>
+  </div>
+  <div class="demo-frame-wrap">
+    <iframe src="demo.html" title="Earth Sama App Demo" loading="lazy"></iframe>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SLIDE 7 — AI-GUIDED FARMER WORKFLOW
+     ============================================================ -->
+<section class="slide" data-slide="6">
+  <div class="slide-meta">
+    <span class="slide-num">07</span>
+    <span class="slide-meta-rule"></span>
+    <span class="slide-label">AI-Guided Workflows</span>
+  </div>
+  <div class="slide-inner" style="align-items: center;">
+    <h2 class="reveal d1" style="text-align: center;">From unbankable to <em>bankable.</em></h2>
+    <div class="timeline reveal d2">
+      <div class="tl-node">
+        <div class="tl-dot">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <span class="tl-num">01</span>
+        <span class="tl-label">AI Onboarding</span>
+        <span class="tl-sub">Voice-guided registration</span>
+      </div>
+      <div class="tl-node">
+        <div class="tl-dot">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-green)" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="7" y1="8" x2="17" y2="8"/><line x1="7" y1="12" x2="13" y2="12"/><path d="M15 16l2 2 4-4"/></svg>
+        </div>
+        <span class="tl-num">02</span>
+        <span class="tl-label">Identity KYC</span>
+        <span class="tl-sub">Face + voice biometrics</span>
+      </div>
+      <div class="tl-node">
+        <div class="tl-dot">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <span class="tl-num">03</span>
+        <span class="tl-label">Production & Land</span>
+        <span class="tl-sub">GPS mapping, OCR docs</span>
+      </div>
+      <div class="tl-node">
+        <div class="tl-dot">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-green)" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4"/></svg>
+        </div>
+        <span class="tl-num">04</span>
+        <span class="tl-label">Weather & Edge AI</span>
+        <span class="tl-sub">Climate-adaptive tasks</span>
+      </div>
+      <div class="tl-node">
+        <div class="tl-dot">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
+        </div>
+        <span class="tl-num">05</span>
+        <span class="tl-label">Compliance Docs</span>
+        <span class="tl-sub">Photo-verified, on-chain</span>
+      </div>
+      <div class="tl-node">
+        <div class="tl-dot">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-green)" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M12 12h.01"/><path d="M6 12h.01"/><path d="M18 12h.01"/></svg>
+        </div>
+        <span class="tl-num">06</span>
+        <span class="tl-label">Financial History</span>
+        <span class="tl-sub">Verifiable RWA records</span>
+      </div>
+      <div class="tl-node">
+        <div class="tl-dot tl-dot--accent">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--bg)" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <span class="tl-num" style="color: var(--accent);">07</span>
+        <span class="tl-label" style="font-weight: 500;">Access to Financing</span>
+        <span class="tl-sub">Credit, insurance, markets</span>
+      </div>
+    </div>
+    <div class="impact-card reveal d3" style="max-width: min(80vw, 520px); text-align: center;">
+      <p>Each step generates structured financial data — turning agricultural execution into <em>bankable, verifiable records.</em></p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SLIDE 8 — COMPUTER VISION IP
+     ============================================================ -->
+<section class="slide slide--alt slide-split" data-slide="7">
+  <div class="split-content">
+    <div class="slide-meta">
+      <span class="slide-num">08</span>
+      <span class="slide-meta-rule"></span>
+      <span class="slide-label">Intellectual Property</span>
+    </div>
+    <div class="slide-inner">
+      <h2 class="reveal d1">Computer Vision for <em>agricultural verification.</em></h2>
+      <ul class="bullet-list reveal d2">
+        <li>Panasonic patents: US8593522, US8180158</li>
+        <li>AI-guided workflows</li>
+        <li>Growth mapping and object tracking</li>
+        <li>Commercialized for agricultural Edge AI</li>
+      </ul>
+      <div class="accent-bar reveal d3">
+        <p>Proprietary CV IP adapted for real-world field conditions — <em>low bandwidth, low light, moving targets.</em></p>
+      </div>
+    </div>
+  </div>
+  <div class="split-photo">
+    <img src="pitch-assets/cv-patent.jpg" alt="Computer Vision 3D tree analysis">
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SLIDE 9 — MARKET — PHILIPPINES
+     ============================================================ -->
+<section class="slide" data-slide="8">
+  <div class="slide-meta">
+    <span class="slide-num">09</span>
+    <span class="slide-meta-rule"></span>
+    <span class="slide-label">Market Focus</span>
+  </div>
+  <div class="slide-inner">
+    <h2 class="reveal d1">Philippines first. <em>3.5 million coconut farmers.</em></h2>
+    <div class="two-col reveal d2" style="flex: 1;">
+      <div>
+        <p class="slide-intro" style="margin-bottom: var(--gap);">Large-scale poly-cropped agroforestry: coconut, coffee, cacao, and moringa. 380M trees. 25-year growth cycles.</p>
+        <ul class="bullet-list">
+          <li>1M of 3.5M farmers onboarded into national coconut agroforestry carbon program</li>
+          <li>100M-tree first carbon project</li>
+          <li>Agro-industrial hubs and cold storage for value refinement</li>
+        </ul>
+      </div>
+      <div>
+        <div class="stat-card" style="margin-bottom: var(--gap);"><div class="stat-number">$5.6B</div><div class="stat-label">Over 25 years</div></div>
+        <div class="stat-card" style="margin-bottom: var(--gap);"><div class="stat-number">$325M</div><div class="stat-label">High value crop yield / year*</div></div>
+        <div class="stat-card"><div class="stat-number">$485M</div><div class="stat-label">Agro-industrial hubs / year*</div></div>
+        <p style="font-size: var(--caption-size); color: var(--text-muted); margin-top: var(--gap-sm); font-style: italic;">*Estimated annual yield at maturity</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SLIDE 10 — BUSINESS MODEL
+     ============================================================ -->
+<section class="slide slide--alt" data-slide="9">
+  <div class="slide-meta">
+    <span class="slide-num">10</span>
+    <span class="slide-meta-rule"></span>
+    <span class="slide-label">Business Model</span>
+  </div>
+  <div class="slide-inner">
+    <h2 class="reveal d1">5% transaction fee. <em>B2B2C infrastructure.</em></h2>
+    <div class="two-col reveal d2" style="flex: 1;">
+      <div>
+        <div class="flow-row">
+          <div class="flow-item"><span class="flow-label">5%</span><span class="flow-desc"><strong>Climate Financing</strong> — Farmer submits docs → Partner verifies → Fee</span></div>
+          <div class="flow-item"><span class="flow-label">5%</span><span class="flow-desc"><strong>Financial Disbursement</strong> — Farmer requests funding → Partner processes → Fee</span></div>
+          <div class="flow-item"><span class="flow-label">5%</span><span class="flow-desc"><strong>Ag Infrastructure</strong> — Farmer records data → CPG buyer verifies → Fee</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="glass-card" style="margin-bottom: var(--gap-sm);">
+          <div class="glass-card-label">Revenue</div>
+          <p class="glass-card-text"><strong style="color: var(--accent); font-weight: 400;">~$9.5M ARR</strong> over 25 years (TCV ~$238M) from 1M farmers in coconut agroforestry program</p>
+        </div>
+        <div class="glass-card">
+          <div class="glass-card-label">Agri-Agra</div>
+          <p class="glass-card-text"><strong style="color: var(--accent); font-weight: 400;">$20M/year</strong> in penalties redeployed into mandatory rural lending — ~$1M annually at 5% margin</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SLIDE 11 — APL.DE.AP — photo split
+     ============================================================ -->
+<section class="slide slide-split" data-slide="10">
+  <div class="split-content">
+    <div class="slide-meta">
+      <span class="slide-num">11</span>
+      <span class="slide-meta-rule"></span>
+      <span class="slide-label">Cultural Ambassador</span>
+    </div>
+    <div class="slide-inner">
+      <h2 class="reveal d1">Apl.de.Ap isn't just an ambassador — <em>he's a system's unlock.</em></h2>
+      <p class="reveal d2">Raised on his grandfather's farm. Founding member of the Black Eyed Peas. Through the Apl.de.Ap Foundation — schools built, scholarships funded, community health programs across the Philippines.</p>
+      <div class="accent-bar reveal d3">
+        <p>His platform bridges <em>global markets with rural communities</em> through music, media, and cultural engagement.</p>
+      </div>
+    </div>
+  </div>
+  <div class="split-photo">
+    <img src="pitch-assets/apl-collage.jpg" alt="Apl.de.Ap">
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SLIDE 12 — PARTNERS & ADVISORS
+     ============================================================ -->
+<section class="slide slide--alt" data-slide="11">
+  <div class="slide-meta">
+    <span class="slide-num">12</span>
+    <span class="slide-meta-rule"></span>
+    <span class="slide-label">Partners & Advisors</span>
+  </div>
+  <div class="slide-inner">
+    <h2 class="reveal d1">Institutional and <em>cultural distribution.</em></h2>
+    <div class="headshot-grid reveal d2">
+      <div class="headshot"><img src="pitch-assets/apl.jpg" alt="Apl.de.Ap"><p class="name">Apl.de.Ap</p></div>
+      <div class="headshot"><img src="pitch-assets/dan-vo.jpg" alt="Dan Vo"><p class="name">Dan Vo</p></div>
+      <div class="headshot"><img src="pitch-assets/audie.jpg" alt="Audie Vergara"><p class="name">Audie Vergara</p></div>
+      <div class="headshot"><img src="pitch-assets/derek.jpg" alt="Derek Ruth"><p class="name">Derek Ruth</p></div>
+      <div class="headshot"><img src="pitch-assets/amit.jpg" alt="Amit Rikhi"><p class="name">Amit Rikhi</p></div>
+    </div>
+    <p class="reveal d3" style="font-size: var(--small-size); color: var(--text-muted); max-width: min(85vw, 500px);">
+      Additional advisors: Rob Majteles, Aarti Tandon, Taylor Black, Amb. Chantale Wong
+    </p>
+    <p class="reveal d4" style="font-size: var(--small-size); color: var(--text-sec);">
+      Institutional + cultural distribution builds both reach and trust.
+    </p>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SLIDE 13 — GO-TO-MARKET
+     ============================================================ -->
+<section class="slide" data-slide="12">
+  <div class="slide-meta">
+    <span class="slide-num">13</span>
+    <span class="slide-meta-rule"></span>
+    <span class="slide-label">Go-to-Market</span>
+  </div>
+  <div class="slide-inner">
+    <h2 class="reveal d1">Scaling through <em>existing networks.</em></h2>
+    <div class="three-col reveal d2" style="flex: 1; max-height: min(50vh, 400px);">
+      <div class="glass-card">
+        <div class="card-icon">🌾</div>
+        <div class="glass-card-label">Channel</div>
+        <h3 style="font-size: clamp(0.9rem,1.6vw,1.2rem);">Agricultural Cooperatives</h3>
+        <p class="glass-card-text">Organizations already managing farmer groups at scale.</p>
+      </div>
+      <div class="glass-card">
+        <div class="card-icon">🏛</div>
+        <div class="glass-card-label">Channel</div>
+        <h3 style="font-size: clamp(0.9rem,1.6vw,1.2rem);">Government Programs</h3>
+        <p class="glass-card-text">National development programs onboarding farmers.</p>
+      </div>
+      <div class="glass-card">
+        <div class="card-icon">🌱</div>
+        <div class="glass-card-label">Channel</div>
+        <h3 style="font-size: clamp(0.9rem,1.6vw,1.2rem);">Climate & Carbon</h3>
+        <p class="glass-card-text">Large-scale agroforestry and sustainability projects.</p>
+      </div>
+    </div>
+    <div class="impact-card reveal d3">
+      <p>Earth Sama replaces paper-based KYC — <em>removing the technical and educational barriers</em> that exclude farmers.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SLIDE 14 — THE ASK
+     ============================================================ -->
+<section class="slide slide--alt" data-slide="13">
+  <div class="slide-meta">
+    <span class="slide-num">14</span>
+    <span class="slide-meta-rule"></span>
+    <span class="slide-label">The Ask</span>
+  </div>
+  <div class="slide-inner" style="align-items: center; text-align: center;">
+    <h2 class="reveal d1">Seeking a <em>lead investor.</em></h2>
+    <p class="slide-intro reveal d2" style="text-align: center; max-width: min(80vw, 460px);">Close a seed round and fulfil two time-sensitive projects in the Philippines for 2026.</p>
+    <ul class="bullet-list reveal d3" style="text-align: left; max-width: min(80vw, 380px);">
+      <li>Lead investor for seed round</li>
+      <li>Strategic partners — agri-coops, MFIs, telcos</li>
+      <li>Pilot programs across priority provinces</li>
+      <li>Scale Edge AI and verification infrastructure</li>
+    </ul>
+    <p class="reveal d4" style="font-size: var(--caption-size); color: var(--text-muted); letter-spacing: 0.12em; text-transform: uppercase; margin-top: auto;">
+      Delaware C-Corp HoldCo · Investor returns via dividend
+    </p>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SLIDE 15 — CLOSING
+     ============================================================ -->
+<section class="slide" data-slide="14" style="position: relative;">
+  <img src="pitch-assets/moment.jpg" alt="This is the moment" class="photo-bg" style="opacity: 0.4;">
+  <div class="photo-overlay"></div>
+  <div class="slide-inner" style="position: relative; z-index: 2; justify-content: flex-end; align-items: center; text-align: center; padding-bottom: clamp(3rem, 8vh, 6rem);">
+    <img src="pitch-assets/logo-icon.png" alt="Earth Sama" class="reveal d1" style="height: clamp(48px, 7vh, 72px); width: auto; max-height: 72px; object-fit: contain; margin-bottom: var(--gap-sm);">
+    <h2 class="reveal d2" style="font-size: var(--title-size); font-weight: 300;"><em>This is the moment.</em></h2>
+    <p class="reveal d3" style="font-size: clamp(0.85rem, 1.4vw, 1.1rem); max-width: min(80vw, 500px); margin-top: var(--gap-sm);">
+      We exist to help farmers rise above the poverty line by creating pathways to sustainable livelihoods.
+    </p>
+    <div class="reveal d4" style="width: clamp(40px, 8vw, 80px); height: 1px; background: var(--accent); margin: var(--gap) auto;"></div>
+    <p class="reveal d5" style="font-size: var(--caption-size); color: var(--text-muted); letter-spacing: 0.14em; text-transform: uppercase;">
+      Digital Public Infrastructure · Next Billion Users · earthsama.com
+    </p>
+  </div>
+</section>
+
+
+<script>
+/* ============================================================
+   SLIDE PRESENTATION ENGINE
+   ============================================================ */
+class SlidePresentation {
+  constructor() {
+    this.slides = document.querySelectorAll('.slide');
+    this.currentSlide = 0;
+    this.isScrolling = false;
+    this.init();
+  }
+  init() {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          const i = Array.from(this.slides).indexOf(e.target);
+          if (i !== -1) { this.currentSlide = i; this.update(); }
+        }
+      });
+    }, { threshold: 0.5 });
+    this.slides.forEach(s => obs.observe(s));
+
+    document.addEventListener('keydown', (e) => {
+      if (e.target.getAttribute('contenteditable')) return;
+      if (['ArrowDown','ArrowRight',' ','PageDown'].includes(e.key)) { e.preventDefault(); this.go(this.currentSlide + 1); }
+      if (['ArrowUp','ArrowLeft','PageUp'].includes(e.key)) { e.preventDefault(); this.go(this.currentSlide - 1); }
+      if (e.key === 'Home') { e.preventDefault(); this.go(0); }
+      if (e.key === 'End') { e.preventDefault(); this.go(this.slides.length - 1); }
+    });
+
+    let sy = 0;
+    document.addEventListener('touchstart', e => { sy = e.touches[0].clientY; }, { passive: true });
+    document.addEventListener('touchend', e => { const d = sy - e.changedTouches[0].clientY; if (Math.abs(d) > 50) this.go(this.currentSlide + (d > 0 ? 1 : -1)); }, { passive: true });
+    document.addEventListener('wheel', e => {
+      if (this.isScrolling) return;
+      this.isScrolling = true;
+      if (e.deltaY > 30) this.go(this.currentSlide + 1);
+      else if (e.deltaY < -30) this.go(this.currentSlide - 1);
+      setTimeout(() => this.isScrolling = false, 800);
+    }, { passive: true });
+
+    this.bar = document.getElementById('progressBar');
+    const nav = document.getElementById('navDots');
+    this.slides.forEach((_, i) => {
+      const d = document.createElement('button');
+      d.className = 'nav-dot' + (i === 0 ? ' active' : '');
+      d.setAttribute('aria-label', 'Slide ' + (i+1));
+      d.onclick = () => this.go(i);
+      nav.appendChild(d);
+    });
+    this.dots = nav.querySelectorAll('.nav-dot');
+  }
+  update() {
+    this.bar.style.width = ((this.currentSlide + 1) / this.slides.length * 100) + '%';
+    this.dots.forEach((d, i) => d.classList.toggle('active', i === this.currentSlide));
+  }
+  go(i) {
+    if (i < 0 || i >= this.slides.length) return;
+    this.currentSlide = i;
+    this.slides[i].scrollIntoView({ behavior: 'smooth' });
+    this.update();
+  }
+}
+
+/* ============================================================
+   THEME TOGGLE
+   ============================================================ */
+(function() {
+  const stored = localStorage.getItem('es_theme');
+  if (stored === 'dark') document.documentElement.classList.add('dark');
+  document.getElementById('themeToggle').addEventListener('click', () => {
+    document.documentElement.classList.toggle('dark');
+    localStorage.setItem('es_theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+  });
+})();
+
+/* ============================================================
+   INLINE EDITOR
+   ============================================================ */
+class InlineEditor {
+  constructor() { this.isActive = false; this.sel = 'h2,h3,p,li'; this.key = 'es_pitch_edits'; this.load(); }
+  toggle() {
+    this.isActive = !this.isActive;
+    document.getElementById('editToggle').classList.toggle('active', this.isActive);
+    document.getElementById('editBar').classList.toggle('show', this.isActive);
+    document.querySelectorAll(this.sel).forEach(el => {
+      this.isActive ? (el.contentEditable = 'true', el.oninput = () => this.save()) : el.removeAttribute('contenteditable');
+    });
+  }
+  save() {
+    const d = {};
+    document.querySelectorAll('.slide').forEach((s, i) => {
+      d['s'+i] = [];
+      s.querySelectorAll(this.sel).forEach(el => d['s'+i].push(el.innerHTML));
+    });
+    localStorage.setItem(this.key, JSON.stringify(d));
+  }
+  load() {
+    try {
+      const d = JSON.parse(localStorage.getItem(this.key));
+      if (!d) return;
+      document.querySelectorAll('.slide').forEach((s, i) => {
+        if (!d['s'+i]) return;
+        const els = s.querySelectorAll(this.sel);
+        d['s'+i].forEach((h, j) => { if (els[j]) els[j].innerHTML = h; });
+      });
+    } catch(e){}
+  }
+  exportFile() {
+    const b = new Blob(['<!DOCTYPE html>\n' + document.documentElement.outerHTML], {type:'text/html'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(b);
+    a.download = 'earthsama-pitch.html';
+    a.click();
+  }
+}
+
+const presentation = new SlidePresentation();
+const editor = new InlineEditor();
+const hz = document.getElementById('editHotzone'), et = document.getElementById('editToggle');
+let ht = null;
+hz.onmouseenter = () => { clearTimeout(ht); et.classList.add('show'); };
+hz.onmouseleave = () => { ht = setTimeout(() => { if (!editor.isActive) et.classList.remove('show'); }, 400); };
+et.onmouseenter = () => clearTimeout(ht);
+et.onmouseleave = () => { ht = setTimeout(() => { if (!editor.isActive) et.classList.remove('show'); }, 400); };
+hz.onclick = () => editor.toggle();
+et.onclick = () => editor.toggle();
+document.addEventListener('keydown', e => {
+  if ((e.key==='e'||e.key==='E') && !e.target.getAttribute('contenteditable')) editor.toggle();
+  if (e.key==='s' && (e.ctrlKey||e.metaKey)) { e.preventDefault(); editor.save(); }
+});
+</script>
+</body>
+</html>

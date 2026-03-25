@@ -1,0 +1,859 @@
+[
+  {
+    "number": 1,
+    "title": "",
+    "content": [
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": "Earth Sama"
+      },
+      {
+        "type": "text",
+        "content": "AI-Guided Workflows for Rural Economies"
+      },
+      {
+        "type": "text",
+        "content": "Turning agricultural activity into verified, financeable assets"
+      },
+      {
+        "type": "text",
+        "content": "Edge AI enables farmers to complete identity, production, and financial workflows directly from their phone\u2014even offline"
+      }
+    ],
+    "images": [
+      {
+        "path": "assets/slide1_img1.png",
+        "width": 5486400,
+        "height": 8229600
+      },
+      {
+        "path": "assets/slide1_img2.png",
+        "width": 5486400,
+        "height": 8229600
+      }
+    ],
+    "notes": ""
+  },
+  {
+    "number": 2,
+    "title": "",
+    "content": [
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": "The Financial Workflow for Farmers Is Broken"
+      },
+      {
+        "type": "text",
+        "content": "No Secure Digital Identity"
+      },
+      {
+        "type": "text",
+        "content": "Paper-based production and sales records"
+      },
+      {
+        "type": "text",
+        "content": "No Verifiable Financial History"
+      },
+      {
+        "type": "text",
+        "content": "Financial institutions cannot assess risk"
+      },
+      {
+        "type": "text",
+        "content": "Farmers Considered Unbankable"
+      },
+      {
+        "type": "text",
+        "content": "No financing to grow their business"
+      },
+      {
+        "type": "text",
+        "content": "Without structured records, farmers cannot access: credit \u2022 insurance \u2022 supply contracts \u2022 climate markets"
+      },
+      {
+        "type": "text",
+        "content": "This keeps rural economies undercapitalized"
+      }
+    ],
+    "images": [
+      {
+        "path": "assets/slide2_img1.png",
+        "width": 5486400,
+        "height": 8229600
+      },
+      {
+        "path": "assets/slide2_img2.png",
+        "width": 5486400,
+        "height": 8229600
+      },
+      {
+        "path": "assets/slide2_img3.png",
+        "width": 1047274,
+        "height": 1256705
+      },
+      {
+        "path": "assets/slide2_img4.png",
+        "width": 1047274,
+        "height": 1256705
+      },
+      {
+        "path": "assets/slide2_img5.png",
+        "width": 1047274,
+        "height": 1256705
+      }
+    ],
+    "notes": ""
+  },
+  {
+    "number": 3,
+    "title": "",
+    "content": [
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": "Agriculture Is the Largest Unstructured Economy"
+      },
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": "$3.6T"
+      },
+      {
+        "type": "text",
+        "content": "Global Value: Annual output of the agricultural sector"
+      },
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": "500M"
+      },
+      {
+        "type": "text",
+        "content": "Smallholder Farmers: Individuals impacted by the data gap"
+      },
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": "70%"
+      },
+      {
+        "type": "text",
+        "content": "Financial Exclusion: Farmers lacking formal financial services"
+      },
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": "$250B"
+      },
+      {
+        "type": "text",
+        "content": "Market Opportunity: Potential annual credit demand gap"
+      },
+      {
+        "type": "text",
+        "content": "Agriculture produces trillions in global value but lacks structured financial data"
+      },
+      {
+        "type": "text",
+        "content": "Financial systems require:"
+      },
+      {
+        "type": "text",
+        "content": "Identity verification\nLand ownership records\nProduction history\nCompliance documentation"
+      },
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": "If agricultural activity can be structured into trusted data, capital can flow into rural economies"
+      }
+    ],
+    "images": [
+      {
+        "path": "assets/slide3_img1.png",
+        "width": 5486400,
+        "height": 8229600
+      },
+      {
+        "path": "assets/slide3_img2.png",
+        "width": 5486400,
+        "height": 8229600
+      },
+      {
+        "path": "assets/slide3_img3.png",
+        "width": 226100,
+        "height": 180856
+      }
+    ],
+    "notes": ""
+  },
+  {
+    "number": 4,
+    "title": "",
+    "content": [
+      {
+        "type": "text",
+        "content": "AI-Guided Farmer Workflows"
+      },
+      {
+        "type": "text",
+        "content": "Earth Sama fixes the broken workflow by guiding farmers step-by-step through the requirements needed to participate in financial systems"
+      },
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": "1"
+      },
+      {
+        "type": "text",
+        "content": "AI-Assisted Onboarding"
+      },
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": "2"
+      },
+      {
+        "type": "text",
+        "content": "Identity Verification"
+      },
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": "3"
+      },
+      {
+        "type": "text",
+        "content": "Production & Land Records"
+      },
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": "4"
+      },
+      {
+        "type": "text",
+        "content": "Weather & Farmer Edge AI Guidance"
+      },
+      {
+        "type": "text",
+        "content": "Climate Adaptation Support"
+      },
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": "5"
+      },
+      {
+        "type": "text",
+        "content": "Compliance Requirements"
+      },
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": "6"
+      },
+      {
+        "type": "text",
+        "content": "Verified Financial History"
+      },
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": "7"
+      },
+      {
+        "type": "text",
+        "content": "Access to Financing"
+      },
+      {
+        "type": "text",
+        "content": "Earth Sama converts everyday agricultural activity into trusted economic records"
+      }
+    ],
+    "images": [],
+    "notes": ""
+  },
+  {
+    "number": 5,
+    "title": "",
+    "content": [
+      {
+        "type": "text",
+        "content": "Voice-Guided Agricultural Operating System"
+      },
+      {
+        "type": "text",
+        "content": "Earth Sama provides a mobile interface designed for rural environments"
+      },
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": "Voice Guidance"
+      },
+      {
+        "type": "text",
+        "content": "In local languages"
+      },
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": "Offline Operation"
+      },
+      {
+        "type": "text",
+        "content": "Using Edge AI"
+      },
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": "Production Workflows"
+      },
+      {
+        "type": "text",
+        "content": "Step-by-step guidance"
+      },
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": "Identity & Compliance"
+      },
+      {
+        "type": "text",
+        "content": "Recording system"
+      },
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": "Performance Tracking"
+      },
+      {
+        "type": "text",
+        "content": "Agricultural metrics"
+      },
+      {
+        "type": "text",
+        "content": "The system functions as a digital extension officer, guiding farmers through complex financial and compliance requirements"
+      }
+    ],
+    "images": [
+      {
+        "path": "assets/slide5_img1.png",
+        "width": 302895,
+        "height": 302895
+      },
+      {
+        "path": "assets/slide5_img2.png",
+        "width": 302895,
+        "height": 302895
+      },
+      {
+        "path": "assets/slide5_img3.png",
+        "width": 302895,
+        "height": 302895
+      },
+      {
+        "path": "assets/slide5_img4.png",
+        "width": 302895,
+        "height": 302895
+      },
+      {
+        "path": "assets/slide5_img5.png",
+        "width": 302895,
+        "height": 302895
+      }
+    ],
+    "notes": ""
+  },
+  {
+    "number": 6,
+    "title": "",
+    "content": [
+      {
+        "type": "text",
+        "content": "Edge AI for Offline Rural Environments"
+      },
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": "There was an error generating this image"
+      },
+      {
+        "type": "text",
+        "content": "Earth Sama uses an Edge AI architecture designed for low-connectivity regions"
+      },
+      {
+        "type": "text",
+        "content": "Key Capabilities:"
+      },
+      {
+        "type": "text",
+        "content": "AI guidance running on the device\nOffline data capture and synchronization\nSecure verification of agricultural records\nCloud integration for financial and market systems"
+      },
+      {
+        "type": "text",
+        "content": "This allows farmers to participate in modern economic systems without needing reliable internet access"
+      }
+    ],
+    "images": [
+      {
+        "path": "assets/slide6_img1.png",
+        "width": 228600,
+        "height": 228600
+      }
+    ],
+    "notes": ""
+  },
+  {
+    "number": 7,
+    "title": "",
+    "content": [
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": "Global Agricultural Modernization"
+      },
+      {
+        "type": "text",
+        "content": "Agriculture represents one of the largest untapped financial markets"
+      },
+      {
+        "type": "text",
+        "content": "3.5M"
+      },
+      {
+        "type": "text",
+        "content": "Coconut Farmers"
+      },
+      {
+        "type": "text",
+        "content": "In the Philippines"
+      },
+      {
+        "type": "text",
+        "content": "25"
+      },
+      {
+        "type": "text",
+        "content": "Years of Growth"
+      },
+      {
+        "type": "text",
+        "content": "Long-term agricultural assets"
+      },
+      {
+        "type": "text",
+        "content": "$B"
+      },
+      {
+        "type": "text",
+        "content": "Economic Value"
+      },
+      {
+        "type": "text",
+        "content": "Billions in potential"
+      },
+      {
+        "type": "text",
+        "content": "Initial focus: large-scale agroforestry expansion combining coconut, coffee, cacao, and moringa"
+      }
+    ],
+    "images": [
+      {
+        "path": "assets/slide7_img1.png",
+        "width": 5486400,
+        "height": 8229600
+      },
+      {
+        "path": "assets/slide7_img2.png",
+        "width": 5486400,
+        "height": 8229600
+      }
+    ],
+    "notes": ""
+  },
+  {
+    "number": 8,
+    "title": "",
+    "content": [
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": "Monetizing Structured Agricultural Workflows"
+      },
+      {
+        "type": "text",
+        "content": "Our model focuses on a streamlined 5% transaction fee earned through B2B partnerships for every transaction completed on our platform."
+      },
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": "Climate Financing Eligibility"
+      },
+      {
+        "type": "text",
+        "content": "Farmer submits docs \u2192 Partner verifies \u2192 5% fee"
+      },
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": "Financial Disbursement Verification"
+      },
+      {
+        "type": "text",
+        "content": "Farmer requests funding \u2192 Partner processes \u2192 5% fee"
+      },
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": "Agricultural Infrastructure Transaction"
+      },
+      {
+        "type": "text",
+        "content": "Farmer records data \u2192 CPG Buyer requires verification \u2192 5% fee"
+      },
+      {
+        "type": "text",
+        "content": "Our B2B2C model enables partners to facilitate transactions for farmers, while Earth Sama captures value as a technology and infrastructure provider"
+      }
+    ],
+    "images": [
+      {
+        "path": "assets/slide8_img1.png",
+        "width": 5486400,
+        "height": 8229600
+      },
+      {
+        "path": "assets/slide8_img2.png",
+        "width": 5486400,
+        "height": 8229600
+      }
+    ],
+    "notes": ""
+  },
+  {
+    "number": 9,
+    "title": "",
+    "content": [
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": "Early Field Validation"
+      },
+      {
+        "type": "text",
+        "content": "Earth Sama has begun validating the platform through early field activity"
+      },
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": "Agricultural Pilot Deployments"
+      },
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": "Early Field Validation - Active Policy Ready to Monetize"
+      },
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": "Partnerships Across Climate and Agriculture Sectors"
+      },
+      {
+        "type": "text",
+        "content": "Monetization Metric: $50M/year in Agri-Agro monetization to be redeployed into for mandatory rural lending, generating ~$1M annually at a 5% profit margin."
+      },
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": "Early pilots demonstrate how real-world agricultural activity can become a single source of truth for financial and production records"
+      }
+    ],
+    "images": [
+      {
+        "path": "assets/slide9_img1.png",
+        "width": 3657600,
+        "height": 8229600
+      },
+      {
+        "path": "assets/slide9_img2.png",
+        "width": 3657600,
+        "height": 8229600
+      },
+      {
+        "path": "assets/slide9_img3.png",
+        "width": 337899,
+        "height": 337899
+      },
+      {
+        "path": "assets/slide9_img4.png",
+        "width": 337899,
+        "height": 337899
+      },
+      {
+        "path": "assets/slide9_img5.png",
+        "width": 337899,
+        "height": 337899
+      },
+      {
+        "path": "assets/slide9_img6.png",
+        "width": 299204,
+        "height": 239316
+      }
+    ],
+    "notes": ""
+  },
+  {
+    "number": 10,
+    "title": "",
+    "content": [
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": "Scaling Through Existing Networks"
+      },
+      {
+        "type": "text",
+        "content": "Earth Sama scales farmer adoption through trusted networks"
+      },
+      {
+        "type": "text",
+        "content": "Agricultural Cooperatives"
+      },
+      {
+        "type": "text",
+        "content": "Organizations that already manage farmer groups"
+      },
+      {
+        "type": "text",
+        "content": "Government Programs"
+      },
+      {
+        "type": "text",
+        "content": "National development programs onboarding farmers"
+      },
+      {
+        "type": "text",
+        "content": "Climate & Carbon Initiatives"
+      },
+      {
+        "type": "text",
+        "content": "Large-scale agroforestry and sustainability projects"
+      },
+      {
+        "type": "text",
+        "content": "Global Cultural Platform"
+      },
+      {
+        "type": "text",
+        "content": "Through apl.de.ap, access to global audiences and rural communities through music, media, and cultural engagement"
+      },
+      {
+        "type": "text",
+        "content": "This combination of institutional and cultural distribution builds both reach and trust"
+      }
+    ],
+    "images": [
+      {
+        "path": "assets/slide10_img1.png",
+        "width": 5486400,
+        "height": 8229600
+      },
+      {
+        "path": "assets/slide10_img2.png",
+        "width": 5486400,
+        "height": 8229600
+      },
+      {
+        "path": "assets/slide10_img3.png",
+        "width": 406360,
+        "height": 406360
+      },
+      {
+        "path": "assets/slide10_img4.png",
+        "width": 406360,
+        "height": 406360
+      },
+      {
+        "path": "assets/slide10_img5.png",
+        "width": 406360,
+        "height": 406360
+      },
+      {
+        "path": "assets/slide10_img6.png",
+        "width": 406360,
+        "height": 406360
+      }
+    ],
+    "notes": ""
+  }
+]

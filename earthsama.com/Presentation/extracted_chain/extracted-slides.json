@@ -1,0 +1,82 @@
+[
+  {
+    "number": 1,
+    "title": "",
+    "content": [
+      {
+        "type": "text",
+        "content": ""
+      },
+      {
+        "type": "text",
+        "content": "Chain of Custody Network\n"
+      },
+      {
+        "type": "text",
+        "content": "Sovereign Chain"
+      },
+      {
+        "type": "text",
+        "content": "Interblockchain Communication"
+      },
+      {
+        "type": "text",
+        "content": "Layer 0 - Framework for building custom blockchains with modular governance, validation, and application logic.\nCometBFT (Consensus Engine)\nHigh throughput without POW energy costs\nInter-Blockchain Communication Protocol\nEach sovereign chain and zone exchange verified data and tokens without centralized intermediaries. "
+      },
+      {
+        "type": "text",
+        "content": "Layer 1(s) - Country (Name) Sovereign Compliance & Anchoring Chain\nRole: Legal + technical anchor with master government agreements.\nWhat it does: Enforces methodologies and issuance rules, anchors verified MRV hashes, and mints data for credit issuance to a standard (ITMO, Verra, Gold, ICYCM, A6.4er)\nInterfaces: IBC channels to every zone; APIs for registries and national reporting\n"
+      },
+      {
+        "type": "text",
+        "content": "Layer 2 \u2014 Mission Control / Governance Engine\nRole: Operational core for verification, aggregation, and reporting.\nPoV validation: 50% AI (CV, GPS/timestamp checks, anomaly detection) + 50% human (audits, disputes, randomized QC).\nFunctions: SOP enforcement, role permissions, cross-project aggregation (CPA/PoA), data enrichment (satellite/weather/soil), metrics & BTR/NDC reporting.\nOutputs: Compliance-ready datasets routed to L1 for issuance; dashboards for administrators and buyers.\n"
+      },
+      {
+        "type": "text",
+        "content": "Layer 3 \u2014  Universal-access Applications & MRV Tools\nUser-friendly field apps: KYC/FaceID, GPS mapping, photo/video/sensor capture, offline sync.\nVerifier consoles: Review queues, escalation, audit trails.\nBuyer/investor portals: Browse verified credits, impact telemetry, purchase history.\nOracles & integrations: Drone/satellite/IoT feeds; REST/GraphQL APIs for ESG platforms, travel offsets, and government systems.\n"
+      },
+      {
+        "type": "text",
+        "content": "COSMOS SDK"
+      },
+      {
+        "type": "text",
+        "content": "Carbon Framework"
+      },
+      {
+        "type": "text",
+        "content": "Governance Engine"
+      },
+      {
+        "type": "text",
+        "content": "Mission Control"
+      },
+      {
+        "type": "text",
+        "content": "MRV Tools"
+      },
+      {
+        "type": "text",
+        "content": "Universal-Access Apps"
+      }
+    ],
+    "images": [],
+    "notes": ""
+  },
+  {
+    "number": 2,
+    "title": "",
+    "content": [
+      {
+        "type": "text",
+        "content": "Turn-key, closed-loop precision dMRV Infrastructure"
+      },
+      {
+        "type": "text",
+        "content": "The Problems\n\n1. Outdated, Manipulable Data\nPaper-based MRV can be altered and lacks an immutable record.\n2. Farmers Excluded\nNo recognized proof of work or impact for government/project payouts.\n3. Fraud & Middlemen\nCostly brokers control compliance packaging, enabling manipulation.\n\nThe Solutions\n1. Immutable Data Anchoring (Layer 1)\nAI + human PoV validates MRV and anchors it to a sovereign chain.\n2. Direct Recognition for Farmers (Layer 3)\nSimple, offline-ready apps create proof-of-record and track impact.\n3. Automated Compliance Packaging (Layer 2)\nAggregates and formats verified data, removing the need for brokers.\n"
+      }
+    ],
+    "images": [],
+    "notes": ""
+  }
+]

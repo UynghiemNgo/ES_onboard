@@ -2,8 +2,6 @@
    EarthSama — Dashboard Styles
    ============================================ */
 
-@import url('shared.css');
-
 .dash-header {
   max-width: 1200px;
 }

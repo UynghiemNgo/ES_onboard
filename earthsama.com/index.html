@@ -14,19 +14,19 @@
     body { font-family: 'Inter', system-ui, -apple-system, sans-serif; background: var(--surface); color: var(--text); line-height: 1.6; }
 
     /* --- Header (shared structure) --- */
-    .landing-header { background: var(--card); border-bottom: 1px solid var(--border); padding: 0 1.25rem; }
+    .landing-header { background: var(--card); border-bottom: 1px solid var(--border); padding: 0 1.25rem; position: relative; }
     .landing-header-inner { max-width: 1120px; margin: 0 auto; height: 64px; display: flex; align-items: center; justify-content: space-between; }
     .landing-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: var(--primary); font-weight: 700; font-size: 1.05rem; }
     .landing-nav-links { display: flex; gap: 0.35rem; align-items: center; }
     .landing-nav-links a { text-decoration: none; color: var(--text-muted); font-size: 0.85rem; padding: 0.45rem 0.7rem; border-radius: 8px; min-height: 44px; display: inline-flex; align-items: center; }
     .landing-nav-links a:hover { background: #f0f0f0; color: var(--text); }
-    .landing-btn-cta { background: var(--primary); color: #fff !important; font-weight: 600; border-radius: 999px; padding: 0.5rem 1rem; min-height: 44px; }
-    .landing-btn-cta:hover { background: var(--primary-hover); }
+    .landing-nav-links a.landing-btn-cta { background: var(--primary); color: #fff; font-weight: 600; border-radius: 999px; padding: 0.5rem 1rem; min-height: 44px; }
+    .landing-nav-links a.landing-btn-cta:hover { background: var(--primary-hover); color: #fff; }
 
     /* --- Hamburger (CSS-only, mobile) --- */
     .landing-hamburger { display: none; }
     .landing-hamburger-toggle { display: none; }
-    .landing-hamburger-icon { display: none; width: 44px; height: 44px; cursor: pointer; align-items: center; justify-content: center; border-radius: 8px; }
+    .landing-hamburger-icon { display: none; width: 44px; height: 44px; cursor: pointer; align-items: center; justify-content: center; border-radius: 8px; position: absolute; right: 1.25rem; top: 10px; }
     .landing-hamburger-icon span,
     .landing-hamburger-icon span::before,
     .landing-hamburger-icon span::after { display: block; width: 20px; height: 2px; background: var(--text); border-radius: 2px; position: relative; transition: transform 0.2s; }
@@ -110,10 +110,14 @@
         align-items: center;
       }
       .landing-mobile-menu .landing-btn-cta {
+        background: var(--primary);
         color: #fff;
         text-align: center;
         justify-content: center;
         margin-top: 0.25rem;
+        border-radius: 999px;
+        padding: 0.6rem 1rem;
+        font-weight: 600;
       }
 
       .landing-kpis { grid-template-columns: 1fr; }
@@ -138,9 +142,9 @@
         <a href="../dashboard.html">Dashboard</a>
         <a href="../index.html" class="landing-btn-cta">Submit Land</a>
       </nav>
-      <input type="checkbox" id="landing-menu-toggle" class="landing-hamburger-toggle" aria-hidden="true">
-      <label for="landing-menu-toggle" class="landing-hamburger-icon" aria-label="Open menu"><span></span></label>
     </div>
+    <input type="checkbox" id="landing-menu-toggle" class="landing-hamburger-toggle" aria-hidden="true">
+    <label for="landing-menu-toggle" class="landing-hamburger-icon" aria-label="Open menu"><span></span></label>
     <nav class="landing-mobile-menu">
       <a href="#how-it-works">About</a>
       <a href="../live.html">Live Map</a>

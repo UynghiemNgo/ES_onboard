@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Earth Sama — Mobile App Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,500;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+/* === RESET & BASE === */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; font-family: 'DM Sans', system-ui, sans-serif; background: #1a1a1a; color: #f5f0e8; }
+
+:root {
+  --earth: #8B6914;
+  --earth-light: #c9a96e;
+  --earth-dark: #5a4410;
+  --moss: #4a6741;
+  --moss-light: #6b8f60;
+  --cream: #f5f0e8;
+  --charcoal: #2c2c2c;
+  --warm-gray: #a09080;
+  --phone-w: min(390px, 92vw);
+  --radius: 40px;
+}
+
+/* === LAYOUT === */
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh;
+}
+
+/* === HEADER === */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 14px;
+  background: linear-gradient(135deg, #1f1f1f 0%, #2a2520 100%);
+  border-bottom: 1px solid rgba(139,105,20,0.3);
+  flex-shrink: 0;
+}
+.header-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.header-logo img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+.header-logo span {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--earth-light);
+}
+.header-badge {
+  font-size: 10px;
+  background: var(--earth);
+  color: var(--cream);
+  padding: 3px 8px;
+  border-radius: 20px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+/* === FLOW SELECTOR === */
+.flow-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: #222;
+  border-bottom: 1px solid rgba(139,105,20,0.2);
+  padding: 8px 12px;
+  flex-shrink: 0;
+}
+.flow-meta {
+  font-size: 11px;
+  color: var(--warm-gray);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.flow-select {
+  appearance: none;
+  -webkit-appearance: none;
+  border: 1px solid rgba(139,105,20,0.45);
+  background: #1b1b1b;
+  color: var(--cream);
+  border-radius: 8px;
+  font-size: 12px;
+  padding: 7px 28px 7px 10px;
+  font-family: inherit;
+  max-width: 62%;
+  cursor: pointer;
+  background-image: linear-gradient(45deg, transparent 50%, var(--earth-light) 50%), linear-gradient(135deg, var(--earth-light) 50%, transparent 50%);
+  background-position: calc(100% - 14px) calc(50% - 3px), calc(100% - 9px) calc(50% - 3px);
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+}
+
+/* === PHONE VIEWPORT === */
+.phone-area {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 10px;
+  overflow: hidden;
+  position: relative;
+  background: radial-gradient(ellipse at center, #2a2520 0%, #1a1a1a 70%);
+}
+
+.phone-frame {
+  width: var(--phone-w);
+  aspect-ratio: 390 / 844;
+  height: auto;
+  max-height: min(860px, calc(100dvh - 190px));
+  max-width: 92vw;
+  border-radius: var(--radius);
+  overflow: hidden;
+  position: relative;
+  background: #f5f5f5;
+  box-shadow:
+    0 0 0 2px #444,
+    0 0 0 4px #222,
+    0 20px 60px rgba(0,0,0,0.6),
+    inset 0 0 1px rgba(255,255,255,0.1);
+}
+
+/* Notch */
+.phone-frame::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 150px;
+  height: 28px;
+  background: #1a1a1a;
+  border-radius: 0 0 20px 20px;
+  z-index: 100;
+}
+
+.phone-screen {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.screen-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  background: #f8f6f2;
+  transition: opacity 0.3s ease, transform 0.35s ease;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* Swipe overlay zones */
+.swipe-zone {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 35%;
+  z-index: 50;
+  cursor: pointer;
+}
+.swipe-zone.left { left: 0; }
+.swipe-zone.right { right: 0; }
+.swipe-zone:active { background: rgba(255,255,255,0.05); }
+
+/* Slide transition */
+.phone-screen.slide-left .screen-img {
+  animation: slideOutLeft 0.3s ease forwards;
+}
+.phone-screen.slide-right .screen-img {
+  animation: slideOutRight 0.3s ease forwards;
+}
+.phone-screen.slide-in-left .screen-img {
+  animation: slideInFromRight 0.3s ease forwards;
+}
+.phone-screen.slide-in-right .screen-img {
+  animation: slideInFromLeft 0.3s ease forwards;
+}
+.phone-screen.screen-refresh .screen-img {
+  transform: scale(1.015);
+}
+
+@keyframes slideOutLeft {
+  to { transform: translateX(-100%); opacity: 0; }
+}
+@keyframes slideOutRight {
+  to { transform: translateX(100%); opacity: 0; }
+}
+@keyframes slideInFromRight {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+@keyframes slideInFromLeft {
+  from { transform: translateX(-100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+/* Overlay animation for scan/record moments */
+.screen-overlay {
+  position: absolute;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at center, rgba(0,0,0,0.12), rgba(0,0,0,0.32));
+  z-index: 70;
+  pointer-events: none;
+}
+.screen-overlay.active { display: flex; }
+.scan-ring {
+  width: 45%;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  border: 3px solid rgba(201,169,110,0.85);
+  box-shadow: 0 0 0 0 rgba(201,169,110,0.55);
+  animation: pulseRing 1.6s ease-out infinite;
+}
+.scan-line {
+  position: absolute;
+  width: 62%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(245,240,232,0.9), transparent);
+  animation: scanLine 1.8s ease-in-out infinite;
+}
+.overlay-text {
+  position: absolute;
+  bottom: 14%;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(245,240,232,0.92);
+  background: rgba(0,0,0,0.35);
+  border: 1px solid rgba(201,169,110,0.55);
+  border-radius: 999px;
+  padding: 4px 10px;
+}
+@keyframes pulseRing {
+  0% { transform: scale(0.92); box-shadow: 0 0 0 0 rgba(201,169,110,0.45); }
+  70% { transform: scale(1.02); box-shadow: 0 0 0 22px rgba(201,169,110,0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(201,169,110,0); }
+}
+@keyframes scanLine {
+  0%,100% { transform: translateY(-130px); opacity: 0.5; }
+  50% { transform: translateY(130px); opacity: 1; }
+}
+
+/* === BOTTOM CONTROLS === */
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background: #222;
+  border-top: 1px solid rgba(139,105,20,0.2);
+  flex-shrink: 0;
+}
+
+.nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: 1px solid rgba(139,105,20,0.4);
+  color: var(--earth-light);
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-family: inherit;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+.nav-btn:hover { background: rgba(139,105,20,0.15); border-color: var(--earth); }
+.nav-btn:disabled { opacity: 0.3; cursor: default; }
+.nav-btn:disabled:hover { background: none; }
+
+.nav-btn svg { width: 14px; height: 14px; }
+
+.screen-info {
+  text-align: center;
+}
+.screen-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--cream);
+  margin-bottom: 2px;
+}
+.screen-counter {
+  font-size: 11px;
+  color: var(--warm-gray);
+}
+
+/* === KEYBOARD HINT === */
+.keyboard-hint {
+  position: fixed;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  color: rgba(160,144,128,0.5);
+  letter-spacing: 0.5px;
+  pointer-events: none;
+  display: none;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 480px) {
+  .header { padding: 8px 12px; }
+  .header-logo span { font-size: 14px; }
+  .phone-area { padding: 8px; }
+  .controls { padding: 8px 12px; }
+  :root { --radius: 30px; --phone-w: min(390px, 96vw); }
+  .phone-frame::before { width: 120px; height: 24px; }
+  .flow-select { max-width: 70%; }
+}
+@media (max-height: 600px) {
+  .phone-frame { max-height: calc(100dvh - 150px); }
+}
+
+/* Prefers reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .phone-screen.slide-left .screen-img,
+  .phone-screen.slide-right .screen-img,
+  .phone-screen.slide-in-left .screen-img,
+  .phone-screen.slide-in-right .screen-img {
+    animation: none;
+  }
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <!-- Header -->
+  <div class="header">
+    <div class="header-logo">
+      <img src="pitch-assets/logo-icon.png" alt="Earth Sama">
+      <span>Earth Sama</span>
+    </div>
+    <div class="header-badge">INTERACTIVE DEMO</div>
+  </div>
+
+  <!-- Flow Selector -->
+  <div class="flow-bar">
+    <div class="flow-meta" id="flowMeta">Flow 1 / 8</div>
+    <select class="flow-select" id="flowSelect" aria-label="Select demo flow"></select>
+  </div>
+
+  <!-- Phone Viewport -->
+  <div class="phone-area">
+    <div class="phone-frame">
+      <div class="phone-screen" id="phoneScreen">
+        <img class="screen-img" id="screenImg" src="" alt="App screen">
+        <div class="screen-overlay" id="screenOverlay">
+          <div class="scan-ring"></div>
+          <div class="scan-line"></div>
+          <p class="overlay-text" id="overlayText">Processing...</p>
+        </div>
+        <div class="swipe-zone left" id="swipeLeft"></div>
+        <div class="swipe-zone right" id="swipeRight"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Controls -->
+  <div class="controls">
+    <button class="nav-btn" id="prevBtn" onclick="navigate(-1)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+      Prev
+    </button>
+    <div class="screen-info">
+      <div class="screen-label" id="screenLabel">—</div>
+      <div class="screen-counter" id="screenCounter">—</div>
+    </div>
+    <button class="nav-btn" id="nextBtn" onclick="navigate(1)">
+      Next
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
+  </div>
+</div>
+
+<div class="keyboard-hint">Arrow keys / swipe / tap sides to navigate</div>
+
+<script>
+/* === FLOW DATA === */
+const flows = [
+  {
+    id: 'welcome',
+    label: 'Welcome',
+    screens: [
+      { file: 'f004-004.png', label: 'Splash Screen' },
+      { file: 'f060-060.png', label: 'Welcome — Sign In' },
+    ]
+  },
+  {
+    id: 'onboarding',
+    label: 'Onboarding',
+    screens: [
+      { file: 'f006-006.png', label: 'Select Language' },
+      { file: 'f009-009.png', label: 'Privacy & Consent' },
+    ]
+  },
+  {
+    id: 'biometric',
+    label: 'Biometrics',
+    screens: [
+      { file: 'f100-100.png', label: 'Face Scan', overlay: 'Face scan in progress' },
+      { file: 'f013-013.png', label: 'Face Verification', overlay: 'Verifying identity' },
+      { file: 'f016-016.png', label: 'Voice Biometric', overlay: 'Recording voice sample' },
+      { file: 'f018-018.png', label: 'Voice Verification', overlay: 'Voice verification complete' },
+    ]
+  },
+  {
+    id: 'identity',
+    label: 'Identity',
+    screens: [
+      { file: 'f110-110.png', label: 'Select ID Type' },
+      { file: 'f050-050.png', label: 'Scan ID — Front' },
+      { file: 'f115-115.png', label: 'ID Processing', overlay: 'Extracting ID details' },
+      { file: 'f120-120.png', label: 'Select Birth Month' },
+      { file: 'f025-025.png', label: 'You are... (Role)' },
+      { file: 'f045-045.png', label: 'Write Signature' },
+    ]
+  },
+  {
+    id: 'land',
+    label: 'Land & Docs',
+    screens: [
+      { file: 'f130-130.png', label: 'Land Title — Ownership' },
+      { file: 'f040-040.png', label: 'Scan Membership Document' },
+      { file: 'f055-055.png', label: 'Land Lease Documents' },
+      { file: 'f075-075.png', label: 'Land Mapping — GPS Boundary' },
+      { file: 'f390-390.png', label: 'GPS Tracking — Satellite View' },
+      { file: 'f210-210.png', label: 'Link to Person — Confirm' },
+    ]
+  },
+  {
+    id: 'tasks',
+    label: 'Tasks',
+    screens: [
+      { file: 'f260-260.png', label: 'Task List — To Do' },
+      { file: 'f320-320.png', label: 'Clear the Land — Start' },
+      { file: 'f290-290.png', label: 'Video Guide — Dig Soil' },
+      { file: 'f300-300.png', label: 'Do The Task — 3 Steps' },
+      { file: 'f370-370.png', label: 'Step 1 — Till the Soil' },
+      { file: 'f380-380.png', label: 'Photo Capture — Summary' },
+      { file: 'f397-397.png', label: 'Map — Photo Verification' },
+      { file: 'f350-350.png', label: 'Tasks Done — Need Review' },
+    ]
+  },
+  {
+    id: 'coop',
+    label: 'CO-OP & Link',
+    screens: [
+      { file: 'f280-280.png', label: 'Link — Pending Requests' },
+      { file: 'f270-270.png', label: 'Receive Seeds — Submit Photo' },
+      { file: 'f080-080.png', label: 'Learn While You Wait' },
+      { file: 'f085-085.png', label: 'Video — Coconut Farm' },
+    ]
+  },
+  {
+    id: 'profile',
+    label: 'Profile & Alerts',
+    screens: [
+      { file: 'f330-330.png', label: 'User Profile' },
+      { file: 'f230-230.png', label: 'Notification — Rejected' },
+      { file: 'f240-240.png', label: 'Notification — Overdue Task' },
+      { file: 'f150-150.png', label: 'Offline — No Internet' },
+    ]
+  }
+];
+
+/* === STATE === */
+let currentFlowIdx = 0;
+let currentScreenIdx = 0;
+const visited = new Set();
+const basePath = 'demo-frames/';
+
+/* === DOM === */
+const flowSelectEl = document.getElementById('flowSelect');
+const flowMetaEl = document.getElementById('flowMeta');
+const phoneScreen = document.getElementById('phoneScreen');
+const screenImg = document.getElementById('screenImg');
+const screenLabel = document.getElementById('screenLabel');
+const screenCounter = document.getElementById('screenCounter');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const screenOverlay = document.getElementById('screenOverlay');
+const overlayText = document.getElementById('overlayText');
+
+/* === INIT === */
+function init() {
+  renderFlowTabs();
+  loadScreen(0, 0);
+  bindEvents();
+}
+
+function renderFlowTabs() {
+  flowSelectEl.innerHTML = flows.map((f, i) =>
+    `<option value="${i}" ${i === 0 ? 'selected' : ''}>${f.label}</option>`
+  ).join('');
+}
+
+function renderProgressDots() {
+  const progressDotsEl = document.getElementById('progressDots');
+  if (!progressDotsEl) return;
+  const screens = flows[currentFlowIdx].screens;
+  progressDotsEl.innerHTML = screens.map((s, i) => {
+    const key = `${currentFlowIdx}-${i}`;
+    const cls = i === currentScreenIdx ? 'active' : visited.has(key) ? 'visited' : '';
+    return `<div class="progress-dot ${cls}" onclick="goToScreen(${i})"></div>`;
+  }).join('');
+}
+
+function switchFlow(idx) {
+  if (idx === currentFlowIdx) return;
+  currentFlowIdx = idx;
+  currentScreenIdx = 0;
+  loadScreen(currentFlowIdx, 0, 'left');
+  flowSelectEl.value = String(idx);
+}
+
+function loadScreen(flowIdx, screenIdx, direction) {
+  const flow = flows[flowIdx];
+  const screen = flow.screens[screenIdx];
+  const key = `${flowIdx}-${screenIdx}`;
+  visited.add(key);
+
+  if (direction) {
+    phoneScreen.className = 'phone-screen slide-' + direction;
+    setTimeout(() => {
+      screenImg.src = basePath + screen.file;
+      phoneScreen.className = 'phone-screen slide-in-' + direction;
+      setTimeout(() => { phoneScreen.className = 'phone-screen'; }, 300);
+    }, 150);
+  } else {
+    screenImg.src = basePath + screen.file;
+    requestAnimationFrame(() => {
+      phoneScreen.classList.add('screen-refresh');
+      setTimeout(() => phoneScreen.classList.remove('screen-refresh'), 220);
+    });
+  }
+
+  screenLabel.textContent = screen.label;
+  screenCounter.textContent = `${screenIdx + 1} / ${flow.screens.length} — ${flow.label}`;
+  flowMetaEl.textContent = `Flow ${flowIdx + 1} / ${flows.length}`;
+  updateOverlay(screen);
+
+  prevBtn.disabled = (flowIdx === 0 && screenIdx === 0);
+  nextBtn.disabled = (flowIdx === flows.length - 1 && screenIdx === flow.screens.length - 1);
+
+  renderProgressDots();
+}
+
+function updateOverlay(screen) {
+  if (screen.overlay) {
+    overlayText.textContent = screen.overlay;
+    screenOverlay.classList.add('active');
+  } else {
+    screenOverlay.classList.remove('active');
+  }
+}
+
+function navigate(dir) {
+  const flow = flows[currentFlowIdx];
+  let newScreen = currentScreenIdx + dir;
+  let newFlow = currentFlowIdx;
+
+  if (newScreen < 0) {
+    // Go to previous flow's last screen
+    if (currentFlowIdx > 0) {
+      newFlow = currentFlowIdx - 1;
+      newScreen = flows[newFlow].screens.length - 1;
+    } else return;
+  } else if (newScreen >= flow.screens.length) {
+    // Go to next flow's first screen
+    if (currentFlowIdx < flows.length - 1) {
+      newFlow = currentFlowIdx + 1;
+      newScreen = 0;
+    } else return;
+  }
+
+  if (newFlow !== currentFlowIdx) {
+    currentFlowIdx = newFlow;
+    flowSelectEl.value = String(newFlow);
+  }
+
+  currentScreenIdx = newScreen;
+  loadScreen(currentFlowIdx, currentScreenIdx, dir > 0 ? 'left' : 'right');
+}
+
+function goToScreen(idx) {
+  const dir = idx > currentScreenIdx ? 'left' : 'right';
+  currentScreenIdx = idx;
+  loadScreen(currentFlowIdx, currentScreenIdx, dir);
+}
+
+/* === EVENTS === */
+function bindEvents() {
+  // Keyboard
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); navigate(1); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); navigate(-1); }
+    if (e.key === 'ArrowUp') { e.preventDefault(); switchFlow(Math.max(0, currentFlowIdx - 1)); }
+    if (e.key === 'ArrowDown') { e.preventDefault(); switchFlow(Math.min(flows.length - 1, currentFlowIdx + 1)); }
+  });
+
+  // Touch swipe on phone screen
+  let touchStartX = 0;
+  let touchStartY = 0;
+  const phoneFrame = document.querySelector('.phone-frame');
+
+  phoneFrame.addEventListener('touchstart', (e) => {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+  }, { passive: true });
+
+  phoneFrame.addEventListener('touchend', (e) => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    const dy = e.changedTouches[0].clientY - touchStartY;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+      navigate(dx < 0 ? 1 : -1);
+    }
+  }, { passive: true });
+
+  // Click zones
+  document.getElementById('swipeLeft').addEventListener('click', () => navigate(-1));
+  document.getElementById('swipeRight').addEventListener('click', () => navigate(1));
+  flowSelectEl.addEventListener('change', (e) => {
+    switchFlow(parseInt(e.target.value, 10));
+  });
+}
+
+init();
+</script>
+</body>
+</html>
