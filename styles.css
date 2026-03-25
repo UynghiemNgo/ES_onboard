@@ -12,7 +12,7 @@ html {
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: var(--font-body);
   background: var(--surface);
   color: var(--text);
   line-height: 1.6;
@@ -694,7 +694,7 @@ body {
 
 /* ---- Location Result Card ---- */
 .location-result {
-  background: #F0FDF0;
+  background: var(--success-bg);
   border: 1.5px solid var(--primary-light);
   border-radius: var(--radius-sm);
   padding: 0.85rem;

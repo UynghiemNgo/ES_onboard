@@ -3,28 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EarthSama — Building Digital Capacity</title>
-  <meta name="description" content="EarthSama is the upstream digital endpoint for agricarbon, food security, and rural value chains.">
+  <title>Earth Sama — Building Digital Capacity</title>
+  <meta name="description" content="Earth Sama is the upstream digital endpoint for agricarbon, food security, and rural value chains.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300;1,6..72,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../shared.css">
   <style>
-    /* Landing page scoped styles — uses shared.css tokens */
+    /* Landing page — pitch deck aesthetic */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Inter', system-ui, -apple-system, sans-serif; background: var(--surface); color: var(--text); line-height: 1.6; }
+    body { font-family: var(--font-body); background: var(--surface); color: var(--text); line-height: 1.6; }
 
-    /* --- Header (shared structure) --- */
+    /* --- Header --- */
     .landing-header { background: var(--card); border-bottom: 1px solid var(--border); padding: 0 1.25rem; position: relative; }
     .landing-header-inner { max-width: 1120px; margin: 0 auto; height: 64px; display: flex; align-items: center; justify-content: space-between; }
-    .landing-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: var(--primary); font-weight: 700; font-size: 1.05rem; }
+    .landing-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: var(--primary); font-weight: 500; font-size: 1.05rem; font-family: var(--font-body); letter-spacing: 0.08em; }
+    .landing-logo img { width: 36px; height: 36px; object-fit: contain; }
     .landing-nav-links { display: flex; gap: 0.35rem; align-items: center; }
-    .landing-nav-links a { text-decoration: none; color: var(--text-muted); font-size: 0.85rem; padding: 0.45rem 0.7rem; border-radius: 8px; min-height: 44px; display: inline-flex; align-items: center; }
-    .landing-nav-links a:hover { background: #f0f0f0; color: var(--text); }
-    .landing-nav-links a.landing-btn-cta { background: var(--primary); color: #fff; font-weight: 600; border-radius: 999px; padding: 0.5rem 1rem; min-height: 44px; }
-    .landing-nav-links a.landing-btn-cta:hover { background: var(--primary-hover); color: #fff; }
+    .landing-nav-links a { text-decoration: none; color: var(--text-muted); font-size: 0.85rem; padding: 0.45rem 0.7rem; border-radius: 8px; min-height: 44px; display: inline-flex; align-items: center; font-family: var(--font-body); font-weight: 300; }
+    .landing-nav-links a:hover { background: rgba(139,105,20,0.06); color: var(--text); }
+    .landing-nav-links a.landing-btn-cta { background: transparent; color: var(--primary); font-weight: 400; border-radius: 3px; padding: 0.5rem 1rem; min-height: 44px; border: 1px solid var(--primary); letter-spacing: 0.06em; }
+    .landing-nav-links a.landing-btn-cta:hover { background: rgba(139,105,20,0.08); }
 
     /* --- Hamburger (CSS-only, mobile) --- */
-    .landing-hamburger { display: none; }
     .landing-hamburger-toggle { display: none; }
     .landing-hamburger-icon { display: none; width: 44px; height: 44px; cursor: pointer; align-items: center; justify-content: center; border-radius: 8px; position: absolute; right: 1.25rem; top: 10px; }
     .landing-hamburger-icon span,
@@ -37,48 +37,48 @@
     .landing-mobile-menu { display: none; }
 
     /* --- Hero --- */
-    .landing-hero { max-width: 1120px; margin: 0 auto; padding: 4rem 1.25rem 3rem; }
-    .landing-eyebrow { font-size: 0.74rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--primary-light); margin-bottom: 0.8rem; font-weight: 600; }
-    .landing-hero h1 { font-weight: 800; line-height: 1.08; font-size: clamp(2rem, 5vw, 3.2rem); max-width: 800px; color: var(--text); }
-    .landing-hero h1 em { color: var(--primary); font-style: normal; }
-    .landing-hero p { max-width: 700px; color: var(--text-muted); margin-top: 1rem; font-size: 1.1rem; }
-    .landing-hero-ctas { margin-top: 1.4rem; display: flex; gap: 0.7rem; flex-wrap: wrap; }
-    .landing-btn-primary { background: var(--primary); color: #fff; border-radius: 999px; padding: 0.7rem 1.2rem; text-decoration: none; font-weight: 600; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 0.35rem; min-height: 44px; }
-    .landing-btn-primary:hover { background: var(--primary-hover); }
-    .landing-btn-ghost { border: 1px solid var(--border); border-radius: 999px; padding: 0.7rem 1.2rem; text-decoration: none; font-weight: 600; font-size: 0.9rem; color: var(--text); display: inline-flex; align-items: center; min-height: 44px; }
-    .landing-btn-ghost:hover { background: #f0f0f0; }
+    .landing-hero { max-width: 1120px; margin: 0 auto; padding: 5rem 1.25rem 3rem; }
+    .landing-eyebrow { font-family: var(--font-body); font-size: 0.74rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 1rem; font-weight: 300; }
+    .landing-hero h1 { font-family: var(--font-display); font-optical-sizing: auto; font-weight: 300; line-height: 1.08; font-size: clamp(2rem, 5vw, 3.6rem); max-width: 800px; color: var(--text); }
+    .landing-hero h1 em { color: var(--primary); font-style: italic; }
+    .landing-hero p { max-width: 700px; color: var(--text-muted); margin-top: 1rem; font-size: 1.05rem; font-weight: 300; }
+    .landing-hero-ctas { margin-top: 1.6rem; display: flex; gap: 0.7rem; flex-wrap: wrap; }
+    .landing-btn-primary { background: transparent; color: var(--primary); border: 1px solid rgba(139,105,20,0.28); border-radius: 3px; padding: 0.7rem 1.4rem; text-decoration: none; font-weight: 400; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 0.35rem; min-height: 44px; font-family: var(--font-body); letter-spacing: 0.08em; transition: background 0.3s ease, border-color 0.3s ease; }
+    .landing-btn-primary:hover { background: rgba(139,105,20,0.08); border-color: var(--primary); }
+    .landing-btn-ghost { border: 1px solid var(--border); border-radius: 3px; padding: 0.7rem 1.4rem; text-decoration: none; font-weight: 300; font-size: 0.9rem; color: var(--text-muted); display: inline-flex; align-items: center; min-height: 44px; font-family: var(--font-body); letter-spacing: 0.06em; transition: background 0.3s ease; }
+    .landing-btn-ghost:hover { background: rgba(139,105,20,0.04); color: var(--text); }
 
     /* --- KPIs --- */
     .landing-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.8rem; max-width: 1120px; margin: 0 auto; padding: 0 1.25rem 2rem; }
-    .landing-kpi { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; }
-    .landing-kpi strong { display: block; font-size: 1.6rem; color: var(--primary); }
-    .landing-kpi span { font-size: 0.82rem; color: var(--text-muted); }
+    .landing-kpi { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1rem; }
+    .landing-kpi strong { display: block; font-family: var(--font-display); font-size: 1.6rem; color: var(--primary); font-weight: 400; }
+    .landing-kpi span { font-size: 0.78rem; color: var(--text-muted); font-weight: 300; letter-spacing: 0.06em; text-transform: uppercase; }
 
     /* --- Section --- */
     .landing-section { max-width: 1120px; margin: 0 auto; padding: 3rem 1.25rem; border-top: 1px solid var(--border); }
-    .landing-section h2 { font-weight: 700; font-size: 1.8rem; }
-    .landing-lead { color: var(--text-muted); margin-top: 0.5rem; max-width: 700px; }
+    .landing-section h2 { font-family: var(--font-display); font-weight: 300; font-size: 1.8rem; }
+    .landing-lead { color: var(--text-muted); margin-top: 0.5rem; max-width: 700px; font-weight: 300; }
 
-    /* --- Vertical Timeline (How It Works) --- */
+    /* --- Vertical Timeline --- */
     .landing-timeline { margin-top: 1.5rem; max-width: 600px; }
     .landing-timeline-step { display: flex; gap: 1rem; padding-bottom: 1.5rem; position: relative; }
     .landing-timeline-step:last-child { padding-bottom: 0; }
     .landing-timeline-marker { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
-    .landing-timeline-dot { width: 36px; height: 36px; background: var(--success-bg); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--primary); font-weight: 700; font-size: 0.9rem; flex-shrink: 0; }
+    .landing-timeline-dot { width: 36px; height: 36px; background: var(--success-bg); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--primary); font-weight: 400; font-size: 0.9rem; flex-shrink: 0; font-family: var(--font-display); }
     .landing-timeline-line { width: 2px; background: var(--border); flex: 1; margin-top: 0.4rem; }
     .landing-timeline-step:last-child .landing-timeline-line { display: none; }
     .landing-timeline-content { padding-top: 0.35rem; }
-    .landing-timeline-content h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.25rem; }
-    .landing-timeline-content p { font-size: 0.9rem; color: var(--text-muted); }
+    .landing-timeline-content h3 { font-family: var(--font-display); font-size: 1rem; font-weight: 400; margin-bottom: 0.25rem; }
+    .landing-timeline-content p { font-size: 0.9rem; color: var(--text-muted); font-weight: 300; }
 
-    /* --- Problem cards --- */
+    /* --- Cards --- */
     .landing-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.9rem; margin-top: 1.2rem; }
-    .landing-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.2rem; }
-    .landing-card h3 { font-size: 1rem; margin-bottom: 0.3rem; }
-    .landing-card p { font-size: 0.9rem; color: var(--text-muted); }
+    .landing-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1.2rem; }
+    .landing-card h3 { font-family: var(--font-display); font-size: 1rem; margin-bottom: 0.3rem; font-weight: 400; }
+    .landing-card p { font-size: 0.9rem; color: var(--text-muted); font-weight: 300; }
 
     /* --- Footer --- */
-    .landing-footer { max-width: 1120px; margin: 0 auto; padding: 2rem 1.25rem; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.82rem; }
+    .landing-footer { max-width: 1120px; margin: 0 auto; padding: 2rem 1.25rem; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.82rem; font-weight: 300; }
     .landing-footer a { color: var(--primary); text-decoration: none; }
     .landing-footer a:hover { text-decoration: underline; }
 
@@ -88,7 +88,6 @@
       .landing-grid-3 { grid-template-columns: 1fr 1fr; }
     }
     @media (max-width: 640px) {
-      /* Hamburger menu */
       .landing-nav-links { display: none; }
       .landing-hamburger-icon { display: flex; }
       .landing-hamburger-toggle:checked ~ .landing-mobile-menu { display: flex; }
@@ -108,16 +107,19 @@
         min-height: 44px;
         display: flex;
         align-items: center;
+        font-weight: 300;
       }
       .landing-mobile-menu .landing-btn-cta {
-        background: var(--primary);
-        color: #fff;
+        background: transparent;
+        color: var(--primary);
         text-align: center;
         justify-content: center;
         margin-top: 0.25rem;
-        border-radius: 999px;
+        border-radius: 3px;
         padding: 0.6rem 1rem;
-        font-weight: 600;
+        font-weight: 400;
+        border: 1px solid var(--primary);
+        letter-spacing: 0.06em;
       }
 
       .landing-kpis { grid-template-columns: 1fr; }
@@ -129,12 +131,8 @@
   <header class="landing-header">
     <div class="landing-header-inner">
       <a class="landing-logo" href="./">
-        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-          <circle cx="16" cy="16" r="15" stroke="#1B5E20" stroke-width="2"/>
-          <path d="M16 6 C12 10, 8 14, 8 19 C8 23.4 11.6 27 16 27 C20.4 27 24 23.4 24 19 C24 14 20 10 16 6Z" fill="#4CAF50"/>
-          <path d="M16 12 L16 22 M13 17 L16 14 L19 17" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <span>EarthSama</span>
+        <img src="pitch-assets/logo-icon.png" alt="Earth Sama" width="36" height="36">
+        <span>Earth Sama</span>
       </a>
       <nav class="landing-nav-links">
         <a href="#how-it-works">About</a>
@@ -154,9 +152,9 @@
   </header>
 
   <section class="landing-hero">
-    <div class="landing-eyebrow">Philippines Carbon Credit Platform</div>
+    <div class="landing-eyebrow">Digital Public Infrastructure</div>
     <h1>Building <em>digital capacity</em> for agricarbon and food security</h1>
-    <p>EarthSama is the upstream digital endpoint for carbon credit enrollment, land verification, and rural value chains across the Philippines.</p>
+    <p>Earth Sama is the upstream digital endpoint for land verification, project case development, and rural value chains across the Philippines.</p>
     <div class="landing-hero-ctas">
       <a class="landing-btn-primary" href="../index.html">Submit Your Land &rarr;</a>
       <a class="landing-btn-ghost" href="../live.html">View Live Map</a>
@@ -172,7 +170,7 @@
 
   <section id="how-it-works" class="landing-section">
     <h2>How It Works</h2>
-    <p class="landing-lead">Three steps from land submission to carbon credit eligibility.</p>
+    <p class="landing-lead">Three steps from land submission to building a project case.</p>
     <div class="landing-timeline">
       <div class="landing-timeline-step">
         <div class="landing-timeline-marker">
@@ -191,7 +189,7 @@
         </div>
         <div class="landing-timeline-content">
           <h3>Verification Review</h3>
-          <p>Our team reviews your submission, verifies documents, and conducts field assessment for carbon credit eligibility.</p>
+          <p>Our team reviews your submission, verifies documents, and conducts field assessment for project case eligibility.</p>
         </div>
       </div>
       <div class="landing-timeline-step">
@@ -199,8 +197,8 @@
           <div class="landing-timeline-dot">3</div>
         </div>
         <div class="landing-timeline-content">
-          <h3>Carbon Enrollment</h3>
-          <p>Approved parcels join a carbon credit project. Track your land's contribution on the live dashboard.</p>
+          <h3>Build a Project Case</h3>
+          <p>Approved parcels form the basis of a project case. Track your land's contribution on the live dashboard.</p>
         </div>
       </div>
     </div>
@@ -227,7 +225,7 @@
   </section>
 
   <footer class="landing-footer">
-    <p>&copy; 2026 EarthSama. Philippines-first carbon credit platform.</p>
+    <p>&copy; 2026 Earth Sama. Digital public infrastructure for rural agriculture.</p>
     <p style="margin-top: 0.4rem;"><a href="demo.html">App Demo</a> · <a href="pitch.html">Full Pitch</a></p>
   </footer>
 </body>

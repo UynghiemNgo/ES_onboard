@@ -242,7 +242,7 @@ function renderMapMarkers(metrics) {
     const circle = L.circleMarker([region.lat, region.lng], {
       radius: radius,
       fillColor: color,
-      color: pct >= 1 ? '#1B5E20' : '#6B7280',
+      color: pct >= 1 ? '#8B6914' : '#6B7280',
       weight: pct >= 1 ? 2.5 : 1.5,
       fillOpacity: hasData ? 0.75 : 0.12,
       opacity: hasData ? 0.9 : 0.3
@@ -250,7 +250,7 @@ function renderMapMarkers(metrics) {
 
     const pctDisplay = (pct * 100).toFixed(1);
     const statusText = pct >= 1
-      ? '<div style="color:#1B5E20;font-weight:700">OMTSE + Apl Supported</div>'
+      ? '<div style="color:#8B6914;font-weight:700">OMTSE + Apl Supported</div>'
       : `<div style="color:#B45309">${formatNumber(region.approvedHectares.toFixed(0))} / ${formatNumber(REGION_THRESHOLD)} ha approved (${pctDisplay}%)</div>`;
 
     const tooltipContent = `<div class="choropleth-tooltip">
@@ -272,11 +272,11 @@ function renderMapMarkers(metrics) {
       const labelText = pct >= 1
         ? `${formatNumber(region.approvedHectares.toFixed(0))} ha`
         : `${pctDisplay}%`;
-      const labelColor = pct >= 1 ? '#1B5E20' : '#B45309';
+      const labelColor = pct >= 1 ? '#8B6914' : '#B45309';
       const label = L.divIcon({
         className: 'region-label',
         html: `<div style="
-          font-family: Inter, sans-serif;
+          font-family: Jost, sans-serif;
           font-size: 0.62rem;
           font-weight: 700;
           color: ${labelColor};
@@ -301,7 +301,7 @@ function getThresholdColor(pct) {
   if (pct < 0.5) return '#FDE68A';   // amber-200
   if (pct < 0.75) return '#A5D6A7';  // green-200
   if (pct < 1) return '#66BB6A';     // green-400
-  return '#1B5E20';                   // green-900 — qualified!
+  return '#8B6914';                   // green-900 — qualified!
 }
 
 function getColor(intensity) {
@@ -345,7 +345,7 @@ function renderRegionList(metrics) {
     const pct = Math.min(r.approvedHectares / REGION_THRESHOLD, 1);
     const pctDisplay = (pct * 100).toFixed(1);
     const qualified = pct >= 1;
-    const barColor = qualified ? '#1B5E20' : pct > 0.5 ? '#66BB6A' : pct > 0 ? '#F59E0B' : '#E5E7EB';
+    const barColor = qualified ? '#8B6914' : pct > 0.5 ? '#66BB6A' : pct > 0 ? '#F59E0B' : '#E5E7EB';
 
     return `<div class="region-item" onmouseenter="highlightRegion('${r.key}')" onmouseleave="unhighlightRegion('${r.key}')">
       <div class="region-info">
@@ -380,7 +380,7 @@ function renderProvinceList(metrics) {
     const pct = Math.min(p.approvedHectares / PROVINCE_THRESHOLD, 1);
     const pctDisplay = (pct * 100).toFixed(1);
     const qualified = pct >= 1;
-    const barColor = qualified ? '#1B5E20' : pct > 0.5 ? '#66BB6A' : pct > 0 ? '#F59E0B' : '#E5E7EB';
+    const barColor = qualified ? '#8B6914' : pct > 0.5 ? '#66BB6A' : pct > 0 ? '#F59E0B' : '#E5E7EB';
     const regionName = p.region && REGIONS[p.region] ? REGIONS[p.region].name : '';
 
     return `<div class="region-item">
@@ -447,7 +447,7 @@ function renderRecentActivity(submissions) {
 
     return `<div class="recent-card">
       <div class="recent-icon">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1B5E20" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8B6914" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
       </div>
       <div class="recent-info">
         <div class="recent-name">${esc(maskedName)} — ${hectares} ha</div>

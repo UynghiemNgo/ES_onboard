@@ -5,27 +5,84 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>EarthSama — Admin Dashboard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300;1,6..72,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <link rel="stylesheet" href="shared.css">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="dashboard.css">
 </head>
 <body>
-  <header class="header">
+  <!-- Login Gate -->
+  <div class="login-gate" id="login-gate">
+    <!-- Sign In -->
+    <div class="login-card" id="view-signin">
+      <img src="logo-icon.png" alt="Earth Sama" width="48" height="48">
+      <h2>Admin Dashboard</h2>
+      <p>Sign in to continue.</p>
+      <form onsubmit="return handleSignIn(event)">
+        <input type="email" id="signin-email" placeholder="Email" autocomplete="email" autofocus required>
+        <input type="password" id="signin-pass" placeholder="Password" autocomplete="current-password" required>
+        <div class="login-error" id="signin-error"></div>
+        <button type="submit" class="btn btn-primary">Sign In</button>
+      </form>
+      <div class="login-links">
+        <a href="#" onclick="showView('forgot'); return false;">Forgot password?</a>
+        <a href="#" onclick="showView('register'); return false;">Have an access code? Create account</a>
+      </div>
+    </div>
+
+    <!-- Register -->
+    <div class="login-card" id="view-register" style="display:none">
+      <img src="logo-icon.png" alt="Earth Sama" width="48" height="48">
+      <h2>Create Account</h2>
+      <p>Use your access code to register.</p>
+      <form onsubmit="return handleRegister(event)">
+        <input type="text" id="reg-code" placeholder="Access code (e.g. ES-XXXXXX)" autocomplete="off" required>
+        <input type="text" id="reg-name" placeholder="Full name" autocomplete="name" required>
+        <input type="email" id="reg-email" placeholder="Email" autocomplete="email" required>
+        <input type="password" id="reg-pass" placeholder="Password (min 6 characters)" autocomplete="new-password" required minlength="6">
+        <input type="password" id="reg-pass2" placeholder="Confirm password" autocomplete="new-password" required minlength="6">
+        <div class="login-error" id="reg-error"></div>
+        <button type="submit" class="btn btn-primary">Create Account</button>
+      </form>
+      <div class="login-links">
+        <a href="#" onclick="showView('signin'); return false;">&larr; Back to sign in</a>
+      </div>
+    </div>
+
+    <!-- Forgot Password -->
+    <div class="login-card" id="view-forgot" style="display:none">
+      <img src="logo-icon.png" alt="Earth Sama" width="48" height="48">
+      <h2>Reset Password</h2>
+      <p>Enter your access code and email to set a new password.</p>
+      <form onsubmit="return handleReset(event)">
+        <input type="text" id="reset-code" placeholder="Access code" autocomplete="off" required>
+        <input type="email" id="reset-email" placeholder="Email" autocomplete="email" required>
+        <input type="password" id="reset-pass" placeholder="New password (min 6 characters)" autocomplete="new-password" required minlength="6">
+        <input type="password" id="reset-pass2" placeholder="Confirm new password" autocomplete="new-password" required minlength="6">
+        <div class="login-error" id="reset-error"></div>
+        <button type="submit" class="btn btn-primary">Reset Password</button>
+      </form>
+      <div class="login-links">
+        <a href="#" onclick="showView('signin'); return false;">&larr; Back to sign in</a>
+      </div>
+    </div>
+  </div>
+
+  <header class="header" style="display:none" id="dash-header">
     <div class="header-inner dash-header">
       <div class="logo">
-        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-          <circle cx="16" cy="16" r="15" stroke="#1B5E20" stroke-width="2"/>
-          <path d="M16 6 C12 10, 8 14, 8 19 C8 23.4 11.6 27 16 27 C20.4 27 24 23.4 24 19 C24 14 20 10 16 6Z" fill="#4CAF50"/>
-          <path d="M16 12 L16 22 M13 17 L16 14 L19 17" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <span>EarthSama</span>
+        <img src="logo-icon.png" alt="Earth Sama" width="32" height="32">
+        <span>Earth Sama</span>
         <span class="dash-badge">Dashboard</span>
       </div>
       <div class="header-links">
         <a href="live.html" class="header-link">Live Map</a>
         <a href="index.html" class="header-link">+ New Submission</a>
+        <button class="header-link" onclick="handleLogout()" id="logout-btn" title="Sign out">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Sign Out
+        </button>
         <button class="header-link error-tab-btn" onclick="toggleErrorPanel()" id="error-tab-btn">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
           Errors <span class="error-badge" id="error-badge" style="display:none">0</span>
@@ -34,7 +91,7 @@
     </div>
   </header>
 
-  <main class="dash-main">
+  <main class="dash-main" style="display:none" id="dash-main">
     <!-- Stats -->
     <div class="stats-bar" id="stats-bar">
       <div class="stat-card">
@@ -161,7 +218,7 @@
             <h4>File Downloads</h4>
             <div class="export-grid">
               <button class="export-option" onclick="doExport('kmz')">
-                <div class="export-option-icon" style="background:#E8F5E9;color:#1B5E20">
+                <div class="export-option-icon" style="background:rgba(139,105,20,0.08);color:#8B6914">
                   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="M2 8h20"/><path d="M8 8v13"/></svg>
                 </div>
                 <div class="export-option-info">
@@ -240,7 +297,7 @@
           <div class="export-section">
             <h4>Full Package</h4>
             <button class="export-option export-option-full" onclick="doExport('zip')">
-              <div class="export-option-icon" style="background:#1B5E20;color:white">
+              <div class="export-option-icon" style="background:#8B6914;color:white">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="M12 3v18"/><path d="M2 8h20"/><path d="M2 13h20"/><path d="M2 18h20"/></svg>
               </div>
               <div class="export-option-info">
@@ -285,10 +342,129 @@
     </div>
   </main>
 
-  <footer class="footer">
+  <footer class="footer" style="display:none" id="dash-footer">
     <p>&copy; 2026 EarthSama. All rights reserved. — earthsama.com</p>
   </footer>
 
+  <script>
+  // --- Auth System ---
+  const ACCESS_CODES = [
+    'ES-U2RVT3','ES-RZKMKP','ES-LIZGPW','ES-EWS99B','ES-LIQ82U',
+    'ES-9WCHOH','ES-XMUCX1','ES-3LK5KF','ES-BH6E5Q','ES-6FZEKK',
+    'ES-4G6IEV','ES-T7JVR1','ES-DD1A5L','ES-56A555','ES-O8UMWA',
+    'ES-XS6NRV','ES-ZN5GKB','ES-N3IZH2','ES-MON47P','ES-JAZF7M',
+    'ES-FRP11A','ES-HEDQUM','ES-QXH8R2','ES-NUHXJ6','ES-VSM1RE'
+  ];
+  const DB_KEY = 'earthsama_users';
+  const SESSION_KEY = 'earthsama_dash_auth';
+
+  function getUsers() {
+    try { return JSON.parse(localStorage.getItem(DB_KEY)) || []; }
+    catch { return []; }
+  }
+  function saveUsers(users) { localStorage.setItem(DB_KEY, JSON.stringify(users)); }
+
+  function unlockDashboard() {
+    document.getElementById('login-gate').style.display = 'none';
+    document.getElementById('dash-header').style.display = '';
+    document.getElementById('dash-main').style.display = '';
+    document.getElementById('dash-footer').style.display = '';
+  }
+
+  function showView(name) {
+    ['signin','register','forgot'].forEach(v => {
+      document.getElementById('view-' + v).style.display = v === name ? '' : 'none';
+    });
+    document.querySelectorAll('.login-error').forEach(el => el.textContent = '');
+  }
+
+  // Restore session
+  if (sessionStorage.getItem(SESSION_KEY)) {
+    unlockDashboard();
+  }
+
+  // --- Sign In ---
+  function handleSignIn(e) {
+    e.preventDefault();
+    const email = document.getElementById('signin-email').value.trim().toLowerCase();
+    const pass = document.getElementById('signin-pass').value;
+    const users = getUsers();
+    const user = users.find(u => u.email === email);
+    if (!user) {
+      document.getElementById('signin-error').textContent = 'No account found. Use an access code to register.';
+      return false;
+    }
+    if (user.password !== pass) {
+      document.getElementById('signin-error').textContent = 'Incorrect password.';
+      return false;
+    }
+    sessionStorage.setItem(SESSION_KEY, JSON.stringify({ email: user.email, name: user.name }));
+    unlockDashboard();
+    return false;
+  }
+
+  // --- Register ---
+  function handleRegister(e) {
+    e.preventDefault();
+    const code = document.getElementById('reg-code').value.trim().toUpperCase();
+    const name = document.getElementById('reg-name').value.trim();
+    const email = document.getElementById('reg-email').value.trim().toLowerCase();
+    const pass = document.getElementById('reg-pass').value;
+    const pass2 = document.getElementById('reg-pass2').value;
+    const errEl = document.getElementById('reg-error');
+
+    if (!ACCESS_CODES.includes(code)) { errEl.textContent = 'Invalid access code.'; return false; }
+    if (pass.length < 6) { errEl.textContent = 'Password must be at least 6 characters.'; return false; }
+    if (pass !== pass2) { errEl.textContent = 'Passwords do not match.'; return false; }
+
+    const users = getUsers();
+    if (users.find(u => u.email === email)) { errEl.textContent = 'An account with this email already exists.'; return false; }
+    if (users.find(u => u.code === code)) { errEl.textContent = 'This access code has already been used.'; return false; }
+
+    users.push({ code, name, email, password: pass, created: new Date().toISOString() });
+    saveUsers(users);
+
+    sessionStorage.setItem(SESSION_KEY, JSON.stringify({ email, name }));
+    unlockDashboard();
+    return false;
+  }
+
+  // --- Reset Password ---
+  function handleReset(e) {
+    e.preventDefault();
+    const code = document.getElementById('reset-code').value.trim().toUpperCase();
+    const email = document.getElementById('reset-email').value.trim().toLowerCase();
+    const pass = document.getElementById('reset-pass').value;
+    const pass2 = document.getElementById('reset-pass2').value;
+    const errEl = document.getElementById('reset-error');
+
+    if (!ACCESS_CODES.includes(code)) { errEl.textContent = 'Invalid access code.'; return false; }
+    if (pass.length < 6) { errEl.textContent = 'Password must be at least 6 characters.'; return false; }
+    if (pass !== pass2) { errEl.textContent = 'Passwords do not match.'; return false; }
+
+    const users = getUsers();
+    const user = users.find(u => u.email === email && u.code === code);
+    if (!user) { errEl.textContent = 'No account matches this email and access code.'; return false; }
+
+    user.password = pass;
+    saveUsers(users);
+
+    errEl.style.color = 'var(--primary)';
+    errEl.textContent = 'Password updated. Redirecting...';
+    setTimeout(() => { errEl.style.color = ''; showView('signin'); }, 1500);
+    return false;
+  }
+
+  // --- Logout ---
+  function handleLogout() {
+    sessionStorage.removeItem(SESSION_KEY);
+    document.getElementById('login-gate').style.display = '';
+    document.getElementById('dash-header').style.display = 'none';
+    document.getElementById('dash-main').style.display = 'none';
+    document.getElementById('dash-footer').style.display = 'none';
+    showView('signin');
+  }
+  </script>
   <script src="error-logger.js"></script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://unpkg.com/jszip@3.10.1/dist/jszip.min.js"></script>

@@ -617,7 +617,7 @@ async function geocodeSearch(query) {
 function pinIcon() {
   return L.divIcon({
     className: 'custom-pin',
-    html: '<svg width="32" height="42" viewBox="0 0 32 42" fill="none"><path d="M16 0C7.16 0 0 7.16 0 16c0 12 16 26 16 26s16-14 16-26C32 7.16 24.84 0 16 0z" fill="#1B5E20"/><circle cx="16" cy="16" r="6" fill="white"/></svg>',
+    html: '<svg width="32" height="42" viewBox="0 0 32 42" fill="none"><path d="M16 0C7.16 0 0 7.16 0 16c0 12 16 26 16 26s16-14 16-26C32 7.16 24.84 0 16 0z" fill="#8B6914"/><circle cx="16" cy="16" r="6" fill="white"/></svg>',
     iconSize: [32, 42], iconAnchor: [16, 42]
   });
 }
@@ -641,11 +641,11 @@ function onMapClick(e) {
     if (currentPolygon) { drawnItems.removeLayer(currentPolygon); currentPolygon = null; }
 
     if (polygonLatLngs.length === 1) {
-      currentPolygon = L.circleMarker([lat, lng], { radius: 6, color: '#1B5E20', fillColor: '#4CAF50', fillOpacity: 1, weight: 2 });
+      currentPolygon = L.circleMarker([lat, lng], { radius: 6, color: '#8B6914', fillColor: '#a67c1a', fillOpacity: 1, weight: 2 });
     } else if (polygonLatLngs.length === 2) {
-      currentPolygon = L.polyline(polygonLatLngs, { color: '#1B5E20', weight: 2, dashArray: '6,4' });
+      currentPolygon = L.polyline(polygonLatLngs, { color: '#8B6914', weight: 2, dashArray: '6,4' });
     } else {
-      currentPolygon = L.polygon(polygonLatLngs, { color: '#1B5E20', weight: 2, fillColor: '#4CAF50', fillOpacity: 0.2 });
+      currentPolygon = L.polygon(polygonLatLngs, { color: '#8B6914', weight: 2, fillColor: '#a67c1a', fillOpacity: 0.2 });
       const acres = (computeArea(polygonLatLngs) * 0.000247105).toFixed(1);
       selectedLocation.areaAcres = parseFloat(acres);
       document.getElementById('info-area').style.display = 'flex';
@@ -789,7 +789,7 @@ function importKML(kmlText) {
 
     if (points.length >= 3) {
       polygonLatLngs = points;
-      currentPolygon = L.polygon(polygonLatLngs, { color: '#1B5E20', weight: 2, fillColor: '#4CAF50', fillOpacity: 0.2 });
+      currentPolygon = L.polygon(polygonLatLngs, { color: '#8B6914', weight: 2, fillColor: '#a67c1a', fillOpacity: 0.2 });
       drawnItems.addLayer(currentPolygon);
       map.fitBounds(currentPolygon.getBounds(), { padding: [30, 30] });
 
@@ -960,7 +960,7 @@ function populateReview() {
       });
       L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { maxZoom: 19 }).addTo(mini);
       if (polygonLatLngs.length >= 3) {
-        const poly = L.polygon(polygonLatLngs, { color: '#4CAF50', weight: 2, fillColor: '#4CAF50', fillOpacity: 0.25 }).addTo(mini);
+        const poly = L.polygon(polygonLatLngs, { color: '#a67c1a', weight: 2, fillColor: '#a67c1a', fillOpacity: 0.25 }).addTo(mini);
         mini.fitBounds(poly.getBounds(), { padding: [20, 20] });
       } else {
         L.marker([selectedLocation.lat, selectedLocation.lng], { icon: pinIcon() }).addTo(mini);

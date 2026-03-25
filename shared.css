@@ -1,35 +1,41 @@
 /* ============================================
    EarthSama — Shared Design Tokens
-   Imported by all pages for brand consistency
+   Matched to pitch deck aesthetic:
+   Pearl/warm white, gold accent, Newsreader + Jost
    ============================================ */
 
 :root {
-  /* Brand */
-  --primary: #1B5E20;
-  --primary-light: #4CAF50;
-  --primary-hover: #2E7D32;
+  /* Brand — gold accent from pitch */
+  --primary: #8B6914;
+  --primary-light: #a67c1a;
+  --primary-hover: #6d520f;
 
-  /* Surfaces */
-  --surface: #FAFDF7;
-  --card: #FFFFFF;
+  /* Surfaces — warm pearl from pitch */
+  --surface: #f4f2ee;
+  --card: #f9f7f4;
 
-  /* Text */
-  --text: #1A1A1A;
-  --text-muted: #6B7280;
+  /* Text — warm dark from pitch */
+  --text: #1e1c18;
+  --text-muted: rgba(50,45,35,0.6);
 
-  /* Borders */
-  --border: #E5E7EB;
-  --border-focus: #4CAF50;
+  /* Borders — warm separator from pitch */
+  --border: rgba(120,110,90,0.18);
+  --border-focus: #8B6914;
 
   /* Accents */
-  --accent: #F59E0B;
+  --accent: #8B6914;
+  --accent-green: #4a6741;
   --error: #DC2626;
-  --success-bg: #E8F5E9;
+  --success-bg: rgba(139,105,20,0.08);
 
   /* Shape */
   --radius: 12px;
   --radius-sm: 8px;
   --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
   --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
-  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Typography */
+  --font-display: 'Newsreader', serif;
+  --font-body: 'Jost', sans-serif;
 }

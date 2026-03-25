@@ -69,8 +69,8 @@
 }
 
 .threshold-region .threshold-icon {
-  background: #E8F5E9;
-  color: #1B5E20;
+  background: var(--success-bg);
+  color: var(--primary);
 }
 
 .threshold-province .threshold-icon {
@@ -104,7 +104,7 @@
 
 .hero-stat-accent {
   border: 1.5px solid var(--primary-light);
-  background: #F0FDF0;
+  background: var(--success-bg);
 }
 
 .hero-value {
@@ -323,7 +323,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  background: #1B5E20;
+  background: var(--primary);
   color: white;
   padding: 0.1rem 0.4rem;
   border-radius: 3px;
@@ -413,7 +413,7 @@
 
 /* ---- CTA ---- */
 .live-cta {
-  background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #4CAF50 100%);
+  background: linear-gradient(135deg, #6d520f 0%, #8B6914 50%, #a67c1a 100%);
   border-radius: var(--radius);
   padding: 2rem 1.5rem;
   text-align: center;
@@ -441,7 +441,7 @@
 }
 
 .live-cta .btn:hover {
-  background: #F0FDF0;
+  background: var(--success-bg);
 }
 
 /* ---- Choropleth Tooltip ---- */
@@ -451,7 +451,7 @@
   border-radius: var(--radius-sm);
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   padding: 0.55rem 0.75rem;
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.82rem;
 }
 

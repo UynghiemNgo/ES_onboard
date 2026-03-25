@@ -48,23 +48,24 @@ Confirmation
 
 ## Visual Design
 
-### Color Palette
-| Token           | Value     | Usage                        |
-|-----------------|-----------|------------------------------|
-| `--primary`     | `#1B5E20` | Deep forest green — CTAs     |
-| `--primary-light` | `#4CAF50` | Hover states, accents      |
-| `--surface`     | `#FAFDF7` | Page background (warm white) |
-| `--card`        | `#FFFFFF` | Card backgrounds             |
-| `--text`        | `#1A1A1A` | Body text                    |
-| `--text-muted`  | `#6B7280` | Labels, hints                |
-| `--border`      | `#E5E7EB` | Dividers, input borders      |
-| `--accent`      | `#F59E0B` | Warnings, highlights         |
-| `--error`       | `#DC2626` | Validation errors            |
+### Color Palette (matched to pitch deck)
+| Token           | Value                    | Usage                        |
+|-----------------|--------------------------|------------------------------|
+| `--primary`     | `#8B6914`                | Gold accent — CTAs, brand    |
+| `--primary-light` | `#a67c1a`              | Hover states                 |
+| `--surface`     | `#f4f2ee`                | Pearl/warm white background  |
+| `--card`        | `#f9f7f4`                | Card backgrounds             |
+| `--text`        | `#1e1c18`                | Body text (warm dark)        |
+| `--text-muted`  | `rgba(50,45,35,0.6)`     | Labels, hints                |
+| `--border`      | `rgba(120,110,90,0.18)`  | Dividers, input borders      |
+| `--accent`      | `#8B6914`                | Same as primary              |
+| `--accent-green`| `#4a6741`                | Secondary green accent       |
+| `--error`       | `#DC2626`                | Validation errors            |
 
 ### Typography
-- **All pages:** Inter (400, 500, 600, 700, 800)
-- **No serif fonts** — Newsreader was removed from landing page
-- **Fallback:** `'Inter', system-ui, -apple-system, sans-serif`
+- **Display:** Newsreader (300, 400, italic) — headings, titles, large numbers
+- **Body:** Jost (300, 400, 500) — UI text, labels, paragraphs
+- **Matched to pitch deck** — same fonts across landing, portal, and pitch
 - **Scale:** 16px base, 1.6 line-height
 
 ### Layout
@@ -141,7 +142,7 @@ The `<link>` tag is placed before page-specific CSS to ensure correct cascade or
 Landing page styles use `.landing-` prefix to avoid specificity conflicts with portal CSS.
 
 ### Logo
-Standardized inline SVG across all pages (green circle + leaf + upward arrow, 32x32).
+Standardized `logo-icon.png` (earth-tone seedling from pitch deck) loaded via `<img>` tag across all pages. Source: `earthsama.com/pitch-assets/logo-icon.png`, copy at root `logo-icon.png`. Three variants available in `pitch-assets/`: icon-only, with wordmark, and combined.
 
 ### Vertical Timeline Component
 Used on landing page "How It Works" section. Three-step vertical layout with numbered dots, connecting line, and content. Replaces 3-column card grid.

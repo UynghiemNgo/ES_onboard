@@ -206,7 +206,7 @@ function openDetail(id) {
       detailMap = L.map(el, { center:[s.location.lat,s.location.lng], zoom:14, zoomControl:false, dragging:false, scrollWheelZoom:false, doubleClickZoom:false, touchZoom:false, attributionControl:false });
       L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {maxZoom:19}).addTo(detailMap);
       if (s.location.polygon && s.location.polygon.length >= 3) {
-        const poly = L.polygon(s.location.polygon, {color:'#4CAF50',weight:2,fillColor:'#4CAF50',fillOpacity:0.25}).addTo(detailMap);
+        const poly = L.polygon(s.location.polygon, {color:'#a67c1a',weight:2,fillColor:'#a67c1a',fillOpacity:0.25}).addTo(detailMap);
         detailMap.fitBounds(poly.getBounds(), {padding:[20,20]});
       } else { L.marker([s.location.lat,s.location.lng]).addTo(detailMap); }
     }, 200);
@@ -403,7 +403,7 @@ function buildRestorPayload(subs) {
     _format: 'restor.eco',
     _version: '1.0',
     _exported: new Date().toISOString(),
-    _description: 'Import this file into restor.eco to register monitoring sites. Each feature represents a land parcel submitted for carbon credit assessment.',
+    _description: 'Import this file into restor.eco to register monitoring sites. Each feature represents a land parcel submitted for project case development.',
     _instructions: 'Go to restor.eco > My Sites > Import > Upload GeoJSON. This payload is a GeoJSON FeatureCollection with Restor-compatible properties.',
     type: 'FeatureCollection',
     features: subs.map(s => {
@@ -598,7 +598,7 @@ function buildEarthSamaPayload(subs) {
 
         // === FOOD SECURITY / VALUE CHAIN ===
         valuechain: {
-          // Downstream platform populates after farmer enrollment
+          // Downstream platform populates after farmer onboarding
           crop_types: [],
           harvest_cycle: null,
           cooperative_id: null,
