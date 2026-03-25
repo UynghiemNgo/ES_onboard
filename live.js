@@ -45,11 +45,11 @@ const OLD_KEY_MAP = {
 };
 
 function resolveRegionCode(s) {
-  // Try region_code first (new submissions)
-  if (s.owner && s.owner.region_code && REGIONS[s.owner.region_code]) return s.owner.region_code;
-  // Try old key format
-  const region = s.owner && s.owner.region;
+  const region = s.region;
   if (!region) return null;
+  // Try direct PSGC code match
+  if (REGIONS[region]) return region;
+  // Try old key format
   if (OLD_KEY_MAP[region]) return OLD_KEY_MAP[region];
   // Try name match
   const lower = region.toLowerCase();
@@ -105,8 +105,8 @@ let currentView = 'regions'; // 'regions' or 'provinces'
 
 // ======== Init ========
 
-function init() {
-  const submissions = loadSubmissions();
+async function init() {
+  const submissions = await loadSubmissions();
   const metrics = computeMetrics(submissions);
   renderHeroStats(metrics);
   initMap(metrics);
@@ -114,10 +114,19 @@ function init() {
   renderRecentActivity(submissions);
 }
 
-function loadSubmissions() {
+const SUPABASE_URL = 'https://poirrcnsplasdcnlnuvc.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBvaXJyY25zcGxhc2RjbmxudXZjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ0MjIxNzQsImV4cCI6MjA4OTk5ODE3NH0.xmkjrAbMZE3gxvCVMX6Ad0eYDpZoxmUGSA5bZ0oeu4M';
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+async function loadSubmissions() {
   try {
-    return JSON.parse(localStorage.getItem('earthsama_submissions') || '[]');
-  } catch { return []; }
+    const { data, error } = await sb.rpc('get_public_submissions');
+    if (error) throw error;
+    return data || [];
+  } catch (e) {
+    console.error('Failed to load submissions:', e);
+    return [];
+  }
 }
 
 // ======== Metrics ========
@@ -137,11 +146,9 @@ function computeMetrics(submissions) {
 
   submissions.forEach(s => {
     const regionCode = resolveRegionCode(s);
-    const province = s.owner && s.owner.province;
-    const municipality = s.owner && s.owner.municipality;
-    const barangay = s.owner && s.owner.barangay;
-    const acreage = s.land ? s.land.acreage : 0;
-    const hectares = acreage * 0.404686;
+    const province = s.province;
+    const acreage = s.acreage || 0;
+    const hectares = acreage;
     const isApproved = s.status === 'approved';
 
     totalHectares += hectares;
@@ -425,7 +432,7 @@ function unhighlightRegion(key) {
 function renderRecentActivity(submissions) {
   const list = document.getElementById('recent-list');
   const recent = submissions
-    .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+    .sort((a, b) => new Date(b.submitted_at) - new Date(a.submitted_at))
     .slice(0, 6);
 
   if (recent.length === 0) {
@@ -435,22 +442,18 @@ function renderRecentActivity(submissions) {
 
   list.innerHTML = recent.map(s => {
     const regionCode = resolveRegionCode(s);
-    const region = regionCode && REGIONS[regionCode] ? REGIONS[regionCode].name : '';
-    const province = s.owner && s.owner.province ? s.owner.province : '';
-    const location = [province, region].filter(Boolean).join(', ');
-    const hectares = (s.land.acreage * 0.404686).toFixed(1);
-    const timeAgo = getTimeAgo(new Date(s.created_at));
-    const nameParts = (s.owner.name || '').split(' ');
-    const maskedName = nameParts.length > 1
-      ? `${nameParts[0]} ${nameParts[1][0]}.`
-      : nameParts[0];
+    const regionName = regionCode && REGIONS[regionCode] ? REGIONS[regionCode].fullName : 'Philippines';
+    const province = s.province || '';
+    const location = [province, regionName].filter(Boolean).join(', ');
+    const hectares = (s.acreage || 0).toFixed(1);
+    const timeAgo = getTimeAgo(new Date(s.submitted_at));
 
     return `<div class="recent-card">
       <div class="recent-icon">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8B6914" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
       </div>
       <div class="recent-info">
-        <div class="recent-name">${esc(maskedName)} — ${hectares} ha</div>
+        <div class="recent-name">${hectares} ha submitted</div>
         <div class="recent-meta">${esc(location)} | ${timeAgo}</div>
       </div>
     </div>`;
@@ -478,8 +481,8 @@ function esc(str) {
 }
 
 // ======== Auto-refresh ========
-setInterval(() => {
-  const submissions = loadSubmissions();
+setInterval(async () => {
+  const submissions = await loadSubmissions();
   const metrics = computeMetrics(submissions);
   renderHeroStats(metrics);
   if (currentView === 'regions') renderRegionList(metrics);
