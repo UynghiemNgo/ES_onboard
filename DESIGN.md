@@ -1,7 +1,9 @@
-# EarthSama — Land Submission Portal Design Spec
+# EarthSama — Unified Design Spec
 
 ## Overview
-A clean, trustworthy web app for landowners to submit their land parcels for carbon credit eligibility assessment. Replaces a broken Google Forms + email + Airtable pipeline.
+A clean, trustworthy web platform for landowners to submit their land parcels for carbon credit eligibility assessment. Replaces a broken Google Forms + email + Airtable pipeline.
+
+All pages share a unified green brand via `shared.css` design tokens. The landing page (`earthsama.com/index.html`) and portal pages (form, dashboard, live map) use the same color palette, typography, and logo.
 
 ---
 
@@ -60,9 +62,10 @@ Confirmation
 | `--error`       | `#DC2626` | Validation errors            |
 
 ### Typography
-- **Headings:** Inter (bold, clean)
-- **Body:** Inter (regular)
-- **Scale:** 14px base, 1.5 line-height
+- **All pages:** Inter (400, 500, 600, 700, 800)
+- **No serif fonts** — Newsreader was removed from landing page
+- **Fallback:** `'Inter', system-ui, -apple-system, sans-serif`
+- **Scale:** 16px base, 1.6 line-height
 
 ### Layout
 - Max-width: 720px content area (form steps)
@@ -124,9 +127,32 @@ Confirmation
 
 ---
 
+## Token Architecture
+
+All design tokens live in `shared.css` and are imported by every page:
+- `styles.css` — `@import url('shared.css')`
+- `dashboard.css` — `@import url('shared.css')`
+- `live.css` — `@import url('shared.css')`
+- `earthsama.com/index.html` — `<link rel="stylesheet" href="../shared.css">`
+
+Portal HTML files also add `<link rel="stylesheet" href="shared.css">` before other CSS.
+
+### Landing Page Convention
+Landing page styles use `.landing-` prefix to avoid specificity conflicts with portal CSS.
+
+### Logo
+Standardized inline SVG across all pages (green circle + leaf + upward arrow, 32x32).
+
+### Vertical Timeline Component
+Used on landing page "How It Works" section. Three-step vertical layout with numbered dots, connecting line, and content. Replaces 3-column card grid.
+
+### Mobile Navigation
+CSS-only hamburger menu at 640px breakpoint (checkbox hack, no JS). 44px minimum touch targets.
+
+---
+
 ## Future Considerations
 - Backend API + database (Supabase or similar)
 - Document upload (title deeds, survey reports)
-- Admin dashboard for reviewing submissions
 - Email notifications on status changes
 - Satellite imagery overlay for land assessment

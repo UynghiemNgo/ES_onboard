@@ -2,17 +2,17 @@
 
 ## Current Sprint
 
-**Sprint:** _unnamed — set sprint name when starting_
-**Started:** _not started_
-**Branch:** _none active_
+**Sprint:** Brand Unification
+**Started:** 2026-03-25
+**Branch:** branding/unify-green
 
 ### To Do
 
-- [ ] _add tasks here_
+_none_
 
 ### In Progress
 
-_none_
+- [ ] Brand unification — unify green design across all pages
 
 ### Done
 

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EarthSama — Building Digital Capacity</title>
+  <meta name="description" content="EarthSama is the upstream digital endpoint for agricarbon, food security, and rural value chains.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../shared.css">
+  <style>
+    /* Landing page scoped styles — uses shared.css tokens */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', system-ui, -apple-system, sans-serif; background: var(--surface); color: var(--text); line-height: 1.6; }
+
+    /* --- Header (shared structure) --- */
+    .landing-header { background: var(--card); border-bottom: 1px solid var(--border); padding: 0 1.25rem; }
+    .landing-header-inner { max-width: 1120px; margin: 0 auto; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+    .landing-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: var(--primary); font-weight: 700; font-size: 1.05rem; }
+    .landing-nav-links { display: flex; gap: 0.35rem; align-items: center; }
+    .landing-nav-links a { text-decoration: none; color: var(--text-muted); font-size: 0.85rem; padding: 0.45rem 0.7rem; border-radius: 8px; min-height: 44px; display: inline-flex; align-items: center; }
+    .landing-nav-links a:hover { background: #f0f0f0; color: var(--text); }
+    .landing-btn-cta { background: var(--primary); color: #fff !important; font-weight: 600; border-radius: 999px; padding: 0.5rem 1rem; min-height: 44px; }
+    .landing-btn-cta:hover { background: var(--primary-hover); }
+
+    /* --- Hamburger (CSS-only, mobile) --- */
+    .landing-hamburger { display: none; }
+    .landing-hamburger-toggle { display: none; }
+    .landing-hamburger-icon { display: none; width: 44px; height: 44px; cursor: pointer; align-items: center; justify-content: center; border-radius: 8px; }
+    .landing-hamburger-icon span,
+    .landing-hamburger-icon span::before,
+    .landing-hamburger-icon span::after { display: block; width: 20px; height: 2px; background: var(--text); border-radius: 2px; position: relative; transition: transform 0.2s; }
+    .landing-hamburger-icon span::before,
+    .landing-hamburger-icon span::after { content: ''; position: absolute; left: 0; }
+    .landing-hamburger-icon span::before { top: -6px; }
+    .landing-hamburger-icon span::after { top: 6px; }
+    .landing-mobile-menu { display: none; }
+
+    /* --- Hero --- */
+    .landing-hero { max-width: 1120px; margin: 0 auto; padding: 4rem 1.25rem 3rem; }
+    .landing-eyebrow { font-size: 0.74rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--primary-light); margin-bottom: 0.8rem; font-weight: 600; }
+    .landing-hero h1 { font-weight: 800; line-height: 1.08; font-size: clamp(2rem, 5vw, 3.2rem); max-width: 800px; color: var(--text); }
+    .landing-hero h1 em { color: var(--primary); font-style: normal; }
+    .landing-hero p { max-width: 700px; color: var(--text-muted); margin-top: 1rem; font-size: 1.1rem; }
+    .landing-hero-ctas { margin-top: 1.4rem; display: flex; gap: 0.7rem; flex-wrap: wrap; }
+    .landing-btn-primary { background: var(--primary); color: #fff; border-radius: 999px; padding: 0.7rem 1.2rem; text-decoration: none; font-weight: 600; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 0.35rem; min-height: 44px; }
+    .landing-btn-primary:hover { background: var(--primary-hover); }
+    .landing-btn-ghost { border: 1px solid var(--border); border-radius: 999px; padding: 0.7rem 1.2rem; text-decoration: none; font-weight: 600; font-size: 0.9rem; color: var(--text); display: inline-flex; align-items: center; min-height: 44px; }
+    .landing-btn-ghost:hover { background: #f0f0f0; }
+
+    /* --- KPIs --- */
+    .landing-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.8rem; max-width: 1120px; margin: 0 auto; padding: 0 1.25rem 2rem; }
+    .landing-kpi { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; }
+    .landing-kpi strong { display: block; font-size: 1.6rem; color: var(--primary); }
+    .landing-kpi span { font-size: 0.82rem; color: var(--text-muted); }
+
+    /* --- Section --- */
+    .landing-section { max-width: 1120px; margin: 0 auto; padding: 3rem 1.25rem; border-top: 1px solid var(--border); }
+    .landing-section h2 { font-weight: 700; font-size: 1.8rem; }
+    .landing-lead { color: var(--text-muted); margin-top: 0.5rem; max-width: 700px; }
+
+    /* --- Vertical Timeline (How It Works) --- */
+    .landing-timeline { margin-top: 1.5rem; max-width: 600px; }
+    .landing-timeline-step { display: flex; gap: 1rem; padding-bottom: 1.5rem; position: relative; }
+    .landing-timeline-step:last-child { padding-bottom: 0; }
+    .landing-timeline-marker { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
+    .landing-timeline-dot { width: 36px; height: 36px; background: var(--success-bg); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--primary); font-weight: 700; font-size: 0.9rem; flex-shrink: 0; }
+    .landing-timeline-line { width: 2px; background: var(--border); flex: 1; margin-top: 0.4rem; }
+    .landing-timeline-step:last-child .landing-timeline-line { display: none; }
+    .landing-timeline-content { padding-top: 0.35rem; }
+    .landing-timeline-content h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.25rem; }
+    .landing-timeline-content p { font-size: 0.9rem; color: var(--text-muted); }
+
+    /* --- Problem cards --- */
+    .landing-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.9rem; margin-top: 1.2rem; }
+    .landing-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.2rem; }
+    .landing-card h3 { font-size: 1rem; margin-bottom: 0.3rem; }
+    .landing-card p { font-size: 0.9rem; color: var(--text-muted); }
+
+    /* --- Footer --- */
+    .landing-footer { max-width: 1120px; margin: 0 auto; padding: 2rem 1.25rem; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.82rem; }
+    .landing-footer a { color: var(--primary); text-decoration: none; }
+    .landing-footer a:hover { text-decoration: underline; }
+
+    /* --- Responsive --- */
+    @media (max-width: 900px) {
+      .landing-kpis { grid-template-columns: repeat(2, 1fr); }
+      .landing-grid-3 { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 640px) {
+      /* Hamburger menu */
+      .landing-nav-links { display: none; }
+      .landing-hamburger-icon { display: flex; }
+      .landing-hamburger-toggle:checked ~ .landing-mobile-menu { display: flex; }
+      .landing-mobile-menu {
+        display: none;
+        flex-direction: column;
+        gap: 0.25rem;
+        padding: 0.5rem 1.25rem 1rem;
+        background: var(--card);
+        border-bottom: 1px solid var(--border);
+      }
+      .landing-mobile-menu a {
+        text-decoration: none;
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        padding: 0.6rem 0;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+      }
+      .landing-mobile-menu .landing-btn-cta {
+        color: #fff;
+        text-align: center;
+        justify-content: center;
+        margin-top: 0.25rem;
+      }
+
+      .landing-kpis { grid-template-columns: 1fr; }
+      .landing-grid-3 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="landing-header">
+    <div class="landing-header-inner">
+      <a class="landing-logo" href="./">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <circle cx="16" cy="16" r="15" stroke="#1B5E20" stroke-width="2"/>
+          <path d="M16 6 C12 10, 8 14, 8 19 C8 23.4 11.6 27 16 27 C20.4 27 24 23.4 24 19 C24 14 20 10 16 6Z" fill="#4CAF50"/>
+          <path d="M16 12 L16 22 M13 17 L16 14 L19 17" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>EarthSama</span>
+      </a>
+      <nav class="landing-nav-links">
+        <a href="#how-it-works">About</a>
+        <a href="../live.html">Live Map</a>
+        <a href="../dashboard.html">Dashboard</a>
+        <a href="../index.html" class="landing-btn-cta">Submit Land</a>
+      </nav>
+      <input type="checkbox" id="landing-menu-toggle" class="landing-hamburger-toggle" aria-hidden="true">
+      <label for="landing-menu-toggle" class="landing-hamburger-icon" aria-label="Open menu"><span></span></label>
+    </div>
+    <nav class="landing-mobile-menu">
+      <a href="#how-it-works">About</a>
+      <a href="../live.html">Live Map</a>
+      <a href="../dashboard.html">Dashboard</a>
+      <a href="../index.html" class="landing-btn-cta">Submit Land</a>
+    </nav>
+  </header>
+
+  <section class="landing-hero">
+    <div class="landing-eyebrow">Philippines Carbon Credit Platform</div>
+    <h1>Building <em>digital capacity</em> for agricarbon and food security</h1>
+    <p>EarthSama is the upstream digital endpoint for carbon credit enrollment, land verification, and rural value chains across the Philippines.</p>
+    <div class="landing-hero-ctas">
+      <a class="landing-btn-primary" href="../index.html">Submit Your Land &rarr;</a>
+      <a class="landing-btn-ghost" href="../live.html">View Live Map</a>
+    </div>
+  </section>
+
+  <div class="landing-kpis">
+    <div class="landing-kpi"><strong>17</strong><span>Regions</span></div>
+    <div class="landing-kpi"><strong>82</strong><span>Provinces</span></div>
+    <div class="landing-kpi"><strong>100K ha</strong><span>Region Goal</span></div>
+    <div class="landing-kpi"><strong>10K ha</strong><span>Province Goal</span></div>
+  </div>
+
+  <section id="how-it-works" class="landing-section">
+    <h2>How It Works</h2>
+    <p class="landing-lead">Three steps from land submission to carbon credit eligibility.</p>
+    <div class="landing-timeline">
+      <div class="landing-timeline-step">
+        <div class="landing-timeline-marker">
+          <div class="landing-timeline-dot">1</div>
+          <div class="landing-timeline-line"></div>
+        </div>
+        <div class="landing-timeline-content">
+          <h3>Submit Your Land</h3>
+          <p>Fill out the form with your land details — name, location, acreage, and land type. Draw your boundaries on the interactive map.</p>
+        </div>
+      </div>
+      <div class="landing-timeline-step">
+        <div class="landing-timeline-marker">
+          <div class="landing-timeline-dot">2</div>
+          <div class="landing-timeline-line"></div>
+        </div>
+        <div class="landing-timeline-content">
+          <h3>Verification Review</h3>
+          <p>Our team reviews your submission, verifies documents, and conducts field assessment for carbon credit eligibility.</p>
+        </div>
+      </div>
+      <div class="landing-timeline-step">
+        <div class="landing-timeline-marker">
+          <div class="landing-timeline-dot">3</div>
+        </div>
+        <div class="landing-timeline-content">
+          <h3>Carbon Enrollment</h3>
+          <p>Approved parcels join a carbon credit project. Track your land's contribution on the live dashboard.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="landing-section">
+    <h2>The Problem</h2>
+    <p class="landing-lead">Paper records, fragmented KYC, and missing geospatial proof keep smallholders invisible to lenders, insurers, and climate markets.</p>
+    <div class="landing-grid-3">
+      <article class="landing-card"><h3>No Secure Digital Identity</h3><p>Farmers remain excluded from formal systems without trusted digital onboarding.</p></article>
+      <article class="landing-card"><h3>No Verifiable Records</h3><p>Institutions cannot underwrite risk when land and production data is inconsistent.</p></article>
+      <article class="landing-card"><h3>No Capital Access</h3><p>Without verified records, communities are treated as unbankable.</p></article>
+    </div>
+  </section>
+
+  <section class="landing-section">
+    <h2>Philippines First: High-Scale Opportunity</h2>
+    <p class="landing-lead">Large-scale poly-cropped agroforestry across coconut, coffee, cacao, and moringa creates long-term carbon and value-chain upside.</p>
+    <div class="landing-grid-3">
+      <article class="landing-card"><h3>1M Farmers Onboarded</h3><p>Target within the national coconut agroforestry carbon program.</p></article>
+      <article class="landing-card"><h3>$5.6B Potential</h3><p>Estimated over 25 years across carbon and agricultural value creation.</p></article>
+      <article class="landing-card"><h3>$325M + $485M / year</h3><p>High-value crop yield and agro-industrial hub potential at maturity.</p></article>
+    </div>
+  </section>
+
+  <footer class="landing-footer">
+    <p>&copy; 2026 EarthSama. Philippines-first carbon credit platform.</p>
+    <p style="margin-top: 0.4rem;"><a href="demo.html">App Demo</a> · <a href="pitch.html">Full Pitch</a></p>
+  </footer>
+</body>
+</html>
