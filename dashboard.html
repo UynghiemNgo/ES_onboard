@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>EarthSama — Admin Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner dash-header">
+      <div class="logo">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <circle cx="16" cy="16" r="15" stroke="#1B5E20" stroke-width="2"/>
+          <path d="M16 6 C12 10, 8 14, 8 19 C8 23.4 11.6 27 16 27 C20.4 27 24 23.4 24 19 C24 14 20 10 16 6Z" fill="#4CAF50"/>
+          <path d="M16 12 L16 22 M13 17 L16 14 L19 17" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>EarthSama</span>
+        <span class="dash-badge">Dashboard</span>
+      </div>
+      <div class="header-links">
+        <a href="live.html" class="header-link">Live Map</a>
+        <a href="index.html" class="header-link">+ New Submission</a>
+        <button class="header-link error-tab-btn" onclick="toggleErrorPanel()" id="error-tab-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          Errors <span class="error-badge" id="error-badge" style="display:none">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="dash-main">
+    <!-- Stats -->
+    <div class="stats-bar" id="stats-bar">
+      <div class="stat-card">
+        <span class="stat-value" id="stat-total">0</span>
+        <span class="stat-label">Total</span>
+      </div>
+      <div class="stat-card stat-submitted">
+        <span class="stat-value" id="stat-submitted">0</span>
+        <span class="stat-label">Submitted</span>
+      </div>
+      <div class="stat-card stat-in_review">
+        <span class="stat-value" id="stat-in_review">0</span>
+        <span class="stat-label">In Review</span>
+      </div>
+      <div class="stat-card stat-in_discussion">
+        <span class="stat-value" id="stat-in_discussion">0</span>
+        <span class="stat-label">In Discussion</span>
+      </div>
+      <div class="stat-card stat-approved">
+        <span class="stat-value" id="stat-approved">0</span>
+        <span class="stat-label">Approved</span>
+      </div>
+      <div class="stat-card stat-needs_docs">
+        <span class="stat-value" id="stat-needs_docs">0</span>
+        <span class="stat-label">Needs Docs</span>
+      </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="filter-bar">
+      <div class="filter-search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="filter-search" placeholder="Search name, email, ID, address...">
+      </div>
+      <select id="filter-status">
+        <option value="">All Statuses</option>
+        <option value="submitted">Submitted</option>
+        <option value="in_review">In Review</option>
+        <option value="in_discussion">In Discussion</option>
+        <option value="approved">Approved</option>
+        <option value="needs_docs">Needs Docs</option>
+      </select>
+      <select id="filter-land">
+        <option value="">All Land Types</option>
+        <option value="forest">Forest</option>
+        <option value="grassland">Grassland</option>
+        <option value="cropland">Cropland</option>
+        <option value="wetland">Wetland</option>
+        <option value="arid">Arid</option>
+        <option value="mixed">Mixed</option>
+      </select>
+      <button class="btn btn-primary btn-sm" onclick="openExportModal('all')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Export
+      </button>
+    </div>
+
+    <!-- Bulk bar -->
+    <div class="bulk-bar" id="bulk-bar" style="display:none">
+      <span id="bulk-count">0 selected</span>
+      <button class="btn btn-primary btn-sm" onclick="openExportModal('selected')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Export Selected
+      </button>
+      <button class="btn btn-secondary btn-sm" onclick="clearSelection()">Clear</button>
+    </div>
+
+    <!-- Table -->
+    <div class="table-wrap">
+      <table class="dash-table" id="dash-table">
+        <thead>
+          <tr>
+            <th class="th-check"><input type="checkbox" id="select-all" onchange="toggleSelectAll(this.checked)"></th>
+            <th>Reference</th>
+            <th>Owner</th>
+            <th class="hide-mobile">Email</th>
+            <th>Acreage</th>
+            <th class="hide-mobile">Land Type</th>
+            <th>Status</th>
+            <th class="hide-mobile">Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="table-body"></tbody>
+      </table>
+    </div>
+
+    <!-- Empty state -->
+    <div class="empty-state" id="empty-state" style="display:none">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      <h3>No submissions yet</h3>
+      <p>Submissions from the land form will appear here.</p>
+      <a href="index.html" class="btn btn-primary btn-sm" style="margin-top:0.5rem">Create Submission</a>
+    </div>
+
+    <!-- Detail panel -->
+    <div class="detail-panel" id="detail-panel" style="display:none">
+      <div class="detail-backdrop" onclick="closeDetail()"></div>
+      <div class="detail-card">
+        <div class="detail-header">
+          <h3 id="detail-title">Submission Details</h3>
+          <button class="detail-close" onclick="closeDetail()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+        <div class="detail-body" id="detail-body"></div>
+      </div>
+    </div>
+
+    <!-- Export Modal -->
+    <div class="export-modal" id="export-modal" style="display:none">
+      <div class="export-backdrop" onclick="closeExportModal()"></div>
+      <div class="export-card">
+        <div class="export-header">
+          <h3>Export Submissions</h3>
+          <span class="export-count" id="export-count"></span>
+          <button class="detail-close" onclick="closeExportModal()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+        <div class="export-body">
+
+          <div class="export-section">
+            <h4>File Downloads</h4>
+            <div class="export-grid">
+              <button class="export-option" onclick="doExport('kmz')">
+                <div class="export-option-icon" style="background:#E8F5E9;color:#1B5E20">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="M2 8h20"/><path d="M8 8v13"/></svg>
+                </div>
+                <div class="export-option-info">
+                  <strong>.KMZ Package</strong>
+                  <span>Zipped KML + metadata — opens in Google Earth</span>
+                </div>
+              </button>
+
+              <button class="export-option" onclick="doExport('kml')">
+                <div class="export-option-icon" style="background:#DBEAFE;color:#1D4ED8">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                </div>
+                <div class="export-option-info">
+                  <strong>.KML File</strong>
+                  <span>Raw KML — Google Earth, QGIS, ArcGIS</span>
+                </div>
+              </button>
+
+              <button class="export-option" onclick="doExport('geojson')">
+                <div class="export-option-icon" style="background:#FEF3C7;color:#B45309">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+                </div>
+                <div class="export-option-info">
+                  <strong>GeoJSON</strong>
+                  <span>Standard geo format — web maps, APIs, Mapbox</span>
+                </div>
+              </button>
+
+              <button class="export-option" onclick="doExport('csv')">
+                <div class="export-option-icon" style="background:#F3E8FF;color:#7C3AED">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                </div>
+                <div class="export-option-info">
+                  <strong>CSV Spreadsheet</strong>
+                  <span>All fields — Excel, Google Sheets, databases</span>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <div class="export-section">
+            <h4>Platform Integrations</h4>
+            <div class="export-grid">
+              <button class="export-option" onclick="doExport('restor')">
+                <div class="export-option-icon" style="background:#D1FAE5;color:#065F46">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                </div>
+                <div class="export-option-info">
+                  <strong>Restor</strong>
+                  <span>GeoJSON + metadata for restor.eco import</span>
+                </div>
+              </button>
+
+              <button class="export-option" onclick="doExport('gee')">
+                <div class="export-option-icon" style="background:#DBEAFE;color:#1D4ED8">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 2v10l7 4"/></svg>
+                </div>
+                <div class="export-option-info">
+                  <strong>Google Earth Engine</strong>
+                  <span>GEE-compatible FeatureCollection JSON</span>
+                </div>
+              </button>
+
+              <button class="export-option" onclick="doExport('earthsama')">
+                <div class="export-option-icon" style="background:#FEF3C7;color:#92400E">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22c5.5 0 10-4.5 10-10S17.5 2 12 2 2 6.5 2 12s4.5 10 10 10z"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><circle cx="9" cy="9" r="1" fill="currentColor"/><circle cx="15" cy="9" r="1" fill="currentColor"/></svg>
+                </div>
+                <div class="export-option-info">
+                  <strong>EarthSama</strong>
+                  <span>API-ready JSON for mobile farming app</span>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <div class="export-section">
+            <h4>Full Package</h4>
+            <button class="export-option export-option-full" onclick="doExport('zip')">
+              <div class="export-option-icon" style="background:#1B5E20;color:white">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="M12 3v18"/><path d="M2 8h20"/><path d="M2 13h20"/><path d="M2 18h20"/></svg>
+              </div>
+              <div class="export-option-info">
+                <strong>Complete .ZIP Bundle</strong>
+                <span>KML + GeoJSON + CSV + platform JSONs — everything in one download</span>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Error Panel -->
+    <div class="error-panel" id="error-panel" style="display:none">
+      <div class="error-panel-header">
+        <h3>Error Log</h3>
+        <div class="error-panel-actions">
+          <button class="btn btn-secondary btn-sm" onclick="refreshErrors()">Refresh</button>
+          <button class="btn btn-secondary btn-sm" onclick="clearErrors()">Clear All</button>
+          <button class="detail-close" onclick="toggleErrorPanel()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="error-panel-filters">
+        <select id="error-filter-type" onchange="renderErrors()">
+          <option value="">All Types</option>
+          <option value="js_error">JS Errors</option>
+          <option value="promise_rejection">Promise Rejections</option>
+          <option value="fetch_error">Fetch Errors</option>
+          <option value="console_error">Console Errors</option>
+          <option value="manual">Manual Logs</option>
+        </select>
+        <select id="error-filter-page" onchange="renderErrors()">
+          <option value="">All Pages</option>
+          <option value="index.html">Submission Form</option>
+          <option value="dashboard.html">Dashboard</option>
+          <option value="live.html">Live Map</option>
+        </select>
+        <span class="error-summary" id="error-summary"></span>
+      </div>
+      <div class="error-list" id="error-list"></div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2026 EarthSama. All rights reserved. — earthsama.com</p>
+  </footer>
+
+  <script src="error-logger.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/jszip@3.10.1/dist/jszip.min.js"></script>
+  <script src="dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>EarthSama — Live Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="live.css">
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner dash-header">
+      <div class="logo">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <circle cx="16" cy="16" r="15" stroke="#1B5E20" stroke-width="2"/>
+          <path d="M16 6 C12 10, 8 14, 8 19 C8 23.4 11.6 27 16 27 C20.4 27 24 23.4 24 19 C24 14 20 10 16 6Z" fill="#4CAF50"/>
+          <path d="M16 12 L16 22 M13 17 L16 14 L19 17" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>EarthSama</span>
+        <span class="live-badge">LIVE</span>
+      </div>
+      <div class="header-links">
+        <a href="index.html" class="header-link">Submit Land</a>
+        <a href="dashboard.html" class="header-link">Admin</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="live-main">
+    <!-- Threshold Explainer -->
+    <div class="threshold-explainer">
+      <div class="threshold-card threshold-region">
+        <div class="threshold-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+        </div>
+        <div>
+          <strong>Region Goal: 100,000 ha</strong>
+          <span>Approved hectares needed for OMTSE + Apl team support</span>
+        </div>
+      </div>
+      <div class="threshold-card threshold-province">
+        <div class="threshold-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div>
+          <strong>Province Goal: 10,000 ha</strong>
+          <span>Approved hectares to qualify each province</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero Stats -->
+    <div class="live-hero">
+      <div class="hero-stat hero-stat-primary">
+        <span class="hero-value" id="total-hectares">0</span>
+        <span class="hero-label">Total Hectares Committed</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-value" id="total-approved-ha">0</span>
+        <span class="hero-label">Hectares Approved</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-value" id="total-submissions">0</span>
+        <span class="hero-label">Land Submissions</span>
+      </div>
+      <div class="hero-stat hero-stat-accent">
+        <span class="hero-value" id="qualified-regions">0 / 17</span>
+        <span class="hero-label">Regions Supported</span>
+      </div>
+      <div class="hero-stat hero-stat-accent">
+        <span class="hero-value" id="qualified-provinces">0 / 82</span>
+        <span class="hero-label">Provinces Qualified</span>
+      </div>
+    </div>
+
+    <!-- Map + Regional Breakdown -->
+    <div class="live-content">
+      <div class="live-map-wrap">
+        <div id="live-map" class="live-map"></div>
+        <div class="map-legend">
+          <span class="legend-title">Progress to Threshold</span>
+          <div class="legend-items">
+            <div class="legend-item"><span class="legend-swatch" style="background:#E5E7EB"></span> No data</div>
+            <div class="legend-item"><span class="legend-swatch" style="background:#FEF3C7"></span> &lt;25%</div>
+            <div class="legend-item"><span class="legend-swatch" style="background:#FDE68A"></span> 25-50%</div>
+            <div class="legend-item"><span class="legend-swatch" style="background:#66BB6A"></span> 50-99%</div>
+            <div class="legend-item"><span class="legend-swatch" style="background:#1B5E20"></span> Supported</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="live-sidebar">
+        <div class="sidebar-header">
+          <h3 class="sidebar-title">Breakdown</h3>
+          <div class="view-toggle">
+            <button class="view-btn active" id="btn-view-regions" onclick="setView('regions')">17 Regions</button>
+            <button class="view-btn" id="btn-view-provinces" onclick="setView('provinces')">82 Provinces</button>
+          </div>
+        </div>
+        <div class="region-list" id="region-list"></div>
+      </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="live-recent">
+      <h3>Recent Submissions</h3>
+      <div class="recent-list" id="recent-list"></div>
+    </div>
+
+    <!-- CTA -->
+    <div class="live-cta">
+      <h3>Own land in the Philippines?</h3>
+      <p>Submit your land for carbon credit eligibility assessment. Help your province reach the 10,000 hectare goal. It's free and takes under 5 minutes.</p>
+      <a href="index.html" class="btn btn-primary">Submit Your Land</a>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2026 EarthSama. All rights reserved. — earthsama.com</p>
+  </footer>
+
+  <script src="error-logger.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="live.js"></script>
+</body>
+</html>
