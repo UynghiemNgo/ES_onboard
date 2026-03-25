@@ -212,7 +212,7 @@
         <span>Earth Sama</span>
       </div>
       <div class="header-links">
-        <a href="index.html" class="header-link">Submit Land</a>
+        <a href="form.html" class="header-link">Submit Land</a>
         <a href="live.html" class="header-link">Live Map</a>
       </div>
     </div>
@@ -247,7 +247,7 @@
         <div class="result-actions">
           <a href="#" class="btn btn-primary" id="edit-link" style="display:none">Edit Your Submission</a>
           <button class="btn-secondary" onclick="showLookup()">Look Up Another</button>
-          <a href="index.html" class="btn-secondary">Submit Another Parcel</a>
+          <a href="form.html" class="btn-secondary">Submit Another Parcel</a>
         </div>
       </div>
     </div>
@@ -361,7 +361,7 @@
     const editLink = document.getElementById('edit-link');
     if (s.status === 'submitted' || s.status === 'needs_docs') {
       editLink.style.display = '';
-      editLink.href = 'index.html?edit=' + encodeURIComponent(s.tracking_code) + '&email=' + encodeURIComponent(document.getElementById('lookup-email').value);
+      editLink.href = 'form.html?edit=' + encodeURIComponent(s.tracking_code) + '&email=' + encodeURIComponent(document.getElementById('lookup-email').value);
     } else {
       editLink.style.display = 'none';
     }

@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>EarthSama — Land Submission Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300;1,6..72,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="shared.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <img src="logo-icon.png" alt="Earth Sama" width="32" height="32">
+        <span>Earth Sama</span>
+      </div>
+      <div class="header-links">
+        <a href="status.html" class="header-link">Track Submission</a>
+        <a href="live.html" class="header-link">Live Map</a>
+        <a href="dashboard.html" class="header-link">Admin</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Progress bar -->
+  <div class="tf-progress">
+    <div class="tf-progress-fill" id="tf-progress"></div>
+  </div>
+
+  <!-- Status banner -->
+  <div class="status-banner">
+    <span>Already submitted?</span>
+    <a href="status.html">Check your submission status &rarr;</a>
+  </div>
+
+  <main class="tf-main" id="tf-main">
+
+    <!-- Q1: Name -->
+    <section class="tf-slide active" id="q-name" data-q="1">
+      <div class="tf-content">
+        <div class="tf-num">1 <span class="tf-arrow">&rarr;</span></div>
+        <h2 class="tf-question">What's your full name? <span class="tf-req">*</span></h2>
+        <input type="text" id="owner-name" class="tf-input" placeholder="Type your full name..." autocomplete="name" autofocus>
+        <div class="tf-footer">
+          <button class="tf-ok" onclick="tfNext()">OK <span class="tf-check">&#10003;</span></button>
+          <span class="tf-hint">press <strong>Enter &crarr;</strong></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Q2: Email -->
+    <section class="tf-slide" id="q-email" data-q="2">
+      <div class="tf-content">
+        <div class="tf-num">2 <span class="tf-arrow">&rarr;</span></div>
+        <h2 class="tf-question">What's your email address? <span class="tf-req">*</span></h2>
+        <input type="email" id="owner-email" class="tf-input" placeholder="name@example.com" autocomplete="email">
+        <div class="tf-footer">
+          <button class="tf-ok" onclick="tfNext()">OK <span class="tf-check">&#10003;</span></button>
+          <span class="tf-hint">press <strong>Enter &crarr;</strong></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Q3: Phone -->
+    <section class="tf-slide" id="q-phone" data-q="3">
+      <div class="tf-content">
+        <div class="tf-num">3 <span class="tf-arrow">&rarr;</span></div>
+        <h2 class="tf-question">Phone number</h2>
+        <p class="tf-desc">So we can reach you about your submission.</p>
+        <input type="tel" id="owner-phone" class="tf-input" placeholder="+63 9XX XXX XXXX" autocomplete="tel">
+        <div class="tf-footer">
+          <button class="tf-ok" onclick="tfNext()">OK <span class="tf-check">&#10003;</span></button>
+          <button class="tf-skip" onclick="tfNext()">Skip</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Q4: Location -->
+    <section class="tf-slide" id="q-location" data-q="4">
+      <div class="tf-content">
+        <div class="tf-num">4 <span class="tf-arrow">&rarr;</span></div>
+        <h2 class="tf-question">Where is your land? <span class="tf-req">*</span></h2>
+        <p class="tf-desc">Start typing your barangay, municipality, or province.</p>
+        <div class="autocomplete-wrap">
+          <input type="text" id="location-search" class="tf-input" placeholder="Type your barangay, municipality, or province..." autocomplete="off">
+          <div class="autocomplete-list autocomplete-list-lg" id="location-search-list"></div>
+        </div>
+
+        <!-- Auto-filled location display -->
+        <div class="location-result" id="location-result" style="display:none">
+          <div class="location-result-grid">
+            <div class="location-result-item">
+              <span class="location-result-label">Barangay</span>
+              <span class="location-result-value" id="display-barangay">&mdash;</span>
+            </div>
+            <div class="location-result-item">
+              <span class="location-result-label">Municipality / City</span>
+              <span class="location-result-value" id="display-municipality">&mdash;</span>
+            </div>
+            <div class="location-result-item">
+              <span class="location-result-label">Province</span>
+              <span class="location-result-value" id="display-province">&mdash;</span>
+            </div>
+            <div class="location-result-item">
+              <span class="location-result-label">Region</span>
+              <span class="location-result-value" id="display-region">&mdash;</span>
+            </div>
+          </div>
+          <button type="button" class="location-change-btn" onclick="clearLocationSelection()">Change</button>
+        </div>
+
+        <!-- Hidden fields -->
+        <input type="hidden" id="owner-region">
+        <input type="hidden" id="owner-region-code">
+        <input type="hidden" id="owner-province">
+        <input type="hidden" id="owner-province-code">
+        <input type="hidden" id="owner-municipality">
+        <input type="hidden" id="owner-municipality-code">
+        <input type="hidden" id="owner-barangay">
+
+        <div class="tf-footer">
+          <button class="tf-ok" onclick="tfNext()">OK <span class="tf-check">&#10003;</span></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Q5: Entity Type -->
+    <section class="tf-slide" id="q-entity" data-q="5">
+      <div class="tf-content">
+        <div class="tf-num">5 <span class="tf-arrow">&rarr;</span></div>
+        <h2 class="tf-question">What type of entity are you? <span class="tf-req">*</span></h2>
+        <div class="tf-cards" id="entity-cards">
+          <button class="tf-card" data-val="individual" onclick="tfSelectCard(this)">
+            <span class="tf-card-key">A</span>
+            <span>Individual</span>
+          </button>
+          <button class="tf-card" data-val="company" onclick="tfSelectCard(this)">
+            <span class="tf-card-key">B</span>
+            <span>Company / LLC</span>
+          </button>
+          <button class="tf-card" data-val="trust" onclick="tfSelectCard(this)">
+            <span class="tf-card-key">C</span>
+            <span>Trust</span>
+          </button>
+          <button class="tf-card" data-val="nonprofit" onclick="tfSelectCard(this)">
+            <span class="tf-card-key">D</span>
+            <span>Non-profit</span>
+          </button>
+          <button class="tf-card" data-val="government" onclick="tfSelectCard(this)">
+            <span class="tf-card-key">E</span>
+            <span>Government</span>
+          </button>
+          <button class="tf-card" data-val="other" onclick="tfSelectCard(this)">
+            <span class="tf-card-key">F</span>
+            <span>Other</span>
+          </button>
+        </div>
+        <input type="hidden" id="entity-type">
+      </div>
+    </section>
+
+    <!-- Q6: Land Size + Years -->
+    <section class="tf-slide" id="q-land-size" data-q="6">
+      <div class="tf-content">
+        <div class="tf-num">6 <span class="tf-arrow">&rarr;</span></div>
+        <h2 class="tf-question">Tell us about the land <span class="tf-req">*</span></h2>
+        <div class="tf-row">
+          <div class="tf-field">
+            <label class="tf-label" for="acreage">Estimated Hectares</label>
+            <input type="number" id="acreage" class="tf-input" placeholder="e.g. 50" min="1" inputmode="decimal">
+            <span class="tf-sub">Approximate &mdash; we verify via satellite</span>
+          </div>
+          <div class="tf-field">
+            <label class="tf-label" for="years-owned">Years Owned</label>
+            <input type="number" id="years-owned" class="tf-input" placeholder="e.g. 10" min="0" inputmode="numeric">
+          </div>
+        </div>
+        <div class="tf-footer">
+          <button class="tf-ok" onclick="tfNext()">OK <span class="tf-check">&#10003;</span></button>
+          <span class="tf-hint">press <strong>Enter &crarr;</strong></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Q7: Land Type -->
+    <section class="tf-slide" id="q-land-type" data-q="7">
+      <div class="tf-content">
+        <div class="tf-num">7 <span class="tf-arrow">&rarr;</span></div>
+        <h2 class="tf-question">What type of land is it? <span class="tf-req">*</span></h2>
+        <div class="tf-cards" id="land-type-cards">
+          <button class="tf-card" data-val="forest" onclick="tfSelectCard(this)">
+            <span class="tf-card-key">A</span>
+            <span>Forest / Woodland</span>
+          </button>
+          <button class="tf-card" data-val="grassland" onclick="tfSelectCard(this)">
+            <span class="tf-card-key">B</span>
+            <span>Grassland / Pasture</span>
+          </button>
+          <button class="tf-card" data-val="cropland" onclick="tfSelectCard(this)">
+            <span class="tf-card-key">C</span>
+            <span>Cropland / Agricultural</span>
+          </button>
+          <button class="tf-card" data-val="wetland" onclick="tfSelectCard(this)">
+            <span class="tf-card-key">D</span>
+            <span>Wetland / Marsh</span>
+          </button>
+          <button class="tf-card" data-val="arid" onclick="tfSelectCard(this)">
+            <span class="tf-card-key">E</span>
+            <span>Arid / Semi-arid</span>
+          </button>
+          <button class="tf-card" data-val="mixed" onclick="tfSelectCard(this)">
+            <span class="tf-card-key">F</span>
+            <span>Mixed Use</span>
+          </button>
+        </div>
+        <input type="hidden" id="land-type">
+      </div>
+    </section>
+
+    <!-- Q8: Current Use -->
+    <section class="tf-slide" id="q-use" data-q="8">
+      <div class="tf-content">
+        <div class="tf-num">8 <span class="tf-arrow">&rarr;</span></div>
+        <h2 class="tf-question">How is the land currently used? <span class="tf-req">*</span></h2>
+        <div class="tf-cards" id="current-use-cards">
+          <button class="tf-card" data-val="agriculture" onclick="tfSelectCard(this)">
+            <span class="tf-card-key">A</span>
+            <span>Active Agriculture</span>
+          </button>
+          <button class="tf-card" data-val="timber" onclick="tfSelectCard(this)">
+            <span class="tf-card-key">B</span>
+            <span>Timber / Forestry</span>
+          </button>
+          <button class="tf-card" data-val="ranching" onclick="tfSelectCard(this)">
+            <span class="tf-card-key">C</span>
+            <span>Ranching / Livestock</span>
+          </button>
+          <button class="tf-card" data-val="conservation" onclick="tfSelectCard(this)">
+            <span class="tf-card-key">D</span>
+            <span>Conservation / Protected</span>
+          </button>
+          <button class="tf-card" data-val="unused" onclick="tfSelectCard(this)">
+            <span class="tf-card-key">E</span>
+            <span>Unused / Fallow</span>
+          </button>
+          <button class="tf-card" data-val="other" onclick="tfSelectCard(this)">
+            <span class="tf-card-key">F</span>
+            <span>Other</span>
+          </button>
+        </div>
+        <input type="hidden" id="current-use">
+      </div>
+    </section>
+
+    <!-- Q9: Encumbrances -->
+    <section class="tf-slide" id="q-encumbrance" data-q="9">
+      <div class="tf-content">
+        <div class="tf-num">9 <span class="tf-arrow">&rarr;</span></div>
+        <h2 class="tf-question">Are there any encumbrances on this land?</h2>
+        <p class="tf-desc">Liens, easements, mineral rights held by others, etc.</p>
+        <div class="tf-cards tf-cards-inline" id="encumbrance-cards">
+          <button class="tf-card selected" data-val="no" onclick="tfSelectEncumbrance(this)">
+            <span class="tf-card-key">A</span>
+            <span>No</span>
+          </button>
+          <button class="tf-card" data-val="yes" onclick="tfSelectEncumbrance(this)">
+            <span class="tf-card-key">B</span>
+            <span>Yes</span>
+          </button>
+        </div>
+        <div id="encumbrance-detail-group" style="display:none;margin-top:1rem">
+          <textarea id="encumbrance-detail" class="tf-textarea" rows="3" placeholder="Please describe the encumbrances..."></textarea>
+        </div>
+        <div class="tf-footer">
+          <button class="tf-ok" onclick="tfNext()">OK <span class="tf-check">&#10003;</span></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Q10: Documents -->
+    <section class="tf-slide" id="q-docs" data-q="10">
+      <div class="tf-content">
+        <div class="tf-num">10 <span class="tf-arrow">&rarr;</span></div>
+        <h2 class="tf-question">Upload supporting documents</h2>
+        <p class="tf-desc">Title deeds, survey reports, photos. Max 5 files, 2MB each.</p>
+        <div class="upload-zone" id="upload-zone">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          <span class="upload-text">Drag files here or <button type="button" class="upload-link" onclick="document.getElementById('doc-file-input').click()">browse</button></span>
+          <input type="file" id="doc-file-input" multiple accept="image/*,.pdf,.doc,.docx" style="display:none">
+        </div>
+        <div class="upload-list" id="upload-list"></div>
+        <div class="tf-footer">
+          <button class="tf-ok" onclick="tfNext()">Continue <span class="tf-check">&#10003;</span></button>
+          <button class="tf-skip" onclick="tfNext()">Skip</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Q11: Map -->
+    <section class="tf-slide tf-slide-wide" id="q-map" data-q="11">
+      <div class="tf-content tf-content-map">
+        <div class="tf-map-header">
+          <div>
+            <h2 class="tf-question-sm">Select Your Land</h2>
+            <p class="tf-desc-sm">Search, draw your boundary, or import a KML file.</p>
+          </div>
+          <button class="tut-trigger" onclick="openTutorial()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            How to draw
+          </button>
+        </div>
+
+        <div class="map-container" id="map-container">
+          <div class="map-drop-overlay" id="map-drop-overlay">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <span>Drop KML file to import boundary</span>
+          </div>
+
+          <div class="map-toolbar">
+            <div class="map-search-wrap">
+              <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="map-search" class="map-search-input" placeholder="Search address or place...">
+            </div>
+            <div class="map-tools">
+              <button class="tool-btn" id="btn-pin" onclick="setMapMode('pin')" title="Drop a pin">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                <span class="tool-label">Pin</span>
+              </button>
+              <button class="tool-btn active" id="btn-draw" onclick="setMapMode('draw')" title="Draw boundary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/></svg>
+                <span class="tool-label">Draw</span>
+              </button>
+              <button class="tool-btn" id="btn-import" onclick="document.getElementById('kml-file-input').click()" title="Import KML">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                <span class="tool-label">Import</span>
+              </button>
+              <button class="tool-btn" id="btn-clear" onclick="clearMap()" title="Clear">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                <span class="tool-label">Clear</span>
+              </button>
+            </div>
+            <input type="file" id="kml-file-input" accept=".kml" style="display:none">
+          </div>
+
+          <div class="map-layer-toggle">
+            <button class="layer-btn active" onclick="setLayer('satellite')">Satellite</button>
+            <button class="layer-btn" onclick="setLayer('street')">Street</button>
+            <button class="layer-btn" onclick="setLayer('topo')">Topo</button>
+          </div>
+
+          <div id="map" class="map"></div>
+
+          <div class="map-info" id="map-info">
+            <div class="map-info-item" id="info-coords">
+              <span class="map-info-label">Coordinates</span>
+              <span class="map-info-value" id="selected-coords">Click map or search</span>
+            </div>
+            <div class="map-info-item" id="info-area" style="display:none">
+              <span class="map-info-label">Drawn Area</span>
+              <span class="map-info-value" id="selected-area">&mdash;</span>
+            </div>
+            <div class="map-info-item map-info-kml" id="info-kml" style="display:none">
+              <button class="kml-btn" onclick="downloadKMZ()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                .KMZ
+              </button>
+              <button class="kml-btn kml-btn-alt" onclick="downloadKML()">
+                .KML
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="mobile-draw-hint" id="draw-hint">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+          <span>Tap map to place points. Tap first point to close shape.</span>
+        </div>
+
+        <div class="tf-footer">
+          <button class="tf-ok" onclick="tfNext()">Review <span class="tf-check">&#10003;</span></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Q12: Review -->
+    <section class="tf-slide tf-slide-wide" id="q-review" data-q="12">
+      <div class="tf-content tf-content-review">
+        <h2 class="tf-question-sm">Review &amp; Submit</h2>
+        <p class="tf-desc-sm">Confirm everything looks correct.</p>
+
+        <div class="review-card">
+          <div class="review-section">
+            <div class="review-header">
+              <h3>Owner</h3>
+              <button class="edit-btn" onclick="tfGoTo('q-name')">Edit</button>
+            </div>
+            <div class="review-grid" id="review-owner"></div>
+          </div>
+
+          <div class="review-section">
+            <div class="review-header">
+              <h3>Land</h3>
+              <button class="edit-btn" onclick="tfGoTo('q-land-size')">Edit</button>
+            </div>
+            <div class="review-grid" id="review-land"></div>
+          </div>
+
+          <div class="review-section" id="review-docs-section" style="display:none">
+            <div class="review-header">
+              <h3>Documents</h3>
+              <button class="edit-btn" onclick="tfGoTo('q-docs')">Edit</button>
+            </div>
+            <div id="review-docs"></div>
+          </div>
+
+          <div class="review-section">
+            <div class="review-header">
+              <h3>Location</h3>
+              <button class="edit-btn" onclick="tfGoTo('q-map')">Edit</button>
+            </div>
+            <div class="review-grid" id="review-location"></div>
+            <div id="review-map" class="review-map"></div>
+          </div>
+
+          <div class="review-section" id="review-kml-section" style="display:none">
+            <div class="kml-preview">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8B6914" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              <div class="kml-preview-info">
+                <strong>land-boundary.kml</strong>
+                <span>Boundary file included with submission</span>
+              </div>
+              <button class="kml-btn kml-btn-sm" onclick="downloadKML()">Download</button>
+            </div>
+          </div>
+
+          <div class="consent-box">
+            <label class="checkbox-label">
+              <input type="checkbox" id="consent-check">
+              <span>I confirm the information is accurate and I am authorized to submit this land for project case development.</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="tf-footer">
+          <button class="tf-ok tf-submit" id="submit-btn" onclick="submitForm()" disabled>
+            Submit Application
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Confirmation -->
+    <section class="tf-slide" id="q-confirm">
+      <div class="tf-content tf-content-center">
+        <div class="confirm-icon">
+          <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+            <circle cx="32" cy="32" r="30" fill="rgba(139,105,20,0.08)" stroke="#a67c1a" stroke-width="2"/>
+            <path d="M20 32 L28 40 L44 24" stroke="#8B6914" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h2 class="tf-question">Submission Received!</h2>
+        <p class="confirm-ref">Reference: <strong id="confirm-ref-id"></strong></p>
+        <p class="confirm-text">Our team will review your land submission and reach out within <strong>5-7 business days</strong>.</p>
+
+        <div class="confirm-actions" id="confirm-kml-btn" style="display:none">
+          <button class="btn btn-primary btn-sm" onclick="downloadKMZ()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download .KMZ
+          </button>
+          <button class="btn btn-secondary btn-sm" onclick="downloadKML()">Download .KML</button>
+        </div>
+
+        <div class="confirm-timeline">
+          <h3>What happens next</h3>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-dot active"></div>
+              <div class="timeline-content">
+                <strong>Submitted</strong>
+                <span>Your application is in our queue</span>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-content">
+                <strong>In Review</strong>
+                <span>Our team verifies eligibility and land data via satellite</span>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-content">
+                <strong>In Discussion</strong>
+                <span>We may reach out to discuss your land and carbon potential</span>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-content">
+                <strong>Approved</strong>
+                <span>Your land qualifies &mdash; onboarding &amp; next steps begin</span>
+              </div>
+            </div>
+          </div>
+          <p class="timeline-note">If we need additional documents, we'll send your submission back with instructions on what to provide.</p>
+        </div>
+
+        <button class="btn btn-primary" onclick="location.reload()">Submit Another Property</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Bottom Navigation Bar -->
+  <div class="tf-bottombar" id="tf-bottombar">
+    <button class="tf-back" id="tf-back" onclick="tfPrev()" style="visibility:hidden" title="Go back">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <span class="tf-counter" id="tf-counter">1 of 12</span>
+    <span class="tf-powered">earthsama.com</span>
+  </div>
+
+  <!-- Map Tutorial Overlay -->
+  <div class="tut-overlay" id="tut-overlay" style="display:none">
+    <div class="tut-card">
+      <button class="tut-close" onclick="closeTutorial()">&times;</button>
+      <div class="tut-slides" id="tut-slides">
+
+        <!-- Frame 1 -->
+        <div class="tut-frame active" data-frame="0">
+          <div class="tut-illustration">
+            <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+              <rect x="5" y="15" width="70" height="50" rx="6" fill="rgba(139,105,20,0.08)" stroke="#a67c1a" stroke-width="2"/>
+              <circle cx="25" cy="35" r="4" fill="#8B6914"/>
+              <circle cx="55" cy="28" r="4" fill="#8B6914"/>
+              <circle cx="60" cy="48" r="4" fill="#8B6914"/>
+              <circle cx="20" cy="50" r="4" fill="#8B6914"/>
+              <path d="M25 35 L55 28 L60 48 L20 50 Z" fill="#a67c1a" fill-opacity="0.2" stroke="#8B6914" stroke-width="1.5" stroke-dasharray="4,3"/>
+              <text x="40" y="72" text-anchor="middle" font-size="8" fill="#6B7280" font-family="Jost, sans-serif">satellite view</text>
+            </svg>
+          </div>
+          <h3 class="tut-title">How to mark your land</h3>
+          <p class="tut-text">Click on the map to place points around your land boundary. We'll show you how in 3 quick steps.</p>
+        </div>
+
+        <!-- Frame 2 -->
+        <div class="tut-frame" data-frame="1">
+          <div class="tut-illustration">
+            <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+              <rect x="5" y="15" width="70" height="50" rx="6" fill="rgba(139,105,20,0.08)" stroke="#a67c1a" stroke-width="2"/>
+              <!-- cursor + click -->
+              <circle cx="30" cy="35" r="6" fill="#8B6914"/>
+              <circle cx="30" cy="35" r="3" fill="white"/>
+              <!-- cursor arrow -->
+              <path d="M42 26 L38 30 L40 30 L40 34 L44 34 L44 30 L46 30 Z" fill="#8B6914"/>
+              <text x="40" y="52" text-anchor="middle" font-size="9" fill="#8B6914" font-weight="600" font-family="Jost, sans-serif">click!</text>
+              <text x="40" y="72" text-anchor="middle" font-size="8" fill="#6B7280" font-family="Jost, sans-serif">Step 1</text>
+            </svg>
+          </div>
+          <h3 class="tut-title">Click your first corner</h3>
+          <p class="tut-text">Click anywhere on the map where a corner of your land is. A green dot will appear.</p>
+        </div>
+
+        <!-- Frame 3 -->
+        <div class="tut-frame" data-frame="2">
+          <div class="tut-illustration">
+            <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+              <rect x="5" y="15" width="70" height="50" rx="6" fill="rgba(139,105,20,0.08)" stroke="#a67c1a" stroke-width="2"/>
+              <circle cx="20" cy="30" r="4" fill="#8B6914"/>
+              <circle cx="55" cy="25" r="4" fill="#8B6914"/>
+              <circle cx="60" cy="50" r="4" fill="#8B6914"/>
+              <circle cx="22" cy="52" r="4" fill="#8B6914"/>
+              <path d="M20 30 L55 25 L60 50 L22 52 Z" fill="#a67c1a" fill-opacity="0.15" stroke="#8B6914" stroke-width="1.5"/>
+              <!-- numbered labels -->
+              <text x="15" y="28" font-size="7" fill="white" font-weight="700" font-family="Jost, sans-serif">1</text>
+              <text x="52" y="23" font-size="7" fill="white" font-weight="700" font-family="Jost, sans-serif">2</text>
+              <text x="57" y="48" font-size="7" fill="white" font-weight="700" font-family="Jost, sans-serif">3</text>
+              <text x="19" y="50" font-size="7" fill="white" font-weight="700" font-family="Jost, sans-serif">4</text>
+              <text x="40" y="72" text-anchor="middle" font-size="8" fill="#6B7280" font-family="Jost, sans-serif">Step 2</text>
+            </svg>
+          </div>
+          <h3 class="tut-title">Click each corner</h3>
+          <p class="tut-text">Keep clicking around your land's boundary. After 3 points, a green shape will form. More points = more precise.</p>
+        </div>
+
+        <!-- Frame 4 -->
+        <div class="tut-frame" data-frame="3">
+          <div class="tut-illustration">
+            <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+              <rect x="5" y="15" width="70" height="50" rx="6" fill="rgba(139,105,20,0.08)" stroke="#a67c1a" stroke-width="2"/>
+              <path d="M20 30 L55 25 L60 50 L22 52 Z" fill="#a67c1a" fill-opacity="0.25" stroke="#8B6914" stroke-width="2"/>
+              <!-- area label -->
+              <rect x="25" y="35" width="30" height="12" rx="3" fill="white" stroke="#8B6914" stroke-width="1"/>
+              <text x="40" y="44" text-anchor="middle" font-size="7" fill="#8B6914" font-weight="600" font-family="Jost, sans-serif">~12.5 acres</text>
+              <!-- checkmark -->
+              <circle cx="62" cy="20" r="7" fill="#8B6914"/>
+              <path d="M58 20 L61 23 L66 17" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <text x="40" y="72" text-anchor="middle" font-size="8" fill="#6B7280" font-family="Jost, sans-serif">Step 3</text>
+            </svg>
+          </div>
+          <h3 class="tut-title">Done! Area calculated</h3>
+          <p class="tut-text">The area is automatically calculated. You can also import a KML file if you have one, or just drop a pin for the location.</p>
+        </div>
+
+      </div>
+
+      <div class="tut-nav">
+        <div class="tut-dots" id="tut-dots">
+          <span class="tut-dot active"></span>
+          <span class="tut-dot"></span>
+          <span class="tut-dot"></span>
+          <span class="tut-dot"></span>
+        </div>
+        <div class="tut-buttons">
+          <button class="tut-btn-back" id="tut-btn-back" onclick="tutPrev()" style="display:none">Back</button>
+          <button class="tut-btn-next" id="tut-btn-next" onclick="tutNext()">Next</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="error-logger.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/jszip@3.10.1/dist/jszip.min.js"></script>
+  <script src="ph-geo.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
