@@ -20,8 +20,8 @@ html, body { height: 100%; overflow: hidden; font-family: 'DM Sans', system-ui, 
   --cream: #f5f0e8;
   --charcoal: #2c2c2c;
   --warm-gray: #a09080;
-  --phone-w: min(390px, 92vw);
-  --radius: 40px;
+  --phone-w: min(352px, 84vw);
+  --radius: 46px;
 }
 
 /* === LAYOUT === */
@@ -117,17 +117,17 @@ html, body { height: 100%; overflow: hidden; font-family: 'DM Sans', system-ui, 
 
 .phone-frame {
   width: var(--phone-w);
-  aspect-ratio: 390 / 844;
+  aspect-ratio: 393 / 852;
   height: auto;
-  max-height: min(860px, calc(100dvh - 190px));
-  max-width: 92vw;
+  max-height: min(860px, calc(100dvh - 184px));
+  max-width: 84vw;
   border-radius: var(--radius);
   overflow: hidden;
   position: relative;
-  background: #f5f5f5;
+  background: #111;
   box-shadow:
-    0 0 0 2px #444,
-    0 0 0 4px #222,
+    0 0 0 2px #4a4a4a,
+    0 0 0 5px #1b1b1b,
     0 20px 60px rgba(0,0,0,0.6),
     inset 0 0 1px rgba(255,255,255,0.1);
 }
@@ -139,11 +139,20 @@ html, body { height: 100%; overflow: hidden; font-family: 'DM Sans', system-ui, 
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 150px;
-  height: 28px;
+  width: 126px;
+  height: 32px;
   background: #1a1a1a;
-  border-radius: 0 0 20px 20px;
-  z-index: 100;
+  border-radius: 0 0 18px 18px;
+  z-index: 130;
+}
+.phone-frame::after {
+  content: '';
+  position: absolute;
+  inset: 9px;
+  border-radius: 38px;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
+  pointer-events: none;
+  z-index: 129;
 }
 
 .phone-screen {
@@ -151,17 +160,199 @@ html, body { height: 100%; overflow: hidden; font-family: 'DM Sans', system-ui, 
   height: 100%;
   overflow: hidden;
   position: relative;
+  background: #f8f6f2;
 }
 
 .screen-img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: center top;
+  object-fit: contain;
+  object-position: center center;
   background: #f8f6f2;
-  transition: opacity 0.3s ease, transform 0.35s ease;
+  transition: opacity 0.3s ease;
   user-select: none;
   -webkit-user-drag: none;
+}
+.ui-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 95;
+  pointer-events: none;
+}
+.ui-overlay.hidden { display: none; }
+.mock-status {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 42px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 0 22px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #1e1e1e;
+}
+.mock-status--light { color: #fff; }
+.mock-status-right {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.sig-cell, .sig-dot {
+  display: inline-block;
+  background: currentColor;
+  border-radius: 999px;
+  opacity: 0.9;
+}
+.sig-cell { width: 15px; height: 8px; border: 1.5px solid currentColor; background: transparent; }
+.sig-dot { width: 4px; height: 4px; }
+.mock-nav {
+  position: absolute;
+  top: 32px;
+  left: 0;
+  right: 0;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 18px;
+  color: #3a3a3a;
+  font-weight: 700;
+  font-size: 15px;
+}
+.mock-nav::before {
+  content: '';
+  position: absolute;
+  left: 16px;
+  width: 10px;
+  height: 10px;
+  border-left: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg);
+}
+.mock-bottom-stack {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.mock-button, .mock-button-secondary {
+  border-radius: 16px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+.mock-button { background: #c78f58; color: #fff; }
+.mock-button-secondary { background: rgba(255,255,255,0.92); color: #b77c42; border: 1.5px solid rgba(183,124,66,0.45); }
+.mock-chip-row {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 76px;
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.mock-chip {
+  background: rgba(48,48,48,0.72);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  backdrop-filter: blur(6px);
+}
+.mock-note {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 84px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.92);
+  color: #4a4a4a;
+  font-size: 12px;
+  line-height: 1.35;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.08);
+}
+.mock-signature {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  top: 108px;
+  bottom: 112px;
+  border-radius: 18px;
+  border: 2px dashed rgba(139,105,20,0.28);
+  background: rgba(255,255,255,0.52);
+}
+.mock-signature::before {
+  content: 'Sign inside the box';
+  position: absolute;
+  top: 14px;
+  left: 16px;
+  font-size: 12px;
+  color: rgba(139,105,20,0.72);
+  font-weight: 600;
+}
+.mock-signature svg {
+  position: absolute;
+  left: 22px;
+  right: 22px;
+  bottom: 48px;
+  width: calc(100% - 44px);
+  height: 120px;
+}
+.mock-stepper {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  top: 82px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.mock-step {
+  border-radius: 12px;
+  background: rgba(255,255,255,0.94);
+  border: 1px solid rgba(139,105,20,0.2);
+  padding: 10px 6px;
+  text-align: center;
+  font-size: 10px;
+  color: #6d6a63;
+  font-weight: 700;
+}
+.mock-step.active {
+  background: #edf4de;
+  color: #6f9f20;
+  border-color: rgba(111,159,32,0.35);
+}
+.mock-capture-footer {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.mock-toolbar-plate {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 84px;
+  background: linear-gradient(180deg, rgba(248,246,242,0.98), rgba(248,246,242,0.92));
 }
 
 /* Swipe overlay zones */
@@ -190,9 +381,6 @@ html, body { height: 100%; overflow: hidden; font-family: 'DM Sans', system-ui, 
 .phone-screen.slide-in-right .screen-img {
   animation: slideInFromLeft 0.3s ease forwards;
 }
-.phone-screen.screen-refresh .screen-img {
-  transform: scale(1.015);
-}
 
 @keyframes slideOutLeft {
   to { transform: translateX(-100%); opacity: 0; }
@@ -207,55 +395,6 @@ html, body { height: 100%; overflow: hidden; font-family: 'DM Sans', system-ui, 
 @keyframes slideInFromLeft {
   from { transform: translateX(-100%); opacity: 0; }
   to { transform: translateX(0); opacity: 1; }
-}
-
-/* Overlay animation for scan/record moments */
-.screen-overlay {
-  position: absolute;
-  inset: 0;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  background: radial-gradient(circle at center, rgba(0,0,0,0.12), rgba(0,0,0,0.32));
-  z-index: 70;
-  pointer-events: none;
-}
-.screen-overlay.active { display: flex; }
-.scan-ring {
-  width: 45%;
-  aspect-ratio: 1 / 1;
-  border-radius: 50%;
-  border: 3px solid rgba(201,169,110,0.85);
-  box-shadow: 0 0 0 0 rgba(201,169,110,0.55);
-  animation: pulseRing 1.6s ease-out infinite;
-}
-.scan-line {
-  position: absolute;
-  width: 62%;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(245,240,232,0.9), transparent);
-  animation: scanLine 1.8s ease-in-out infinite;
-}
-.overlay-text {
-  position: absolute;
-  bottom: 14%;
-  font-size: 12px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: rgba(245,240,232,0.92);
-  background: rgba(0,0,0,0.35);
-  border: 1px solid rgba(201,169,110,0.55);
-  border-radius: 999px;
-  padding: 4px 10px;
-}
-@keyframes pulseRing {
-  0% { transform: scale(0.92); box-shadow: 0 0 0 0 rgba(201,169,110,0.45); }
-  70% { transform: scale(1.02); box-shadow: 0 0 0 22px rgba(201,169,110,0); }
-  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(201,169,110,0); }
-}
-@keyframes scanLine {
-  0%,100% { transform: translateY(-130px); opacity: 0.5; }
-  50% { transform: translateY(130px); opacity: 1; }
 }
 
 /* === BOTTOM CONTROLS === */
@@ -364,11 +503,7 @@ html, body { height: 100%; overflow: hidden; font-family: 'DM Sans', system-ui, 
     <div class="phone-frame">
       <div class="phone-screen" id="phoneScreen">
         <img class="screen-img" id="screenImg" src="" alt="App screen">
-        <div class="screen-overlay" id="screenOverlay">
-          <div class="scan-ring"></div>
-          <div class="scan-line"></div>
-          <p class="overlay-text" id="overlayText">Processing...</p>
-        </div>
+        <div class="ui-overlay hidden" id="uiOverlay"></div>
         <div class="swipe-zone left" id="swipeLeft"></div>
         <div class="swipe-zone right" id="swipeRight"></div>
       </div>
@@ -398,53 +533,32 @@ html, body { height: 100%; overflow: hidden; font-family: 'DM Sans', system-ui, 
 /* === FLOW DATA === */
 const flows = [
   {
-    id: 'welcome',
-    label: 'Welcome',
+    id: 'start',
+    label: 'Start',
     screens: [
       { file: 'f004-004.png', label: 'Splash Screen' },
       { file: 'f060-060.png', label: 'Welcome — Sign In' },
-    ]
-  },
-  {
-    id: 'onboarding',
-    label: 'Onboarding',
-    screens: [
       { file: 'f006-006.png', label: 'Select Language' },
       { file: 'f009-009.png', label: 'Privacy & Consent' },
     ]
   },
   {
-    id: 'biometric',
-    label: 'Biometrics',
+    id: 'verify',
+    label: 'Verify',
     screens: [
-      { file: 'f100-100.png', label: 'Face Scan', overlay: 'Face scan in progress' },
-      { file: 'f013-013.png', label: 'Face Verification', overlay: 'Verifying identity' },
-      { file: 'f016-016.png', label: 'Voice Biometric', overlay: 'Recording voice sample' },
-      { file: 'f018-018.png', label: 'Voice Verification', overlay: 'Voice verification complete' },
-    ]
-  },
-  {
-    id: 'identity',
-    label: 'Identity',
-    screens: [
+      { file: 'f100-100.png', label: 'Face Scan' },
+      { file: 'f013-013.png', label: 'Face Verification' },
       { file: 'f110-110.png', label: 'Select ID Type' },
       { file: 'f050-050.png', label: 'Scan ID — Front' },
-      { file: 'f115-115.png', label: 'ID Processing', overlay: 'Extracting ID details' },
-      { file: 'f120-120.png', label: 'Select Birth Month' },
-      { file: 'f025-025.png', label: 'You are... (Role)' },
       { file: 'f045-045.png', label: 'Write Signature' },
     ]
   },
   {
     id: 'land',
-    label: 'Land & Docs',
+    label: 'Land',
     screens: [
       { file: 'f130-130.png', label: 'Land Title — Ownership' },
-      { file: 'f040-040.png', label: 'Scan Membership Document' },
-      { file: 'f055-055.png', label: 'Land Lease Documents' },
-      { file: 'f075-075.png', label: 'Land Mapping — GPS Boundary' },
       { file: 'f390-390.png', label: 'GPS Tracking — Satellite View' },
-      { file: 'f210-210.png', label: 'Link to Person — Confirm' },
     ]
   },
   {
@@ -454,31 +568,18 @@ const flows = [
       { file: 'f260-260.png', label: 'Task List — To Do' },
       { file: 'f320-320.png', label: 'Clear the Land — Start' },
       { file: 'f290-290.png', label: 'Video Guide — Dig Soil' },
-      { file: 'f300-300.png', label: 'Do The Task — 3 Steps' },
       { file: 'f370-370.png', label: 'Step 1 — Till the Soil' },
       { file: 'f380-380.png', label: 'Photo Capture — Summary' },
-      { file: 'f397-397.png', label: 'Map — Photo Verification' },
       { file: 'f350-350.png', label: 'Tasks Done — Need Review' },
     ]
   },
   {
-    id: 'coop',
-    label: 'CO-OP & Link',
+    id: 'finish',
+    label: 'Finish',
     screens: [
-      { file: 'f280-280.png', label: 'Link — Pending Requests' },
-      { file: 'f270-270.png', label: 'Receive Seeds — Submit Photo' },
-      { file: 'f080-080.png', label: 'Learn While You Wait' },
-      { file: 'f085-085.png', label: 'Video — Coconut Farm' },
-    ]
-  },
-  {
-    id: 'profile',
-    label: 'Profile & Alerts',
-    screens: [
+      { file: 'f210-210.png', label: 'Identity Linked' },
       { file: 'f330-330.png', label: 'User Profile' },
-      { file: 'f230-230.png', label: 'Notification — Rejected' },
-      { file: 'f240-240.png', label: 'Notification — Overdue Task' },
-      { file: 'f150-150.png', label: 'Offline — No Internet' },
+      { file: 'f080-080.png', label: 'Learn While You Wait' },
     ]
   }
 ];
@@ -498,8 +599,84 @@ const screenLabel = document.getElementById('screenLabel');
 const screenCounter = document.getElementById('screenCounter');
 const prevBtn = document.getElementById('prevBtn');
 const nextBtn = document.getElementById('nextBtn');
-const screenOverlay = document.getElementById('screenOverlay');
-const overlayText = document.getElementById('overlayText');
+const uiOverlay = document.getElementById('uiOverlay');
+
+const screenFixes = {
+  'f006-006.png': {
+    html: `
+      <div class="mock-toolbar-plate"></div>
+      <div class="mock-status"><span>9:27</span><span class="mock-status-right"><span class="sig-dot"></span><span class="sig-dot"></span><span class="sig-cell"></span></span></div>
+    `
+  },
+  'f009-009.png': {
+    html: `
+      <div class="mock-toolbar-plate"></div>
+      <div class="mock-status"><span>9:27</span><span class="mock-status-right"><span class="sig-dot"></span><span class="sig-dot"></span><span class="sig-cell"></span></span></div>
+      <div class="mock-bottom-stack">
+        <div class="mock-button">Accept & Continue</div>
+        <div class="mock-button-secondary">Review Privacy Terms</div>
+      </div>
+    `
+  },
+  'f013-013.png': {
+    html: `
+      <div class="mock-chip-row">
+        <div class="mock-chip">Move closer if your face is too small</div>
+        <div class="mock-chip">Move back if your face is cropped</div>
+      </div>
+    `
+  },
+  'f050-050.png': {
+    html: `
+      <div class="mock-toolbar-plate"></div>
+      <div class="mock-status"><span>9:27</span><span class="mock-status-right"><span class="sig-dot"></span><span class="sig-dot"></span><span class="sig-cell"></span></span></div>
+      <div class="mock-note">Align the front of your ID inside the guide so all text and corners are visible.</div>
+      <div class="mock-bottom-stack">
+        <div class="mock-button">Capture Front of ID</div>
+      </div>
+    `
+  },
+  'f045-045.png': {
+    html: `
+      <div class="mock-toolbar-plate"></div>
+      <div class="mock-status"><span>9:27</span><span class="mock-status-right"><span class="sig-dot"></span><span class="sig-dot"></span><span class="sig-cell"></span></span></div>
+      <div class="mock-nav">Signature</div>
+      <div class="mock-signature">
+        <svg viewBox="0 0 280 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M14 90C28 62 54 66 73 83C86 95 97 96 110 73C118 58 126 44 138 64C144 73 151 95 163 92C175 89 176 63 192 62C207 61 210 88 228 85C241 83 248 74 266 48" stroke="#8B6914" stroke-width="4.2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="mock-bottom-stack">
+        <div class="mock-button">Confirm Signature</div>
+      </div>
+    `
+  },
+  'f370-370.png': {
+    html: `
+      <div class="mock-toolbar-plate"></div>
+      <div class="mock-status"><span>9:27</span><span class="mock-status-right"><span class="sig-dot"></span><span class="sig-dot"></span><span class="sig-cell"></span></span></div>
+      <div class="mock-stepper">
+        <div class="mock-step active">1<br>Till Soil</div>
+        <div class="mock-step">2<br>Dig Hole</div>
+        <div class="mock-step">3<br>Plant Seed</div>
+      </div>
+      <div class="mock-bottom-stack">
+        <div class="mock-button">Continue to Dig Hole</div>
+      </div>
+    `
+  },
+  'f380-380.png': {
+    html: `
+      <div class="mock-toolbar-plate"></div>
+      <div class="mock-status"><span>9:27</span><span class="mock-status-right"><span class="sig-dot"></span><span class="sig-dot"></span><span class="sig-cell"></span></span></div>
+      <div class="mock-nav">Photo Capture</div>
+      <div class="mock-capture-footer">
+        <div class="mock-note">Review each task photo before sending it for project verification.</div>
+        <div class="mock-button">Submit 3 Photos</div>
+      </div>
+    `
+  }
+};
 
 /* === INIT === */
 function init() {
@@ -548,16 +725,12 @@ function loadScreen(flowIdx, screenIdx, direction) {
     }, 150);
   } else {
     screenImg.src = basePath + screen.file;
-    requestAnimationFrame(() => {
-      phoneScreen.classList.add('screen-refresh');
-      setTimeout(() => phoneScreen.classList.remove('screen-refresh'), 220);
-    });
   }
 
   screenLabel.textContent = screen.label;
   screenCounter.textContent = `${screenIdx + 1} / ${flow.screens.length} — ${flow.label}`;
   flowMetaEl.textContent = `Flow ${flowIdx + 1} / ${flows.length}`;
-  updateOverlay(screen);
+  renderScreenFix(screen.file);
 
   prevBtn.disabled = (flowIdx === 0 && screenIdx === 0);
   nextBtn.disabled = (flowIdx === flows.length - 1 && screenIdx === flow.screens.length - 1);
@@ -565,13 +738,15 @@ function loadScreen(flowIdx, screenIdx, direction) {
   renderProgressDots();
 }
 
-function updateOverlay(screen) {
-  if (screen.overlay) {
-    overlayText.textContent = screen.overlay;
-    screenOverlay.classList.add('active');
-  } else {
-    screenOverlay.classList.remove('active');
+function renderScreenFix(file) {
+  const fix = screenFixes[file];
+  if (!fix) {
+    uiOverlay.classList.add('hidden');
+    uiOverlay.innerHTML = '';
+    return;
   }
+  uiOverlay.innerHTML = fix.html;
+  uiOverlay.classList.remove('hidden');
 }
 
 function navigate(dir) {
