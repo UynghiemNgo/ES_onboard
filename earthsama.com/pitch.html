@@ -711,6 +711,41 @@ html.dark .cover-logo {
   .stat-row { grid-template-columns: repeat(2, 1fr); }
 }
 
+/* Mobile-first tuning for iPhone widths (avoid "crammed words") */
+@media (max-width: 480px) {
+  :root {
+    --slide-pad: clamp(1rem, 3.5vw, 1.4rem);
+    --gap: clamp(0.35rem, 1.4vw, 0.9rem);
+    --gap-sm: clamp(0.2rem, 0.9vw, 0.6rem);
+
+    /* Lower minimums so typography doesn't force heavy line-wrapping */
+    --title-size: clamp(1.2rem, 4.8vw, 1.8rem);
+    --h2-size: clamp(1.1rem, 4.6vw, 1.55rem);
+    --h3-size: clamp(0.95rem, 3.4vw, 1.25rem);
+    --body-size: clamp(0.78rem, 1.55vw, 0.95rem);
+    --small-size: clamp(0.56rem, 1.15vw, 0.78rem);
+    --caption-size: clamp(0.48rem, 0.95vw, 0.7rem);
+  }
+
+  /* Large cover headlines: reduce min sizes on narrow screens */
+  .cover-h1-a { font-size: clamp(2.0rem, 8.6vw, 3.05rem); }
+  .cover-h1-b { font-size: clamp(1.65rem, 7vw, 2.5rem); }
+  .cover-subtitle { max-width: 260px; }
+
+  /* Dense rows/cards become one column */
+  .stat-row { grid-template-columns: 1fr; }
+  .two-col, .three-col { grid-template-columns: 1fr !important; }
+
+  /* Bio cards: stack image above text to prevent horizontal squeeze */
+  .bio-card { flex-direction: column; align-items: flex-start; }
+  .bio-card img { width: clamp(54px, 18vw, 72px); height: clamp(54px, 18vw, 72px); }
+
+  /* Timeline: keep 4 columns, but reduce label minimums so text wraps cleanly */
+  .tl-num { font-size: clamp(0.4rem, 2.3vw, 0.56rem); }
+  .tl-label { font-size: clamp(0.38rem, 2.9vw, 0.55rem); }
+  .tl-sub { font-size: clamp(0.32rem, 2.4vw, 0.47rem); }
+}
+
 /* ============================================================
    PHOTO SPLIT LAYOUT
    ============================================================ */
