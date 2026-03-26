@@ -22,6 +22,8 @@ html, body { height: 100%; overflow: hidden; font-family: 'DM Sans', system-ui, 
   --warm-gray: #a09080;
   --phone-w: min(352px, 84vw);
   --radius: 46px;
+  --crop-top: 36px; /* trims native status bar without cutting content */
+  --crop-bottom: 0px; /* optional: hide native home bar / stray CTA in PNG */
 }
 
 /* === LAYOUT === */
@@ -162,16 +164,38 @@ html, body { height: 100%; overflow: hidden; font-family: 'DM Sans', system-ui, 
   position: relative;
   background: #f8f6f2;
 }
+.phone-screen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--screen-bg);
+  background-size: cover;
+  background-position: center 10%;
+  transform: scale(1.18);
+  filter: blur(24px) saturate(0.84);
+  opacity: 0.22;
+  z-index: 0;
+}
+.phone-screen::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(248,246,242,0.14), rgba(248,246,242,0.08) 35%, rgba(248,246,242,0.18));
+  z-index: 0;
+}
 
 .screen-img {
-  width: 100%;
-  height: 100%;
+  width: calc(100% + 2px);
+  height: calc(100% + var(--crop-top) + var(--crop-bottom));
   object-fit: contain;
-  object-position: center center;
-  background: #f8f6f2;
+  object-position: center top;
+  background: transparent;
   transition: opacity 0.3s ease;
   user-select: none;
   -webkit-user-drag: none;
+  position: relative;
+  z-index: 1;
+  margin: calc(-1 * var(--crop-top)) -1px calc(-1 * var(--crop-bottom)) -1px;
 }
 .ui-overlay {
   position: absolute;
@@ -180,25 +204,106 @@ html, body { height: 100%; overflow: hidden; font-family: 'DM Sans', system-ui, 
   pointer-events: none;
 }
 .ui-overlay.hidden { display: none; }
-.mock-status {
+.mock-status-shell {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 42px;
+  height: 34px;
+  background: linear-gradient(180deg, rgba(248,246,242,0.98), rgba(248,246,242,0.86), rgba(248,246,242,0));
+  z-index: 20;
+}
+.mock-status-shell--dark {
+  background: linear-gradient(180deg, rgba(18,18,20,0.88), rgba(18,18,20,0.45), rgba(18,18,20,0));
+}
+/* Select Language: mock status + plate sit higher under notch */
+.phone-screen[data-lift-status] .mock-status-shell {
+  top: -6px;
+}
+.phone-screen[data-lift-status] .mock-status {
+  top: -4px;
+}
+/* Scan ID + Signature: lift status row and shorten plate so PNG titles / camera aren’t covered */
+.phone-screen[data-lift-verify-overlay] .mock-status-shell {
+  top: -8px;
+}
+.phone-screen[data-lift-verify-overlay] .mock-status {
+  top: -6px;
+}
+.phone-screen[data-lift-verify-overlay] .mock-toolbar-plate {
+  top: -2px;
+  height: 48px;
+}
+.phone-screen[data-lift-verify-overlay] .mock-toolbar-plate--camera {
+  height: 40px;
+}
+.phone-screen[data-lift-verify-overlay] .mock-nav {
+  top: 26px;
+}
+.phone-screen[data-lift-verify-overlay] .mock-signature {
+  top: 122px;
+  bottom: 124px;
+}
+.mock-status {
+  position: absolute;
+  top: 2px;
+  left: 0;
+  right: 0;
+  height: 30px;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: space-between;
-  padding: 0 22px 8px;
+  padding: 0 22px;
   font-size: 11px;
   font-weight: 700;
   color: #1e1e1e;
+  z-index: 21;
 }
 .mock-status--light { color: #fff; }
 .mock-status-right {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 4px;
+}
+.mock-sig-bars {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 10px;
+}
+.mock-sig-bars span {
+  width: 3px;
+  border-radius: 1px;
+  background: currentColor;
+  opacity: 0.95;
+}
+.mock-sig-bars span:nth-child(1) { height: 4px; }
+.mock-sig-bars span:nth-child(2) { height: 6px; }
+.mock-sig-bars span:nth-child(3) { height: 8px; }
+.mock-wifi {
+  position: relative;
+  display: inline-block;
+  width: 13px;
+  height: 10px;
+  border: 1.5px solid currentColor;
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  opacity: 0.95;
+  box-sizing: border-box;
+  vertical-align: middle;
+}
+.mock-wifi::before {
+  content: '';
+  position: absolute;
+  width: 7px;
+  height: 5px;
+  border: 1.5px solid currentColor;
+  border-top: none;
+  border-radius: 0 0 2px 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 2px;
+  box-sizing: border-box;
 }
 .sig-cell, .sig-dot {
   display: inline-block;
@@ -353,6 +458,14 @@ html, body { height: 100%; overflow: hidden; font-family: 'DM Sans', system-ui, 
   right: 0;
   height: 84px;
   background: linear-gradient(180deg, rgba(248,246,242,0.98), rgba(248,246,242,0.92));
+  z-index: 1;
+}
+.mock-toolbar-plate--compact {
+  height: 56px;
+  background: linear-gradient(180deg, rgba(248,246,242,0.98), rgba(248,246,242,0.93) 55%, rgba(248,246,242,0.78));
+}
+.mock-toolbar-plate--camera {
+  background: linear-gradient(180deg, rgba(28,28,30,0.55), rgba(28,28,30,0.22));
 }
 
 /* Swipe overlay zones */
@@ -601,17 +714,35 @@ const prevBtn = document.getElementById('prevBtn');
 const nextBtn = document.getElementById('nextBtn');
 const uiOverlay = document.getElementById('uiOverlay');
 
+/** Per-frame top trim (hides duplicate status bar). Full-screen camera/ID scan needs less crop. */
+const cropTopByFile = {
+  /* Start flow: raise trim so mock status aligns; hide duplicate status band */
+  'f006-006.png': '58px',
+  'f009-009.png': '44px',
+  /* Verify: less top trim so mock chrome doesn’t hide in-frame titles / camera guide */
+  'f050-050.png': '4px',
+  'f045-045.png': '20px'
+};
+
+/** Per-frame bottom trim: clips native brown CTA / home strip in PNG (mock buttons replace). */
+const cropBottomByFile = {
+  'f006-006.png': '56px',
+  'f009-009.png': '72px',
+  /* Remove native in-frame CTA so overlay CTA does not look duplicated */
+  'f050-050.png': '64px',
+  'f045-045.png': '92px',
+  'f370-370.png': '92px'
+};
+
 const screenFixes = {
   'f006-006.png': {
     html: `
-      <div class="mock-toolbar-plate"></div>
-      <div class="mock-status"><span>9:27</span><span class="mock-status-right"><span class="sig-dot"></span><span class="sig-dot"></span><span class="sig-cell"></span></span></div>
+      <div class="mock-toolbar-plate mock-toolbar-plate--compact"></div>
     `
   },
   'f009-009.png': {
     html: `
       <div class="mock-toolbar-plate"></div>
-      <div class="mock-status"><span>9:27</span><span class="mock-status-right"><span class="sig-dot"></span><span class="sig-dot"></span><span class="sig-cell"></span></span></div>
       <div class="mock-bottom-stack">
         <div class="mock-button">Accept & Continue</div>
         <div class="mock-button-secondary">Review Privacy Terms</div>
@@ -628,8 +759,6 @@ const screenFixes = {
   },
   'f050-050.png': {
     html: `
-      <div class="mock-toolbar-plate"></div>
-      <div class="mock-status"><span>9:27</span><span class="mock-status-right"><span class="sig-dot"></span><span class="sig-dot"></span><span class="sig-cell"></span></span></div>
       <div class="mock-note">Align the front of your ID inside the guide so all text and corners are visible.</div>
       <div class="mock-bottom-stack">
         <div class="mock-button">Capture Front of ID</div>
@@ -638,8 +767,7 @@ const screenFixes = {
   },
   'f045-045.png': {
     html: `
-      <div class="mock-toolbar-plate"></div>
-      <div class="mock-status"><span>9:27</span><span class="mock-status-right"><span class="sig-dot"></span><span class="sig-dot"></span><span class="sig-cell"></span></span></div>
+      <div class="mock-toolbar-plate mock-toolbar-plate--compact"></div>
       <div class="mock-nav">Signature</div>
       <div class="mock-signature">
         <svg viewBox="0 0 280 120" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -654,7 +782,6 @@ const screenFixes = {
   'f370-370.png': {
     html: `
       <div class="mock-toolbar-plate"></div>
-      <div class="mock-status"><span>9:27</span><span class="mock-status-right"><span class="sig-dot"></span><span class="sig-dot"></span><span class="sig-cell"></span></span></div>
       <div class="mock-stepper">
         <div class="mock-step active">1<br>Till Soil</div>
         <div class="mock-step">2<br>Dig Hole</div>
@@ -668,7 +795,6 @@ const screenFixes = {
   'f380-380.png': {
     html: `
       <div class="mock-toolbar-plate"></div>
-      <div class="mock-status"><span>9:27</span><span class="mock-status-right"><span class="sig-dot"></span><span class="sig-dot"></span><span class="sig-cell"></span></span></div>
       <div class="mock-nav">Photo Capture</div>
       <div class="mock-capture-footer">
         <div class="mock-note">Review each task photo before sending it for project verification.</div>
@@ -714,7 +840,29 @@ function loadScreen(flowIdx, screenIdx, direction) {
   const flow = flows[flowIdx];
   const screen = flow.screens[screenIdx];
   const key = `${flowIdx}-${screenIdx}`;
+  const screenUrl = `url("${basePath + screen.file}")`;
   visited.add(key);
+  phoneScreen.style.setProperty('--screen-bg', screenUrl);
+  if (screen.file === 'f006-006.png') {
+    phoneScreen.setAttribute('data-lift-status', '');
+  } else {
+    phoneScreen.removeAttribute('data-lift-status');
+  }
+  if (screen.file === 'f045-045.png') {
+    phoneScreen.setAttribute('data-lift-verify-overlay', '');
+  } else {
+    phoneScreen.removeAttribute('data-lift-verify-overlay');
+  }
+  if (cropTopByFile[screen.file] !== undefined) {
+    phoneScreen.style.setProperty('--crop-top', cropTopByFile[screen.file]);
+  } else {
+    phoneScreen.style.removeProperty('--crop-top');
+  }
+  if (cropBottomByFile[screen.file] !== undefined) {
+    phoneScreen.style.setProperty('--crop-bottom', cropBottomByFile[screen.file]);
+  } else {
+    phoneScreen.style.removeProperty('--crop-bottom');
+  }
 
   if (direction) {
     phoneScreen.className = 'phone-screen slide-' + direction;
@@ -740,12 +888,17 @@ function loadScreen(flowIdx, screenIdx, direction) {
 
 function renderScreenFix(file) {
   const fix = screenFixes[file];
-  if (!fix) {
-    uiOverlay.classList.add('hidden');
-    uiOverlay.innerHTML = '';
-    return;
-  }
-  uiOverlay.innerHTML = fix.html;
+  const scanId = file === 'f050-050.png';
+  const shellCls = scanId ? 'mock-status-shell mock-status-shell--dark' : 'mock-status-shell';
+  const statusCls = scanId ? 'mock-status mock-status--light' : 'mock-status';
+  const rightIcons = scanId
+    ? `<span class="mock-status-right"><span class="mock-sig-bars" aria-hidden="true"><span></span><span></span><span></span></span><span class="mock-wifi" aria-hidden="true"></span><span class="sig-cell"></span></span>`
+    : `<span class="mock-status-right"><span class="sig-dot"></span><span class="sig-dot"></span><span class="sig-cell"></span></span>`;
+  uiOverlay.innerHTML = `
+    <div class="${shellCls}"></div>
+    <div class="${statusCls}"><span>9:27</span>${rightIcons}</div>
+    ${fix ? fix.html : ''}
+  `;
   uiOverlay.classList.remove('hidden');
 }
 
