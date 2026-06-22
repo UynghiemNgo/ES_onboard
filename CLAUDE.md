@@ -9,6 +9,14 @@
 - **Data:** localStorage (MVP) — schema v1.1 with PSGC-aligned PH geography
 - **External deps:** Leaflet 1.9.4, JSZip 3.10.1 (both from unpkg CDN)
 
+## Deployment
+
+- **Host:** GitHub Pages, served from the `main` branch of `github.com/UynghiemNgo/ES_onboard`
+- **Domain:** `earthsama.com` — set via the root `CNAME` file (a GitHub Pages custom domain marker, *not* the same as the `earthsama.com/` subdirectory)
+- **Trigger:** push to `main` auto-publishes the whole repo root; no build step (zero-build static site)
+- **No** `vercel.json` / `netlify.toml` — GitHub Pages is the only deploy path
+- Both the core platform (root `form.html`/`dashboard.html`/`live.html` etc.) and the marketing site (`earthsama.com/`) ship to the same domain
+
 ## Architecture
 
 ```
