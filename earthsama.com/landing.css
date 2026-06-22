@@ -76,9 +76,10 @@ body { background:
 .landing-hero .landing-btn-ghost:hover { background: rgba(255,255,255,0.12); color: #fff; }
 
 /* --- KPIs --- */
-.landing-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.8rem; max-width: 1120px; margin: 0 auto; padding: 0 1.25rem 2rem; }
-.landing-kpi { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1rem; }
-.landing-kpi strong { display: block; font-family: var(--font-display); font-size: 1.6rem; color: var(--primary); font-weight: 400; }
+.landing-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.8rem; max-width: 1120px; margin-top: -3rem; margin-right: auto; margin-left: auto; margin-bottom: 0; position: relative; z-index: 2; padding: 0 1.25rem 2rem; }
+.landing-kpi { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 1.25rem; box-shadow: 0 10px 30px rgba(30,28,24,0.08); transition: transform .25s ease, box-shadow .25s ease; }
+.landing-kpi:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(30,28,24,0.12); }
+.landing-kpi strong { display: block; font-family: var(--font-display); font-size: 2.2rem; color: var(--ls-warm-clay); font-weight: 400; }
 .landing-kpi span { font-size: 0.78rem; color: var(--text-muted); font-weight: 300; letter-spacing: 0.06em; text-transform: uppercase; }
 
 /* --- Section --- */
