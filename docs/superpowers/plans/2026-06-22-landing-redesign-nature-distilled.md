@@ -53,29 +53,45 @@ Refactor-only baseline so later visual diffs are isolated.
 
 ---
 
-### Task 2: Generate farmland imagery
+### Task 2: CSS-only hero backdrop (no image files)
+
+AI image generation is unavailable in this environment (no Gemini API key). Per
+user decision, the hero uses a pure CSS/SVG warm backdrop instead of photos. No
+image files are created this round; real photos can be swapped in later.
 
 **Files:**
-- Create: `earthsama.com/img/hero-agroforestry.webp` (or .jpg)
-- Create: `earthsama.com/img/section-texture.webp` (or .jpg)
+- Modify: `earthsama.com/landing.css` (add `.landing-hero-bg` backdrop utility)
 
 **Interfaces:**
-- Produces: two local image files referenced by Tasks 4 and 7.
+- Produces: `.landing-hero-bg` — a self-contained warm gradient-mesh + organic-blob
+  backdrop, consumed by Task 4's hero (in place of an `<img>`).
 
-- [ ] **Step 1: Generate the hero image**
-  Use a design/image-generation skill (e.g. `banner-design` / `design` ai-artist). Prompt intent: "wide landscape photo, golden-hour Philippine smallholder agroforestry — coconut palms intercropped with coffee/cacao/moringa, lush, warm earthy tones, soft natural light, no text, no people in foreground, photographic, premium." Target ~2000px wide, optimized < 400KB.
+- [ ] **Step 1: Add the gradient-mesh + organic-blob backdrop**
+  ```css
+  /* Warm Nature Distilled hero backdrop — no image assets */
+  .landing-hero-bg { position: absolute; inset: 0; z-index: -2; overflow: hidden;
+    background:
+      radial-gradient(60% 80% at 78% 18%, rgba(181,101,29,0.55), transparent 60%),
+      radial-gradient(50% 70% at 12% 82%, rgba(107,123,60,0.45), transparent 60%),
+      radial-gradient(40% 60% at 90% 95%, rgba(198,123,92,0.50), transparent 65%),
+      linear-gradient(135deg, #3a2c18 0%, #5a431f 45%, #7a5a24 100%); }
+  .landing-hero-bg::before, .landing-hero-bg::after {
+    content: ""; position: absolute; border-radius: 45% 55% 60% 40%;
+    filter: blur(40px); opacity: 0.5; }
+  .landing-hero-bg::before { width: 50vw; height: 50vw; right: -8vw; top: -10vw;
+    background: radial-gradient(circle, rgba(212,196,168,0.6), transparent 70%); }
+  .landing-hero-bg::after { width: 40vw; height: 40vw; left: -6vw; bottom: -12vw;
+    background: radial-gradient(circle, rgba(107,123,60,0.55), transparent 70%); }
+  ```
 
-- [ ] **Step 2: Generate the supporting texture/accent image**
-  Prompt intent: "close, soft-focus warm soil / woven natural fiber / leaf texture, muted terracotta and olive tones, subtle, no text." ~1200px, < 200KB.
+- [ ] **Step 2: Verify**
+  Reload the page after Task 4 wires it in (this task only adds the CSS rule). Confirm
+  the rule parses (no console errors). Visual check happens with Task 4.
 
-- [ ] **Step 3: Save and verify**
-  Save both to `earthsama.com/img/`. Open each to confirm they render and look on-brief (warm, premium, no text artifacts). Regenerate if off-brief.
-  Expected: two reasonable images, each under target size.
-
-- [ ] **Step 4: Commit**
+- [ ] **Step 3: Commit**
   ```bash
-  git add earthsama.com/img/
-  git commit -m "feat(landing): add AI-generated farmland imagery"
+  git add earthsama.com/landing.css
+  git commit -m "feat(landing): CSS-only warm hero backdrop (gradient mesh + blobs)"
   ```
 
 ---
@@ -136,15 +152,14 @@ Refactor-only baseline so later visual diffs are isolated.
 - Modify: `earthsama.com/landing.css` (`.landing-hero*` rules)
 
 **Interfaces:**
-- Consumes: `img/hero-agroforestry.*` (Task 2), palette vars (Task 3).
+- Consumes: `.landing-hero-bg` backdrop (Task 2), palette vars (Task 3).
 - Produces: `.landing-hero` with class `landing-grain`; `.landing-btn-primary` restyled to a filled gold CTA.
 
 - [ ] **Step 1: Update hero markup**
-  Wrap the hero in a full-bleed container with the image and a scrim; keep existing eyebrow/headline/sub/CTAs copy.
+  Wrap the hero in a full-bleed container with the CSS backdrop and a scrim; keep existing eyebrow/headline/sub/CTAs copy.
   ```html
   <section class="landing-hero landing-grain">
-    <img class="landing-hero-img" src="img/hero-agroforestry.webp"
-         alt="Golden-hour view of Philippine agroforestry — coconut palms intercropped with coffee and cacao">
+    <div class="landing-hero-bg" aria-hidden="true"></div>
     <div class="landing-hero-inner">
       <div class="landing-eyebrow">Digital Public Infrastructure</div>
       <h1>Building <em>digital capacity</em> for agricarbon and food security</h1>
@@ -160,9 +175,9 @@ Refactor-only baseline so later visual diffs are isolated.
 - [ ] **Step 2: Style the hero**
   ```css
   .landing-hero { position: relative; max-width: none; padding: 0; min-height: 78vh; display: flex; align-items: flex-end; overflow: hidden; }
-  .landing-hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
+  /* .landing-hero-bg backdrop is styled in Task 2 */
   .landing-hero::before { content: ""; position: absolute; inset: 0; z-index: -1;
-    background: linear-gradient(90deg, rgba(30,28,24,0.72) 0%, rgba(30,28,24,0.35) 55%, transparent 100%),
+    background: linear-gradient(90deg, rgba(30,28,24,0.55) 0%, rgba(30,28,24,0.18) 55%, transparent 100%),
                 linear-gradient(0deg, var(--ls-cream) 2%, transparent 28%); }
   .landing-hero-inner { max-width: 1120px; margin: 0 auto; padding: 0 1.25rem 4rem; width: 100%; }
   .landing-hero h1 { color: #fff; font-size: clamp(2.4rem, 6vw, 4.4rem); line-height: 1.04; max-width: 14ch; }
@@ -285,7 +300,7 @@ Refactor-only baseline so later visual diffs are isolated.
 - Modify: `earthsama.com/landing.css` (`.landing-card*`)
 
 **Interfaces:**
-- Consumes: palette vars, `section-texture` image (optional accent on one section).
+- Consumes: palette vars.
 - Produces: `.landing-card-icon` style.
 
 - [ ] **Step 1: Add an inline SVG icon to each card**
@@ -320,7 +335,7 @@ Refactor-only baseline so later visual diffs are isolated.
 - Modify: `earthsama.com/landing.css` (`.landing-cta-band`, `.landing-footer`)
 
 **Interfaces:**
-- Consumes: palette vars, `img/section-texture.*` (background accent).
+- Consumes: palette vars.
 
 - [ ] **Step 1: Add the CTA band markup** (before `<footer>`):
   ```html
