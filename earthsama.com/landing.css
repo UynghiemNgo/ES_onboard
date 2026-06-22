@@ -26,6 +26,21 @@ body { font-family: var(--font-body); background: var(--surface); color: var(--t
 .landing-mobile-menu { display: none; }
 
 /* --- Hero --- */
+/* Warm Nature Distilled hero backdrop — no image assets */
+.landing-hero-bg { position: absolute; inset: 0; z-index: -2; overflow: hidden;
+  background:
+    radial-gradient(60% 80% at 78% 18%, rgba(181,101,29,0.55), transparent 60%),
+    radial-gradient(50% 70% at 12% 82%, rgba(107,123,60,0.45), transparent 60%),
+    radial-gradient(40% 60% at 90% 95%, rgba(198,123,92,0.50), transparent 65%),
+    linear-gradient(135deg, #3a2c18 0%, #5a431f 45%, #7a5a24 100%); }
+.landing-hero-bg::before, .landing-hero-bg::after {
+  content: ""; position: absolute; border-radius: 45% 55% 60% 40%;
+  filter: blur(40px); opacity: 0.5; }
+.landing-hero-bg::before { width: 50vw; height: 50vw; right: -8vw; top: -10vw;
+  background: radial-gradient(circle, rgba(212,196,168,0.6), transparent 70%); }
+.landing-hero-bg::after { width: 40vw; height: 40vw; left: -6vw; bottom: -12vw;
+  background: radial-gradient(circle, rgba(107,123,60,0.55), transparent 70%); }
+
 .landing-hero { max-width: 1120px; margin: 0 auto; padding: 5rem 1.25rem 3rem; }
 .landing-eyebrow { font-family: var(--font-body); font-size: 0.74rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 1rem; font-weight: 300; }
 .landing-hero h1 { font-family: var(--font-display); font-optical-sizing: auto; font-weight: 300; line-height: 1.08; font-size: clamp(2rem, 5vw, 3.6rem); max-width: 800px; color: var(--text); }
