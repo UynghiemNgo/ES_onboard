@@ -2,6 +2,21 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: var(--font-body); background: var(--surface); color: var(--text); line-height: 1.6; }
 
+/* Nature Distilled — landing-scoped tokens (do NOT move to shared.css this round) */
+.landing-header, .landing-hero, .landing-kpis, .landing-section, .landing-footer, .landing-cta-band {
+  --ls-terracotta: #C67B5C;
+  --ls-warm-clay:  #B5651D;
+  --ls-sand:       #D4C4A8;
+  --ls-cream:      #F5F0E1;
+  --ls-olive:      #6B7B3C;
+}
+
+/* Warm page surface */
+body { background:
+  radial-gradient(1200px 600px at 80% -10%, rgba(198,123,92,0.10), transparent 60%),
+  linear-gradient(180deg, var(--ls-cream), #efe9dc 60%, var(--ls-cream));
+  background-attachment: fixed; }
+
 /* --- Header --- */
 .landing-header { background: var(--card); border-bottom: 1px solid var(--border); padding: 0 1.25rem; position: relative; }
 .landing-header-inner { max-width: 1120px; margin: 0 auto; height: 64px; display: flex; align-items: center; justify-content: space-between; }
@@ -85,6 +100,13 @@ body { font-family: var(--font-body); background: var(--surface); color: var(--t
 .landing-footer { max-width: 1120px; margin: 0 auto; padding: 2rem 1.25rem; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.82rem; font-weight: 300; }
 .landing-footer a { color: var(--primary); text-decoration: none; }
 .landing-footer a:hover { text-decoration: underline; }
+
+/* --- Grain overlay utility --- */
+.landing-grain::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0.10;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
+}
 
 /* --- Responsive --- */
 @media (max-width: 900px) {
