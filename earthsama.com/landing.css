@@ -92,11 +92,11 @@ body { background:
 .landing-timeline-step { display: flex; gap: 1rem; padding-bottom: 1.5rem; position: relative; }
 .landing-timeline-step:last-child { padding-bottom: 0; }
 .landing-timeline-marker { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
-.landing-timeline-dot { width: 36px; height: 36px; background: var(--success-bg); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--primary); font-weight: 400; font-size: 0.9rem; flex-shrink: 0; font-family: var(--font-display); }
-.landing-timeline-line { width: 2px; background: var(--border); flex: 1; margin-top: 0.4rem; }
+.landing-timeline-dot { width: 44px; height: 44px; border-radius: 12px; font-size: 1.05rem; background: linear-gradient(135deg, var(--ls-terracotta), var(--ls-warm-clay)); color: #fff; box-shadow: 0 6px 16px rgba(181,101,29,0.30); display: flex; align-items: center; justify-content: center; font-weight: 400; flex-shrink: 0; font-family: var(--font-display); }
+.landing-timeline-line { width: 2px; background: linear-gradient(var(--ls-terracotta), var(--ls-sand)); flex: 1; margin-top: 0.4rem; }
 .landing-timeline-step:last-child .landing-timeline-line { display: none; }
 .landing-timeline-content { padding-top: 0.35rem; }
-.landing-timeline-content h3 { font-family: var(--font-display); font-size: 1rem; font-weight: 400; margin-bottom: 0.25rem; }
+.landing-timeline-content h3 { font-family: var(--font-display); font-size: 1.15rem; font-weight: 400; margin-bottom: 0.25rem; }
 .landing-timeline-content p { font-size: 0.9rem; color: var(--text-muted); font-weight: 300; }
 
 /* --- Cards --- */
