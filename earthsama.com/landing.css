@@ -18,7 +18,8 @@ body { background:
   background-attachment: fixed; }
 
 /* --- Header --- */
-.landing-header { background: var(--card); border-bottom: 1px solid var(--border); padding: 0 1.25rem; position: relative; }
+.landing-header { background: var(--card); border-bottom: 1px solid var(--border); padding: 0 1.25rem; position: sticky; top: 0; z-index: 1000; transition: background .3s ease, backdrop-filter .3s ease; }
+.landing-header.is-scrolled { background: rgba(249,247,244,0.82); backdrop-filter: blur(10px); }
 .landing-header-inner { max-width: 1120px; margin: 0 auto; height: 64px; display: flex; align-items: center; justify-content: space-between; }
 .landing-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: var(--primary); font-weight: 500; font-size: 1.05rem; font-family: var(--font-body); letter-spacing: 0.08em; }
 .landing-logo img { width: 36px; height: 36px; object-fit: contain; }
@@ -173,4 +174,15 @@ body { background:
 
   .landing-kpis { grid-template-columns: 1fr; }
   .landing-grid-3 { grid-template-columns: 1fr; }
+}
+
+/* --- Scroll reveal --- */
+[data-reveal] { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
+[data-reveal].is-in { opacity: 1; transform: none; }
+
+/* --- Reduced-motion guard --- */
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .landing-kpi, .landing-card { transition: none; }
+  .landing-kpi:hover, .landing-card:hover { transform: none; }
 }
