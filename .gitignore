@@ -1,3 +1,5 @@
 *.DS_Store
 access-codes.txt
 supabase-email.sql
+.gstack/
+.superpowers/
