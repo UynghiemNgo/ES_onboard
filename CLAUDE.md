@@ -21,22 +21,24 @@
 
 ```
 ES_onboard/
-├── index.html + app.js + styles.css       # Typeform-style land submission form
+├── index.html                             # Marketing homepage / landing (loads shared.css + earthsama.com/landing.*)
+├── form.html + app.js + styles.css        # Typeform-style land submission form (+ error-logger.js, ph-geo.js, Leaflet, JSZip)
 ├── dashboard.html + dashboard.js + .css   # Admin: status mgmt, 7 export formats
 ├── live.html + live.js + live.css         # Public: real-time hectare tracker + map
 ├── ph-geo.js                              # PH regions/provinces/municipalities (PSGC)
 ├── ph-barangays.js                        # 42,000+ barangays (546KB)
 ├── error-logger.js                        # Client-side error capture to localStorage
 ├── submit.html                            # Post-submission redirect
-└── earthsama.com/                         # Pitch deck + mobile app demo
+└── earthsama.com/                         # Pitch deck + demo; also holds landing assets used by homepage
+    ├── landing.css + landing.js           # Homepage stylesheet/script (referenced by root index.html)
     ├── pitch.html                         # Investor pitch (15 slides)
     ├── demo.html + demo-frames/           # Interactive app prototype (61 frames)
-    └── index.html                         # Landing page
+    └── index.html                         # Redirect to /
 ```
 
 ### Data Flow
 
-1. Landowner fills multi-step form → draws polygon on map → submits
+1. Landowner visits homepage (`index.html`) → navigates to `form.html` → fills multi-step form → draws polygon on map → submits
 2. Submission stored in `localStorage` under key `earthsama_submissions`
 3. Admin dashboard reads same localStorage → filters, updates status, exports
 4. Live map aggregates submissions → tracks against regional thresholds
@@ -96,7 +98,7 @@ If skills aren't loading: cd ~/.claude/skills/gstack && ./setup
 
 - This is a zero-build static site. There is no package.json, no node_modules, no bundler. Do not introduce build tooling unless explicitly asked.
 - All three apps (form, dashboard, live map) share localStorage and PH geography data but have no shared JS module — utilities like `esc()` are duplicated across files.
-- The `earthsama.com/` subdirectory is the marketing/pitch site, not part of the core platform. Do not modify it unless asked.
+- The `earthsama.com/` subdirectory holds the pitch deck (`pitch.html`), the interactive app demo (`demo.html`/`demo-frames/`), and the homepage assets (`landing.css`, `landing.js`) that the root `index.html` depends on. The landing assets ARE part of the core homepage — treat changes to them with the same care as root-level files. The pitch/demo files are still standalone marketing content.
 - HANDOFF.md contains the canonical data schema and API contract. DESIGN.md has the original design spec. DEV_LOG.md has build history. Consult these before making structural changes.
 - Entity type enums differ between HANDOFF.md, DESIGN.md, and the JS files. Be aware of this drift.
 - The error-logger.js is properly IIFE-wrapped. The other JS files pollute global scope.
