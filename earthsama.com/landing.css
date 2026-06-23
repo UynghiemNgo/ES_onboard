@@ -110,9 +110,18 @@ body { background:
 .landing-card h3 { font-family: var(--font-display); font-size: 1.1rem; margin-bottom: 0.3rem; font-weight: 400; }
 .landing-card p { font-size: 0.9rem; color: var(--text-muted); font-weight: 300; }
 
+/* --- Closing CTA band --- */
+.landing-cta-band { position: relative; overflow: hidden; margin-top: 3rem;
+  background: linear-gradient(135deg, var(--ls-warm-clay), #7a4a14); color: #fff; }
+.landing-cta-inner { max-width: 1120px; margin: 0 auto; padding: 4rem 1.25rem; text-align: center; }
+.landing-cta-band h2 { font-family: var(--font-display); font-weight: 300; font-size: clamp(1.8rem,4vw,2.8rem); }
+.landing-cta-band p { color: rgba(255,255,255,0.85); margin: .6rem auto 1.6rem; max-width: 46ch; }
+.landing-cta-band .landing-btn-primary { background:#fff; color: var(--ls-warm-clay); border-color:#fff; }
+
 /* --- Footer --- */
-.landing-footer { max-width: 1120px; margin: 0 auto; padding: 2rem 1.25rem; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.82rem; font-weight: 300; }
-.landing-footer a { color: var(--primary); text-decoration: none; }
+.landing-footer { background: #211d16; color: rgba(255,255,255,0.7); max-width: none; padding: 2rem 1.25rem; font-size: 0.82rem; font-weight: 300; }
+.landing-footer > * { max-width: 1120px; margin-left:auto; margin-right:auto; }
+.landing-footer a { color: var(--ls-sand); text-decoration: none; }
 .landing-footer a:hover { text-decoration: underline; }
 
 /* --- Grain overlay utility --- */
