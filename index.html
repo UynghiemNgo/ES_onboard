@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script>
+    document.documentElement.classList.add('js');
+    // Safety net: if landing.js never runs (blocked or parse error), reveal everything.
+    window.addEventListener('load', function () {
+      setTimeout(function () {
+        if (!window.__landingReady) document.documentElement.classList.remove('js');
+      }, 1200);
+    });
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Earth Sama — Building Digital Capacity</title>
@@ -8,124 +17,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300;1,6..72,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="shared.css">
-  <style>
-    /* Landing page — pitch deck aesthetic */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: var(--font-body); background: var(--surface); color: var(--text); line-height: 1.6; }
-
-    /* --- Header --- */
-    .landing-header { background: var(--card); border-bottom: 1px solid var(--border); padding: 0 1.25rem; position: relative; }
-    .landing-header-inner { max-width: 1120px; margin: 0 auto; height: 64px; display: flex; align-items: center; justify-content: space-between; }
-    .landing-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: var(--primary); font-weight: 500; font-size: 1.05rem; font-family: var(--font-body); letter-spacing: 0.08em; }
-    .landing-logo img { width: 36px; height: 36px; object-fit: contain; }
-    .landing-nav-links { display: flex; gap: 0.35rem; align-items: center; }
-    .landing-nav-links a { text-decoration: none; color: var(--text-muted); font-size: 0.85rem; padding: 0.45rem 0.7rem; border-radius: 8px; min-height: 44px; display: inline-flex; align-items: center; font-family: var(--font-body); font-weight: 300; }
-    .landing-nav-links a:hover { background: rgba(139,105,20,0.06); color: var(--text); }
-    .landing-nav-links a.landing-btn-cta { background: transparent; color: var(--primary); font-weight: 400; border-radius: 3px; padding: 0.5rem 1rem; min-height: 44px; border: 1px solid var(--primary); letter-spacing: 0.06em; }
-    .landing-nav-links a.landing-btn-cta:hover { background: rgba(139,105,20,0.08); }
-
-    /* --- Hamburger (CSS-only, mobile) --- */
-    .landing-hamburger-toggle { display: none; }
-    .landing-hamburger-icon { display: none; width: 44px; height: 44px; cursor: pointer; align-items: center; justify-content: center; border-radius: 8px; position: absolute; right: 1.25rem; top: 10px; }
-    .landing-hamburger-icon span,
-    .landing-hamburger-icon span::before,
-    .landing-hamburger-icon span::after { display: block; width: 20px; height: 2px; background: var(--text); border-radius: 2px; position: relative; transition: transform 0.2s; }
-    .landing-hamburger-icon span::before,
-    .landing-hamburger-icon span::after { content: ''; position: absolute; left: 0; }
-    .landing-hamburger-icon span::before { top: -6px; }
-    .landing-hamburger-icon span::after { top: 6px; }
-    .landing-mobile-menu { display: none; }
-
-    /* --- Hero --- */
-    .landing-hero { max-width: 1120px; margin: 0 auto; padding: 5rem 1.25rem 3rem; }
-    .landing-eyebrow { font-family: var(--font-body); font-size: 0.74rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 1rem; font-weight: 300; }
-    .landing-hero h1 { font-family: var(--font-display); font-optical-sizing: auto; font-weight: 300; line-height: 1.08; font-size: clamp(2rem, 5vw, 3.6rem); max-width: 800px; color: var(--text); }
-    .landing-hero h1 em { color: var(--primary); font-style: italic; }
-    .landing-hero p { max-width: 700px; color: var(--text-muted); margin-top: 1rem; font-size: 1.05rem; font-weight: 300; }
-    .landing-hero-ctas { margin-top: 1.6rem; display: flex; gap: 0.7rem; flex-wrap: wrap; }
-    .landing-btn-primary { background: transparent; color: var(--primary); border: 1px solid rgba(139,105,20,0.28); border-radius: 3px; padding: 0.7rem 1.4rem; text-decoration: none; font-weight: 400; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 0.35rem; min-height: 44px; font-family: var(--font-body); letter-spacing: 0.08em; transition: background 0.3s ease, border-color 0.3s ease; }
-    .landing-btn-primary:hover { background: rgba(139,105,20,0.08); border-color: var(--primary); }
-    .landing-btn-ghost { border: 1px solid var(--border); border-radius: 3px; padding: 0.7rem 1.4rem; text-decoration: none; font-weight: 300; font-size: 0.9rem; color: var(--text-muted); display: inline-flex; align-items: center; min-height: 44px; font-family: var(--font-body); letter-spacing: 0.06em; transition: background 0.3s ease; }
-    .landing-btn-ghost:hover { background: rgba(139,105,20,0.04); color: var(--text); }
-
-    /* --- KPIs --- */
-    .landing-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.8rem; max-width: 1120px; margin: 0 auto; padding: 0 1.25rem 2rem; }
-    .landing-kpi { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1rem; }
-    .landing-kpi strong { display: block; font-family: var(--font-display); font-size: 1.6rem; color: var(--primary); font-weight: 400; }
-    .landing-kpi span { font-size: 0.78rem; color: var(--text-muted); font-weight: 300; letter-spacing: 0.06em; text-transform: uppercase; }
-
-    /* --- Section --- */
-    .landing-section { max-width: 1120px; margin: 0 auto; padding: 3rem 1.25rem; border-top: 1px solid var(--border); }
-    .landing-section h2 { font-family: var(--font-display); font-weight: 300; font-size: 1.8rem; }
-    .landing-lead { color: var(--text-muted); margin-top: 0.5rem; max-width: 700px; font-weight: 300; }
-
-    /* --- Vertical Timeline --- */
-    .landing-timeline { margin-top: 1.5rem; max-width: 600px; }
-    .landing-timeline-step { display: flex; gap: 1rem; padding-bottom: 1.5rem; position: relative; }
-    .landing-timeline-step:last-child { padding-bottom: 0; }
-    .landing-timeline-marker { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
-    .landing-timeline-dot { width: 36px; height: 36px; background: var(--success-bg); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--primary); font-weight: 400; font-size: 0.9rem; flex-shrink: 0; font-family: var(--font-display); }
-    .landing-timeline-line { width: 2px; background: var(--border); flex: 1; margin-top: 0.4rem; }
-    .landing-timeline-step:last-child .landing-timeline-line { display: none; }
-    .landing-timeline-content { padding-top: 0.35rem; }
-    .landing-timeline-content h3 { font-family: var(--font-display); font-size: 1rem; font-weight: 400; margin-bottom: 0.25rem; }
-    .landing-timeline-content p { font-size: 0.9rem; color: var(--text-muted); font-weight: 300; }
-
-    /* --- Cards --- */
-    .landing-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.9rem; margin-top: 1.2rem; }
-    .landing-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1.2rem; }
-    .landing-card h3 { font-family: var(--font-display); font-size: 1rem; margin-bottom: 0.3rem; font-weight: 400; }
-    .landing-card p { font-size: 0.9rem; color: var(--text-muted); font-weight: 300; }
-
-    /* --- Footer --- */
-    .landing-footer { max-width: 1120px; margin: 0 auto; padding: 2rem 1.25rem; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.82rem; font-weight: 300; }
-    .landing-footer a { color: var(--primary); text-decoration: none; }
-    .landing-footer a:hover { text-decoration: underline; }
-
-    /* --- Responsive --- */
-    @media (max-width: 900px) {
-      .landing-kpis { grid-template-columns: repeat(2, 1fr); }
-      .landing-grid-3 { grid-template-columns: 1fr 1fr; }
-    }
-    @media (max-width: 640px) {
-      .landing-nav-links { display: none; }
-      .landing-hamburger-icon { display: flex; }
-      .landing-hamburger-toggle:checked ~ .landing-mobile-menu { display: flex; }
-      .landing-mobile-menu {
-        display: none;
-        flex-direction: column;
-        gap: 0.25rem;
-        padding: 0.5rem 1.25rem 1rem;
-        background: var(--card);
-        border-bottom: 1px solid var(--border);
-      }
-      .landing-mobile-menu a {
-        text-decoration: none;
-        color: var(--text-muted);
-        font-size: 0.9rem;
-        padding: 0.6rem 0;
-        min-height: 44px;
-        display: flex;
-        align-items: center;
-        font-weight: 300;
-      }
-      .landing-mobile-menu .landing-btn-cta {
-        background: transparent;
-        color: var(--primary);
-        text-align: center;
-        justify-content: center;
-        margin-top: 0.25rem;
-        border-radius: 3px;
-        padding: 0.6rem 1rem;
-        font-weight: 400;
-        border: 1px solid var(--primary);
-        letter-spacing: 0.06em;
-      }
-
-      .landing-kpis { grid-template-columns: 1fr; }
-      .landing-grid-3 { grid-template-columns: 1fr; }
-    }
-  </style>
+  <link rel="stylesheet" href="earthsama.com/landing.css">
 </head>
 <body>
   <header class="landing-header">
@@ -151,25 +43,27 @@
     </nav>
   </header>
 
-  <section class="landing-hero">
-    <div class="landing-eyebrow">Digital Public Infrastructure</div>
-    <h1>Building <em>digital capacity</em> for agricarbon and food security</h1>
-    <p>Earth Sama is the upstream digital endpoint for land verification, project case development, and rural value chains across the Philippines.</p>
-    <div class="landing-hero-ctas">
-      <a class="landing-btn-primary" href="form.html">Submit Your Land &rarr;</a>
-      <a class="landing-btn-ghost" href="live.html">View Live Map</a>
-      <a class="landing-btn-ghost" href="status.html">Check Submission Status</a>
+  <section class="landing-hero landing-grain">
+    <div class="landing-hero-bg" aria-hidden="true"></div>
+    <div class="landing-hero-inner">
+      <div class="landing-eyebrow">Digital Public Infrastructure</div>
+      <h1>Building <em>digital capacity</em> for agricarbon and food security</h1>
+      <p>Earth Sama is the upstream digital endpoint for land verification, project case development, and rural value chains across the Philippines.</p>
+      <div class="landing-hero-ctas">
+        <a class="landing-btn-primary" href="form.html">Submit Your Land &rarr;</a>
+        <a class="landing-btn-ghost" href="live.html">View Live Map</a>
+      </div>
     </div>
   </section>
 
-  <div class="landing-kpis">
-    <div class="landing-kpi"><strong>17</strong><span>Regions</span></div>
-    <div class="landing-kpi"><strong>82</strong><span>Provinces</span></div>
+  <div class="landing-kpis" data-reveal>
+    <div class="landing-kpi"><strong data-count="17">17</strong><span>Regions</span></div>
+    <div class="landing-kpi"><strong data-count="82">82</strong><span>Provinces</span></div>
     <div class="landing-kpi"><strong>100K ha</strong><span>Region Goal</span></div>
     <div class="landing-kpi"><strong>10K ha</strong><span>Province Goal</span></div>
   </div>
 
-  <section id="how-it-works" class="landing-section">
+  <section id="how-it-works" class="landing-section" data-reveal>
     <h2>How It Works</h2>
     <p class="landing-lead">Three steps from land submission to building a project case.</p>
     <div class="landing-timeline">
@@ -205,23 +99,49 @@
     </div>
   </section>
 
-  <section class="landing-section">
+  <section class="landing-section" data-reveal>
     <h2>The Problem</h2>
     <p class="landing-lead">Paper records, fragmented KYC, and missing geospatial proof keep smallholders invisible to lenders, insurers, and climate markets.</p>
     <div class="landing-grid-3">
-      <article class="landing-card"><h3>No Secure Digital Identity</h3><p>Farmers remain excluded from formal systems without trusted digital onboarding.</p></article>
-      <article class="landing-card"><h3>No Verifiable Records</h3><p>Institutions cannot underwrite risk when land and production data is inconsistent.</p></article>
-      <article class="landing-card"><h3>No Capital Access</h3><p>Without verified records, communities are treated as unbankable.</p></article>
+      <article class="landing-card">
+        <span class="landing-card-icon"><svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.35C17.25 22.15 21 17.25 21 12V7L12 2z"/><path d="M12 8v4M12 16h.01"/></svg></span>
+        <h3>No Secure Digital Identity</h3><p>Farmers remain excluded from formal systems without trusted digital onboarding.</p>
+      </article>
+      <article class="landing-card">
+        <span class="landing-card-icon"><svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg></span>
+        <h3>No Verifiable Records</h3><p>Institutions cannot underwrite risk when land and production data is inconsistent.</p>
+      </article>
+      <article class="landing-card">
+        <span class="landing-card-icon"><svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v1m0 8v1M9.5 9.5C9.5 8.4 10.6 7.5 12 7.5s2.5.9 2.5 2c0 2.5-5 2.5-5 5h5"/></svg></span>
+        <h3>No Capital Access</h3><p>Without verified records, communities are treated as unbankable.</p>
+      </article>
     </div>
   </section>
 
-  <section class="landing-section">
+  <section class="landing-section" data-reveal>
     <h2>Philippines First: High-Scale Opportunity</h2>
     <p class="landing-lead">Large-scale poly-cropped agroforestry across coconut, coffee, cacao, and moringa creates long-term carbon and value-chain upside.</p>
     <div class="landing-grid-3">
-      <article class="landing-card"><h3>1M Farmers Onboarded</h3><p>Target within the national coconut agroforestry carbon program.</p></article>
-      <article class="landing-card"><h3>$5.6B Potential</h3><p>Estimated over 25 years across carbon and agricultural value creation.</p></article>
-      <article class="landing-card"><h3>$325M + $485M / year</h3><p>High-value crop yield and agro-industrial hub potential at maturity.</p></article>
+      <article class="landing-card">
+        <span class="landing-card-icon"><svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+        <h3>1M Farmers Onboarded</h3><p>Target within the national coconut agroforestry carbon program.</p>
+      </article>
+      <article class="landing-card">
+        <span class="landing-card-icon"><svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V12M12 12C12 7 7 5 3 7M12 12c0-5 5-7 9-5M3 7v8c3-1.5 6-.5 9 2M21 2v8c-3-1.5-6-.5-9 2"/></svg></span>
+        <h3>$5.6B Potential</h3><p>Estimated over 25 years across carbon and agricultural value creation.</p>
+      </article>
+      <article class="landing-card">
+        <span class="landing-card-icon"><svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2M12 12v5M9 14h6"/></svg></span>
+        <h3>$325M + $485M / year</h3><p>High-value crop yield and agro-industrial hub potential at maturity.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="landing-cta-band landing-grain" data-reveal>
+    <div class="landing-cta-inner">
+      <h2>Your land can build a project case.</h2>
+      <p>Submit your parcel in minutes — draw your boundaries, we handle verification.</p>
+      <a class="landing-btn-primary" href="form.html">Submit Your Land &rarr;</a>
     </div>
   </section>
 
@@ -229,5 +149,6 @@
     <p>&copy; 2026 Earth Sama. Digital public infrastructure for rural agriculture.</p>
     <p style="margin-top: 0.4rem;"><a href="earthsama.com/demo.html">App Demo</a> · <a href="earthsama.com/pitch.html">Full Pitch</a></p>
   </footer>
+  <script src="earthsama.com/landing.js" defer></script>
 </body>
 </html>
