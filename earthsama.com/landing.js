@@ -1,3 +1,5 @@
+window.__landingReady = true;
+
 (function () {
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var counters = document.querySelectorAll('[data-count]');
@@ -8,6 +10,7 @@
       entries.forEach(function (e) {
         if (!e.isIntersecting) return;
         var el = e.target, target = parseInt(el.dataset.count, 10);
+        if (isNaN(target)) { el.textContent = el.dataset.count; obs.unobserve(el); return; }
         var cur = 0;
         var step = Math.max(1, Math.round(target / 40));
         var tick = function () {
