@@ -72,7 +72,7 @@ Single-file HTML, scroll-snap, nav dots, progress bar — all kept from the curr
 | 10 | **Competitors** | NEW. `[TBD-USER: competitor names + the one axis we win on]` |
 | 11 | **Team / Why us** | Uynghiem Ngo, Demeter Russafov. |
 | 12 | **Backing** | Omtse Ventures + Apl.de.Ap (Apo). Reframe Apl from "ambassador" to backer/distribution unlock. |
-| 13 | **The Ask** | Pre-revenue, product built, web-app (installable Android/iOS). **$2M SAFE @ $10M pre.** "Seeking opportunity," not "seeking a lead investor" — we have investors and a seed round. Use of funds leads with: land the LGU MOA + bank pilot, then farmer density. |
+| 13 | **The Ask** | Pre-revenue, product built, web-app (installable Android/iOS). **$2M SAFE @ $10M pre.** "Seeking opportunity," not "seeking a lead investor" — we have investors and a seed round. Use of funds: **bank pilot → revenue generation** (+ land the LGU MOA, then farmer density). |
 | 14 | **Closing** | Landslide-mission callback. |
 
 **Removed from the current deck:** the Figma "live demo" slide.
@@ -97,6 +97,14 @@ Everything else is fully specified from the grilled model.
 - Placeholders rendered as visible `[TBD]` markers in the deck so the gaps are obvious until filled.
 
 ---
+
+## 5b. Build deviations (post-grill, applied)
+
+The deck shipped with these changes from the §3 table:
+- **Slide 2 reframed** from "quote hook" to **The Vision**: "Microfinance that unlocks large-scale financing for agroforestry and climate-smart agriculture — aggregating smallholder farmers into the financial system." The Mayor of Alcala line is demoted to a grounding proof-point on the same slide.
+- **New slide added — "The Stakes" (slide 03):** microfinance as disaster prevention, using real Alcala flood data (10,000+ families, 2× "100-year" floods in 11 months, 300 ha shifting to agroforestry) sourced from Mayor Tin Antonio's 2020 GMA News essay. Deck is now **15 slides**; everything after the Vision shifts down one.
+- **Competitors filled** (slide now 10): Cropital/Mayani/PasarMikro, CARD MRI/ASA Phl/ADAMCO, Rabobank ACORN/Varaha. Win axis: AI-supported onboarding and guided readiness.
+- **Zero placeholders remain.**
 
 ## 6. Out of scope
 
