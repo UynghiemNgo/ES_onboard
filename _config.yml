@@ -1,0 +1,5 @@
+# GitHub Pages config (legacy Jekyll build, served from main:/).
+# Keep internal strategy + spec docs TRACKED in git but OUT of the published
+# public site. Files listed here stay in the repo; Jekyll just won't publish them.
+exclude:
+  - docs/
